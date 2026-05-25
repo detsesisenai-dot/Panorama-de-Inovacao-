@@ -12,10 +12,10 @@
     <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js" crossorigin></script>
     
-    <!-- Babel (Traduz o React/JSX direto no navegador) -->
+    <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone@7.23.1/babel.min.js"></script>
 
-    <!-- Dependências obrigatórias para os gráficos (Recharts) -->
+    <!-- Recharts -->
     <script src="https://unpkg.com/react-is@18.2.0/umd/react-is.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
     <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
@@ -26,9 +26,8 @@
             margin: 0; padding: 0; overflow-x: hidden; background-color: #ffffff;
         }
         .recharts-wrapper { width: 100% !important; }
-        
         .matrix-grid {
-            background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+            background-image: linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px);
             background-size: 50% 50%;
             background-position: center;
         }
@@ -39,18 +38,27 @@
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
-        const { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } = window.Recharts;
+        const { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, RadarChart, PolarGrid, PolarAngleAxis, Radar } = window.Recharts;
 
-        // --- Ícones Desenhados à Mão ---
-        const IconTrendingDown = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>;
-        const IconAlertTriangle = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
-        const IconTarget = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>;
-        const IconMapPin = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>;
-        const IconInfo = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>;
-        const IconFileText = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>;
-        const IconLeaf = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>;
-        const IconCpu = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>;
-        const IconTelescope = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44"></path><path d="m13.56 11.747 4.332-.924"></path><path d="m16 21-3.105-6.21"></path><path d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z"></path><path d="m6.158 8.633 1.114 4.456"></path><path d="m8 21 3.105-6.21"></path><circle cx="12" cy="13" r="2"></circle></svg>;
+        // --- Ícones Customizados ---
+        const IconTrendingDown = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>;
+        const IconTrendingUp = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>;
+        const IconAlertTriangle = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
+        const IconTarget = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>;
+        const IconInfo = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>;
+        const IconFileText = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>;
+        const IconLeaf = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>;
+        const IconTelescope = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44"></path><path d="m13.56 11.747 4.332-.924"></path><path d="m16 21-3.105-6.21"></path><path d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z"></path><path d="m6.158 8.633 1.114 4.456"></path><path d="m8 21 3.105-6.21"></path><circle cx="12" cy="13" r="2"></circle></svg>;
+        const IconFlask = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 3H15M10 3V8L3 20H21L14 8V3"/></svg>;
+        const IconHexagon = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>;
+        const IconWind = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>;
+        const IconBuilding = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg>;
+        const IconGraduationCap = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>;
+        const IconBriefcase = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>;
+        const IconZap = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>;
+        const IconCog = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>;
+        const IconClock = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>;
+        const IconDollar = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="2" x2="12" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>;
 
         // --- DADOS ---
         const rankingData = [
@@ -58,6 +66,13 @@
             { year: '2018', Brasil: 64, India: 57, China: 17 },
             { year: '2021', Brasil: 57, India: 46, China: 12 },
             { year: '2025', Brasil: 52, India: 38, China: 10 },
+        ];
+
+        // DADO RESTAURADO: Investimento em P&D
+        const investimentoData = [
+            { country: 'China', value: 2.55, fill: '#0f172a' },
+            { country: 'Brasil', value: 1.19, fill: '#e11d48' },
+            { country: 'Índia', value: 0.64, fill: '#2563eb' },
         ];
 
         const patentsData = [
@@ -77,7 +92,38 @@
             { subject: 'Conhec. & Tec', A: 20, fullMark: 100 }, 
         ];
 
-        // --- Componentes de UI e Animação ---
+        const goiasSectorsData = [
+            {
+                title: "Agroindústria Avançada & Bioinsumos", icon: <IconLeaf className="w-8 h-8"/>,
+                context: "A força motriz do estado em transição acelerada para o biológico e digital.",
+                opp: "Tornar-se laboratório exportador global de genética tropical e biodefensivos.",
+                cha: "Cruzar o 'Vale da Morte': tirar a pesquisa da bancada e escalá-la para a fábrica.",
+                risk: "Pagar royalties eternos por softwares e sementes estrangeiras aplicadas no nosso solo."
+            },
+            {
+                title: "Saúde, Fármacos & Bioativos", icon: <IconFlask className="w-8 h-8"/>,
+                context: "Goiás possui um polo farma robusto (DAIA) imerso no bioma Cerrado.",
+                opp: "Transformar biodiversidade em patentes farmacêuticas e IA clínica.",
+                cha: "Integrar Institutos (ex: SENAI) na esteira de P&D das farmacêuticas locais.",
+                risk: "Atuar apenas como 'envasador' de insumos ativos (IFAs) importados da Ásia."
+            },
+            {
+                title: "Mineração Inteligente & Novos Materiais", icon: <IconHexagon className="w-8 h-8"/>,
+                context: "Riqueza geológica vital num mundo movido a minerais críticos.",
+                opp: "Beneficiamento local de minerais para a transição energética (terras raras).",
+                cha: "Modernização extrativa com rastreabilidade rigorosa e circularidade de rejeitos.",
+                risk: "Manter o modelo primário: exportar minério cru barato, importar a bateria cara."
+            },
+            {
+                title: "Transição Energética & Biomassa", icon: <IconWind className="w-8 h-8"/>,
+                context: "Abundância de resíduos agroindustriais numa matriz já limpa.",
+                opp: "Liderar a produção de Biometano e Combustível Sustentável de Aviação (SAF).",
+                cha: "Criar redes de distribuição e certificação de carbono com padrão global.",
+                risk: "Perder os prêmios bilionários de fundos ESG por falta de certificação local."
+            }
+        ];
+
+        // --- Hooks & Components ---
         const useIntersectionObserver = (options) => {
             const [isVisible, setIsVisible] = useState(false);
             const domRef = useRef(null);
@@ -103,7 +149,7 @@
         };
 
         const NotaDidatica = ({ titulo, texto }) => (
-            <div className="bg-slate-50 border-l-4 border-blue-500 rounded-r-xl p-5 my-6 flex items-start space-x-4 shadow-sm">
+            <div className="bg-slate-50 border-l-4 border-blue-500 rounded-r-xl p-5 my-6 flex items-start space-x-4 shadow-sm text-left">
                 <IconInfo className="text-blue-500 w-6 h-6 shrink-0 mt-1" />
                 <div>
                     <h5 className="font-bold text-sm text-slate-800 mb-1">{titulo}</h5>
@@ -119,32 +165,59 @@
         );
 
         function ForesightInfographic() {
+            const [simGov, setSimGov] = useState(0); 
+            const [simAca, setSimAca] = useState(0);
+            const [simPriv, setSimPriv] = useState(0);
+            const [simInst, setSimInst] = useState(0);
+            
+            const totalScore = simGov + simAca + simPriv + simInst;
+
+            // Dados do Simulador
+            const projData = {
+                0: { title: "Estado-Laboratório", color: "text-slate-400", width: "10%",
+                     y5: "Fuga de talentos e projetos interrompidos.", y10: "Defasagem estrutural. Indústria vira mera montadora.", y20: "Dependência tecnológica severa, inclusive no Agro." },
+                1: { title: "Pântano Incremental", color: "text-amber-500", width: "25%",
+                     y5: "Modernização sem inovação radical.", y10: "Presos na 'Armadilha da Renda Média'.", y20: "Consolidação do modelo primário-exportador." },
+                2: { title: "Ilhas de Excelência", color: "text-blue-400", width: "50%",
+                     y5: "Surgem polos fortes, mas isolados.", y10: "Crescimento desigual sem alavancagem nacional.", y20: "Competitivos em 2 nichos, irrelevantes na transição global." },
+                3: { title: "Motor de Inovação Ativado", color: "text-emerald-300", width: "75%",
+                     y5: "A Hélice Tripla funciona. Alta em patentes locais.", y10: "Atração massiva de Venture Capital.", y20: "Transição da pauta de exportações: mais licenças, menos commodity crua." },
+                4: { title: "Máquina Missionária Agro-Bio-Digital", color: "text-emerald-500", width: "100%",
+                     y5: "Integração plena. SENAI e Institutos entregam TRL-8 rápido.", y10: "Salto Deep Tech. Atraímos P&D global, não só fábricas.", y20: "Soberania plena. Cadeias globais dependem da nossa Propriedade Intelectual." }
+            };
+            const proj = projData[totalScore];
+
             return (
                 <div className="font-sans bg-white text-slate-900 selection:bg-blue-200">
                     
-                    {/* HERO SECTION WITH BACKGROUND IMAGE */}
+                    {/* HERO SECTION */}
                     <section className="min-h-screen flex flex-col justify-center items-center px-6 py-20 text-center relative overflow-hidden bg-slate-900">
-                        {/* Imagem de Fundo com Overlay Escuro */}
                         <div className="absolute inset-0 z-0">
-                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80" alt="" className="w-full h-full object-cover opacity-30 mix-blend-luminosity" />
+                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80" alt="Globo Tecnológico" className="w-full h-full object-cover opacity-30 mix-blend-luminosity" />
                             <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/80 to-slate-900"></div>
                         </div>
                         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 via-emerald-500 to-rose-600 z-10"></div>
                         
-                        <FadeIn className="z-10 text-white">
+                        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
+                            <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 shadow-xl flex justify-center items-center">
+                                <img src="https://i.postimg.cc/3wW9LVRV/senai-gti.png" alt="Logo SENAI" className="h-10 md:h-14 object-contain brightness-0 invert drop-shadow-md opacity-90" />
+                            </div>
+                        </div>
+                        
+                        <FadeIn className="z-10 text-white mt-20">
                             <p className="text-sm md:text-base font-bold tracking-widest uppercase text-slate-400 mb-6 flex items-center justify-center gap-2">
-                                <IconTelescope className="w-5 h-5"/> Estudo de Foresight Estratégico
+                                <IconTelescope className="w-5 h-5"/> Estudo Aplicado de Design de Futuros
                             </p>
                             <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-tight mb-8 max-w-5xl">
                                 O Problema é <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Conversão</span>, não apenas Insumo.
                             </h1>
                             <p className="text-xl md:text-3xl font-light text-slate-300 max-w-4xl mx-auto leading-relaxed mb-10">
-                                O Brasil tem matéria-prima institucional, o agro é forte e o fomento existe. Mas o sistema patina na hora de transformar isso em <strong className="font-bold text-white">tecnologia global e soberania.</strong>
+                                O Brasil tem matéria-prima institucional e fomento. Mas o sistema patina na hora de transformar isso em <strong className="font-bold text-white">tecnologia global e soberania.</strong>
                             </p>
                             
                             <div className="max-w-3xl mx-auto bg-slate-800/50 backdrop-blur-md border border-slate-700 rounded-2xl p-6 text-left shadow-2xl">
                                 <p className="text-slate-300 leading-relaxed text-sm md:text-base">
-                                    <strong>O Contexto:</strong> Foresight Estratégico não é sobre "adivinhar" o futuro, mas mapear os caminhos possíveis para construí-lo. Nos últimos 10 anos, assistimos a uma reconfiguração global do poder tecnológico. O que parecia uma corrida de recursos financeiros revelou-se um jogo brutal de <em>consistência e conversão</em>. Este estudo traduz essa realidade e aponta a janela de oportunidade para o estado de Goiás.
+                                    <strong>O Contexto:</strong> Foresight Estratégico não é sobre "adivinhar" o futuro, mas mapear caminhos para construí-lo. O jogo tecnológico de hoje exige <em>consistência e conversão</em>. Este estudo analisa o paradoxo brasileiro e aponta a janela estratégica para Goiás.
                                 </p>
                             </div>
                         </FadeIn>
@@ -153,69 +226,105 @@
                         </div>
                     </section>
 
-                    {/* THE MACRO VIEW: GII 2025 & PATENTS */}
-                    <section className="py-24 px-6 bg-white border-b border-slate-100">
+                    {/* PARADOXO GLOBAL: GII & P&D (Restaurado) */}
+                    <section className="py-24 px-6 bg-slate-50 border-b border-slate-200">
                         <div className="max-w-7xl mx-auto">
                             <FadeIn>
-                                <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-center">O Choque de Realidade Global</h2>
+                                <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-center">O Paradoxo do Investimento</h2>
                                 <p className="text-lg md:text-xl text-slate-500 text-center max-w-3xl mx-auto mb-10">
-                                    O Índice Global de Inovação expõe nossa maior contradição: temos bons insumos, mas perdemos a corrida estrutural e de resultados para a Ásia Central e Meridional.
+                                    A maior prova de que nosso problema é conversão está nestes dois gráficos: O Brasil gasta muito mais riqueza em P&D do que a Índia, mas despencou no ranking enquanto eles decolaram.
                                 </p>
-                                <NotaDidatica 
-                                    titulo="O que significa ser um 'Overperformer'?" 
-                                    texto="O Brasil é classificado há 5 anos como overperformer porque entrega 'mais inovação do que seria esperado para o seu nível de riqueza (PIB per capita)'. É um mérito, mas é ilusório: significa que fazemos milagre com o que temos, mas ainda não possuímos a máquina de conversão pesada da China ou o dinamismo agressivo de software da Índia."
-                                />
                             </FadeIn>
                             
-                            <div className="grid lg:grid-cols-2 gap-16 items-center mt-16">
-                                {/* Chart: The Flip */}
+                            <div className="grid lg:grid-cols-2 gap-12 mt-16">
+                                {/* GRÁFICO 1: Investimento P&D RESTAURADO */}
                                 <FadeIn delay={200}>
-                                    <div className="bg-slate-50 p-6 rounded-3xl shadow-sm border border-slate-200">
-                                        <h3 className="text-center font-bold text-slate-800 mb-2 uppercase tracking-wide text-sm">A Ultrapassagem Asiática (GII)</h3>
-                                        <div className="h-72 w-full mt-4">
-                                            <ResponsiveContainer width="100%" height="100%">
-                                                <LineChart data={rankingData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                                                    <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontWeight: 'bold'}} />
-                                                    <YAxis reversed axisLine={false} tickLine={false} tick={{fill: '#64748b'}} domain={[1, 90]} />
-                                                    <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }} />
-                                                    <Legend iconType="circle" wrapperStyle={{ paddingTop: '10px' }}/>
-                                                    <Line type="monotone" dataKey="Brasil" stroke="#e11d48" strokeWidth={4} dot={{r: 4}} />
-                                                    <Line type="monotone" dataKey="India" name="Índia" stroke="#2563eb" strokeWidth={4} dot={{r: 4}} />
-                                                    <Line type="monotone" dataKey="China" stroke="#0f172a" strokeWidth={4} dot={{r: 4}} />
-                                                </LineChart>
-                                            </ResponsiveContainer>
+                                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 h-full flex flex-col justify-between">
+                                        <div>
+                                            <h3 className="font-bold text-slate-800 mb-6 uppercase tracking-wide text-sm flex items-center gap-2"><IconDollar className="w-5 h-5 text-emerald-500"/> Esforço: Investimento em P&D (% do PIB)</h3>
+                                            <div className="h-64 w-full">
+                                                <ResponsiveContainer width="100%" height="100%">
+                                                    <BarChart data={investimentoData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+                                                        <XAxis type="number" hide />
+                                                        <YAxis dataKey="country" type="category" axisLine={false} tickLine={false} tick={{fill: '#475569', fontWeight: 'bold'}} />
+                                                        <Tooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
+                                                        <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                                                            {investimentoData.map((entry, index) => (
+                                                                <Cell key={`cell-${index}`} fill={entry.fill} />
+                                                            ))}
+                                                        </Bar>
+                                                    </BarChart>
+                                                </ResponsiveContainer>
+                                            </div>
+                                            <p className="text-sm text-slate-600 mt-6 leading-relaxed">
+                                                O Brasil aloca <strong>1.19% do seu PIB</strong>. É um esforço louvável e superior ao indiano. Porém, o recurso é frequentemente pulverizado sem missão de longo prazo.
+                                            </p>
                                         </div>
-                                        <p className="text-xs text-slate-500 mt-4 text-center">Atenção: Linhas em queda (direção ao eixo 1) representam subida no ranking global.</p>
-                                        <Fonte texto="Índice Global de Inovação (GII) 2015-2025" />
                                     </div>
                                 </FadeIn>
 
-                                {/* Text & Patents */}
-                                <FadeIn delay={400} className="space-y-8">
-                                    <div>
-                                        <h3 className="text-2xl font-bold mb-3">O Esforço sem Foco</h3>
-                                        <p className="text-slate-600 leading-relaxed">
-                                            O Brasil investiu <strong>1,19% do PIB</strong> em P&D em 2023. É um patamar superior ao da Índia, mas abaixo das economias líderes (>2.5%). O gargalo não é só o volume, é a falta de conexão com empresas. Pesquisa sem mercado vira currículo; pesquisa com mercado vira vantagem competitiva.
-                                        </p>
+                                {/* GRÁFICO 2: GII */}
+                                <FadeIn delay={400}>
+                                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 h-full flex flex-col justify-between">
+                                        <div>
+                                            <h3 className="font-bold text-slate-800 mb-6 uppercase tracking-wide text-sm flex items-center gap-2"><IconTrendingUp className="w-5 h-5 text-blue-500"/> Resultado: Índice Global de Inovação</h3>
+                                            <div className="h-64 w-full">
+                                                <ResponsiveContainer width="100%" height="100%">
+                                                    <LineChart data={rankingData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                                                        <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontWeight: 'bold'}} />
+                                                        <YAxis reversed axisLine={false} tickLine={false} tick={{fill: '#64748b'}} domain={[1, 90]} />
+                                                        <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
+                                                        <Legend iconType="circle" wrapperStyle={{ paddingTop: '10px' }}/>
+                                                        <Line type="monotone" dataKey="Brasil" stroke="#e11d48" strokeWidth={4} dot={{r: 4}} />
+                                                        <Line type="monotone" dataKey="India" name="Índia" stroke="#2563eb" strokeWidth={4} dot={{r: 4}} />
+                                                        <Line type="monotone" dataKey="China" stroke="#0f172a" strokeWidth={4} dot={{r: 4}} />
+                                                    </LineChart>
+                                                </ResponsiveContainer>
+                                            </div>
+                                            <p className="text-sm text-slate-600 mt-6 leading-relaxed">
+                                                Mesmo gastando metade, a <strong>Índia assumiu o 38º lugar</strong> (ultrapassando o Brasil, 52º) por focar agressivamente em softwares, IA e atração de Venture Capital.
+                                            </p>
+                                        </div>
                                     </div>
-                                    
+                                </FadeIn>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* INFRAESTRUTURA & INPI */}
+                    <section className="py-24 bg-white px-6 border-b border-slate-100">
+                        <div className="max-w-6xl mx-auto">
+                            <div className="grid lg:grid-cols-2 gap-16 items-center">
+                                <FadeIn delay={200}>
+                                    <h2 className="text-4xl font-bold tracking-tight mb-6">Infraestrutura Rica, mas Incremental</h2>
+                                    <p className="text-lg text-slate-600 leading-relaxed mb-6">
+                                        Não partimos do zero. O Brasil possui ferramentas sofisticadas, mas que falham no final da esteira.
+                                    </p>
+                                    <ul className="space-y-6">
+                                        <li className="flex gap-4"><div className="bg-emerald-100 text-emerald-700 p-3 rounded-xl shrink-0"><IconBuilding className="w-6 h-6"/></div><div><strong className="block text-slate-800">Lei do Bem (R$ 51.6 Bi)</strong> Fomenta engenharia corporativa, mas favorece inovação incremental em vez de Deep Tech.</div></li>
+                                        <li className="flex gap-4"><div className="bg-blue-100 text-blue-700 p-3 rounded-xl shrink-0"><IconCog className="w-6 h-6"/></div><div><strong className="block text-slate-800">EMBRAPII (811 Projetos)</strong> Excelente modelo de risco compartilhado, precisa de escala massiva.</div></li>
+                                        <li className="flex gap-4"><div className="bg-rose-100 text-rose-700 p-3 rounded-xl shrink-0"><IconTarget className="w-6 h-6"/></div><div><strong className="block text-slate-800">FNDCT Blindado</strong> O recurso existe, mas precisa operar por "missões de Estado", e não por editais pulverizados.</div></li>
+                                    </ul>
+                                </FadeIn>
+
+                                <FadeIn delay={400}>
                                     <div className="bg-slate-900 text-white p-8 rounded-3xl relative overflow-hidden shadow-xl">
-                                        <IconFileText className="absolute -right-4 -top-4 w-32 h-32 opacity-10" />
-                                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                                            <IconAlertTriangle className="text-rose-500"/> Retrato do INPI (2024)
+                                        <IconFileText className="absolute -right-4 -top-4 w-40 h-40 opacity-10" />
+                                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-rose-400">
+                                            <IconAlertTriangle /> Retrato do INPI (2024)
                                         </h3>
-                                        <p className="text-slate-300 text-sm mb-6">Pedidos de patentes de invenção no Brasil revelam nossa dependência estrangeira na fronteira tecnológica:</p>
+                                        <p className="text-slate-300 text-sm mb-8 leading-relaxed">Pedidos de patentes no Brasil provam que inovamos, mas a fronteira tecnológica (Deep Tech) é dominada por quem vem de fora:</p>
                                         
-                                        <div className="space-y-4">
+                                        <div className="space-y-5">
                                             {patentsData.map((item, idx) => (
                                                 <div key={idx}>
-                                                    <div className="flex justify-between text-sm mb-1">
-                                                        <span className={item.type === 'ext' ? 'text-rose-400 font-medium' : 'text-slate-300'}>{item.name}</span>
-                                                        <span className="font-bold">{item.val} pedidos</span>
+                                                    <div className="flex justify-between text-sm mb-2">
+                                                        <span className={item.type === 'ext' ? 'text-rose-400 font-bold' : 'text-slate-300'}>{item.name}</span>
+                                                        <span className="font-bold">{item.val} ped.</span>
                                                     </div>
-                                                    <div className="w-full bg-slate-800 rounded-full h-1.5">
-                                                        <div className={`h-1.5 rounded-full ${item.type === 'ext' ? 'bg-rose-500' : 'bg-slate-500'}`} style={{width: `${(item.val/1002)*100}%`}}></div>
+                                                    <div className="w-full bg-slate-800 rounded-full h-2">
+                                                        <div className={`h-2 rounded-full ${item.type === 'ext' ? 'bg-rose-500' : 'bg-slate-500'}`} style={{width: `${(item.val/1002)*100}%`}}></div>
                                                     </div>
                                                 </div>
                                             ))}
@@ -227,106 +336,15 @@
                         </div>
                     </section>
 
-                    {/* THE INFRASTRUCTURE (LEI DO BEM, EMBRAPII, FINEP) */}
-                    <section className="py-24 bg-slate-50 px-6">
-                        <div className="max-w-6xl mx-auto">
-                            <FadeIn>
-                                <div className="text-center mb-10">
-                                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">A Infraestrutura Existe</h2>
-                                    <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                                        Não partimos do zero. O Brasil possui ferramentas sofisticadas de financiamento, mas que frequentemente acabam premiando a rotina em vez da ruptura.
-                                    </p>
-                                </div>
-                                <NotaDidatica 
-                                    titulo="Inovação Incremental vs. Disruptiva (Deep Tech)" 
-                                    texto="A inovação incremental melhora o que já existe (ex: um motor de carro 10% mais econômico). É vital para a sobrevivência das empresas hoje. Já a inovação disruptiva ou Deep Tech cria novos paradigmas (ex: um motor movido a hidrogênio verde). Hoje, grande parte dos incentivos fiscais brasileiros financia o incremental. Precisamos migrar recursos para o risco real."
-                                />
-                            </FadeIn>
-                            
-                            <div className="grid md:grid-cols-3 gap-8 mt-12 text-left">
-                                <FadeIn delay={100}>
-                                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 h-full flex flex-col justify-between">
-                                        <div>
-                                            <div className="text-4xl font-black text-emerald-600 mb-2">R$ 51.6 Bi</div>
-                                            <h3 className="font-bold text-lg mb-3">Lei do Bem (2024)</h3>
-                                            <p className="text-slate-600 text-sm mb-4">Mobilizados via renúncia fiscal. Ajuda 4.2 mil empresas, mas tende a favorecer adaptações e melhorias de produtos já existentes.</p>
-                                        </div>
-                                        <Fonte texto="MCTI" />
-                                    </div>
-                                </FadeIn>
-                                <FadeIn delay={300}>
-                                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 h-full flex flex-col justify-between">
-                                        <div>
-                                            <div className="text-4xl font-black text-blue-600 mb-2">811</div>
-                                            <h3 className="font-bold text-lg mb-3">Novos Projetos EMBRAPII</h3>
-                                            <p className="text-slate-600 text-sm mb-4">A rede bateu recorde porque atua na dor: divide o risco financeiro e une o laboratório de pesquisa à fábrica da empresa.</p>
-                                        </div>
-                                        <Fonte texto="EMBRAPII" />
-                                    </div>
-                                </FadeIn>
-                                <FadeIn delay={500}>
-                                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 h-full flex flex-col justify-between">
-                                        <div>
-                                            <div className="text-4xl font-black text-rose-600 mb-2">FNDCT</div>
-                                            <h3 className="font-bold text-lg mb-3">O Fundo Principal</h3>
-                                            <p className="text-slate-600 text-sm mb-4">A Lei 177 proibiu limites de execução para evitar calotes na ciência. Porém, o fundo precisa operar como portfólio de Estado, não colcha de editais.</p>
-                                        </div>
-                                        <Fonte texto="Finep / FNDCT" />
-                                    </div>
-                                </FadeIn>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* IMAGE DIVIDER - LAB/DEEP TECH */}
-                    <div className="w-full h-64 md:h-96 relative">
-                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1920&q=80" alt="" className="w-full h-full object-cover grayscale" />
-                        <div className="absolute inset-0 bg-blue-900/60 mix-blend-multiply"></div>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter text-center px-4">O salto exige direcionamento.</h2>
-                        </div>
-                    </div>
-
-                    {/* SECTORS OF THE FUTURE */}
-                    <section className="py-24 px-6 bg-slate-900 text-white">
-                        <div className="max-w-6xl mx-auto">
-                            <FadeIn>
-                                <div className="text-center mb-10">
-                                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Setores Portadores de Futuro</h2>
-                                    <p className="text-slate-400 text-lg max-w-3xl mx-auto">Onde o Brasil deve aportar suas fichas para garantir soberania, baseado na Estratégia Nacional (ENCTI) e na Nova Indústria Brasil.</p>
-                                </div>
-                            </FadeIn>
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {[
-                                    { title: "Agro, Agritech & Bioinsumos", icon: <IconLeaf className="w-8 h-8"/>, desc: "Transformar a altíssima produtividade tropical em tecnologia (sensores, biológicos) 100% exportável." },
-                                    { title: "Bioeconomia & Biodiversidade", icon: <IconMapPin className="w-8 h-8"/>, desc: "Cadeias de fármacos, cosméticos e biomateriais baseados na vantagem natural única das nossas florestas e cerrados." },
-                                    { title: "IA Aplicada & Software", icon: <IconCpu className="w-8 h-8"/>, desc: "O Plano PBIA prevê R$ 23 Bi. A IA não será apenas ChatGPT; será a camada de automação para indústria e logística." },
-                                    { title: "Saúde & Biotecnologia", icon: <IconTarget className="w-8 h-8"/>, desc: "Soberania sanitária. Reduzir a dependência externa (fármacos importados) e alavancar a saúde de precisão." },
-                                    { title: "Energia Limpa & Descarbonização", icon: <IconTrendingDown className="w-8 h-8"/>, desc: "Hidrogênio de baixo carbono, Combustível de Aviação Sustentável (SAF) e redes elétricas inteligentes." },
-                                    { title: "Semicondutores & Minerais", icon: <IconAlertTriangle className="w-8 h-8"/>, desc: "Foco em nichos onde podemos vencer: design de chips, encapsulamento e rastreabilidade de minerais críticos." },
-                                ].map((sector, i) => (
-                                    <FadeIn key={i} delay={i * 100}>
-                                        <div className="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl hover:bg-slate-700 transition duration-300">
-                                            <div className="text-emerald-400 mb-4">{sector.icon}</div>
-                                            <h4 className="font-bold text-lg mb-2">{sector.title}</h4>
-                                            <p className="text-sm text-slate-400">{sector.desc}</p>
-                                        </div>
-                                    </FadeIn>
-                                ))}
-                            </div>
-                            <Fonte texto="Estratégia Nacional de Ciência, Tecnologia e Inovação (ENCTI 2024–2034)" />
-                        </div>
-                    </section>
-
                     {/* DEEP DIVE: GOIÁS */}
-                    <section className="py-24 bg-white px-6">
+                    <section className="py-24 bg-slate-50 px-6 border-b border-slate-200">
                         <div className="max-w-6xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-10">
-                                    <span className="bg-emerald-100 text-emerald-800 px-4 py-1 rounded-full text-sm font-bold tracking-wide">Recorte Regional & Localização Espacial</span>
+                                    <span className="bg-emerald-100 text-emerald-800 px-4 py-1 rounded-full text-sm font-bold tracking-wide">Recorte Regional</span>
                                     <h2 className="text-4xl md:text-6xl font-bold tracking-tight mt-6 mb-4">O Diagnóstico de Goiás</h2>
                                     <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                                        Por que olhar para Goiás? Porque o estado é o microcosmo perfeito da economia nacional: forte produção primária que agora precisa dar o salto tecnológico.
+                                        O estado é o microcosmo perfeito da economia nacional: forte produção primária (Agro) que agora exige o salto tecnológico.
                                     </p>
                                 </div>
                             </FadeIn>
@@ -334,119 +352,189 @@
                             <div className="grid lg:grid-cols-2 gap-16 items-center mt-12">
                                 <FadeIn delay={200}>
                                     <div className="space-y-6">
-                                        <h3 className="text-2xl font-bold text-slate-900 border-b pb-4">O Abismo no IBID 2025</h3>
+                                        <h3 className="text-2xl font-bold text-slate-900 border-b pb-4 border-slate-300">O Abismo no IBID 2025</h3>
                                         <p className="text-slate-600 leading-relaxed">
-                                            Goiás ocupa o <strong>9º lugar geral</strong> no Índice Brasil de Inovação. Tem a 9ª maior economia do país. Aparentemente, tudo equilibrado. Mas o raio-x por pilares revela a "anemia de conversão":
+                                            Goiás ocupa o <strong>9º lugar geral</strong> no Índice Brasil de Inovação. Mas o raio-x por pilares revela a mesma anemia de conversão vista no contexto nacional:
                                         </p>
-                                        <ul className="space-y-4">
-                                            <li className="flex items-center gap-4 bg-slate-50 p-3 rounded-lg"><span className="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full font-bold text-lg shrink-0">3º</span> <div><strong className="block text-slate-800">Instituições Fortes</strong> Ambiente de negócios e fomento operando bem.</div></li>
-                                            <li className="flex items-center gap-4 bg-slate-50 p-3 rounded-lg"><span className="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full font-bold text-lg shrink-0">6º</span> <div><strong className="block text-slate-800">Base Econômica</strong> Agro, indústria e serviços crescendo acima do Brasil (+4.8%).</div></li>
-                                            <li className="flex items-center gap-4 bg-rose-50 p-3 rounded-lg border border-rose-100"><span className="w-10 h-10 flex items-center justify-center bg-rose-200 text-rose-800 rounded-full font-bold text-lg shrink-0">19º</span> <div><strong className="block text-rose-900">Conhecimento e Tecnologia</strong> Baixa geração de patentes e produtos tecnológicos.</div></li>
+                                        <ul className="space-y-4 mt-6">
+                                            <li className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-200"><span className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full font-bold text-xl shrink-0">3º</span> <div><strong className="block text-slate-800">Instituições Fortes</strong> Fomento e universidades operando bem.</div></li>
+                                            <li className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-200"><span className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full font-bold text-xl shrink-0">6º</span> <div><strong className="block text-slate-800">Base Econômica</strong> PIB crescendo (+4.8%) impulsionado pelo Agro.</div></li>
+                                            <li className="flex items-center gap-4 bg-rose-50 p-4 rounded-xl shadow-sm border border-rose-200"><span className="w-12 h-12 flex items-center justify-center bg-rose-200 text-rose-800 rounded-full font-bold text-xl shrink-0">19º</span> <div><strong className="block text-rose-900">Conhecimento e Tec.</strong> O Gargalo: Baixa geração de patentes industriais.</div></li>
                                         </ul>
-                                        <Fonte texto="Índice Brasil de Inovação e Desenvolvimento (IBID 2025) / IBGE" />
                                     </div>
                                 </FadeIn>
 
                                 <FadeIn delay={400}>
-                                    <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200">
-                                        <h3 className="text-center font-bold text-slate-800 mb-2">Desempenho de Goiás por Pilar do IBID</h3>
-                                        <div className="h-80 w-full mt-4 flex justify-center">
+                                    <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-lg">
+                                        <h3 className="text-center font-bold text-slate-800 mb-2">Radar de Goiás (IBID)</h3>
+                                        <div className="h-80 w-full mt-4">
                                             <ResponsiveContainer width="100%" height="100%">
                                                 <RadarChart cx="50%" cy="50%" outerRadius="70%" data={goiasRadarData}>
-                                                    <PolarGrid stroke="#cbd5e1" />
-                                                    <PolarAngleAxis dataKey="subject" tick={{fill: '#475569', fontSize: 11, fontWeight: 'bold'}} />
+                                                    <PolarGrid stroke="#e2e8f0" />
+                                                    <PolarAngleAxis dataKey="subject" tick={{fill: '#475569', fontSize: 12, fontWeight: 'bold'}} />
                                                     <Radar name="Score Estadual" dataKey="A" stroke="#10b981" strokeWidth={3} fill="#10b981" fillOpacity={0.25} />
                                                     <Tooltip contentStyle={{ borderRadius: '8px' }}/>
                                                 </RadarChart>
                                             </ResponsiveContainer>
                                         </div>
-                                        <p className="text-xs text-slate-500 text-center mt-2">O "vazio" na área de Conhecimento e Tecnologia (19º) indica o distanciamento da ponta do ranking neste quesito vital.</p>
+                                        <p className="text-xs text-slate-500 text-center mt-4">O "vazio" na área de Conhecimento e Tecnologia indica graficamente o distanciamento da ponta nacional.</p>
                                     </div>
                                 </FadeIn>
                             </div>
-                            
-                            <FadeIn delay={600}>
-                                <div className="mt-16 w-full h-64 md:h-80 relative rounded-3xl overflow-hidden shadow-lg">
-                                    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1920&q=80" alt="" className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent"></div>
-                                    <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-12 max-w-2xl">
-                                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">A Plataforma Agro-Bio-Digital</h3>
-                                        <p className="text-slate-300">Goiás não deve buscar ser o Vale do Silício dos aplicativos. Sua verdadeira vocação é tornar-se o grande laboratório vivo e exportador de tecnologias (Deep Tech) focadas em bioinsumos, IA para o agro e novos materiais.</p>
+                        </div>
+                    </section>
+
+                    {/* SETORES PORTADORES */}
+                    <section className="py-24 bg-slate-900 text-white px-6 relative">
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-emerald-600/20 blur-[120px] rounded-full pointer-events-none"></div>
+                        <div className="max-w-7xl mx-auto relative z-10">
+                            <FadeIn>
+                                <div className="text-center mb-16">
+                                    <span className="bg-emerald-900/50 text-emerald-400 border border-emerald-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">A Plataforma Agro-Bio-Digital</span>
+                                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mt-6 mb-4">Setores Portadores para Goiás</h2>
+                                    <p className="text-lg text-slate-400 max-w-3xl mx-auto">Para reverter a 19ª posição, o estado deve verticalizar as cadeias onde já possui vantagem absoluta, unindo vocação natural com <strong>Deep Tech</strong>.</p>
+                                </div>
+                            </FadeIn>
+                            <div className="grid md:grid-cols-2 gap-8">
+                                {goiasSectorsData.map((sector, i) => (
+                                    <FadeIn key={i} delay={i * 100}>
+                                        <div className="bg-slate-800/80 backdrop-blur-sm rounded-3xl border border-slate-700 h-full flex flex-col hover:border-emerald-500/50 transition duration-300">
+                                            <div className="p-6 md:p-8 bg-slate-800/50 border-b border-slate-700 flex items-start gap-5">
+                                                <div className="p-4 bg-emerald-500/10 text-emerald-400 rounded-2xl shrink-0">{sector.icon}</div>
+                                                <div>
+                                                    <h3 className="text-xl font-bold text-white">{sector.title}</h3>
+                                                    <p className="text-sm text-slate-400 mt-2 leading-relaxed">{sector.context}</p>
+                                                </div>
+                                            </div>
+                                            <div className="p-6 md:p-8 space-y-6 flex-grow flex flex-col">
+                                                <div><h4 className="text-emerald-400 font-bold uppercase tracking-widest text-xs mb-2 flex items-center gap-2"><IconTrendingUp className="w-4 h-4"/> A Oportunidade</h4><p className="text-slate-300 text-sm">{sector.opp}</p></div>
+                                                <div><h4 className="text-amber-400 font-bold uppercase tracking-widest text-xs mb-2 flex items-center gap-2"><IconCog className="w-4 h-4"/> O Desafio</h4><p className="text-slate-300 text-sm">{sector.cha}</p></div>
+                                                <div className="pt-4 border-t border-slate-700/50"><h4 className="text-rose-400 font-bold uppercase tracking-widest text-xs mb-2 flex items-center gap-2"><IconAlertTriangle className="w-4 h-4"/> Risco do "Pântano"</h4><p className="text-slate-400 text-sm italic">"{sector.risk}"</p></div>
+                                            </div>
+                                        </div>
+                                    </FadeIn>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* METODOLOGIA 1: MATRIZ 2X2 GEOPOLÍTICA (RESTAURADA) */}
+                    <section className="py-24 px-6 bg-white border-t border-slate-200">
+                        <div className="max-w-6xl mx-auto">
+                            <FadeIn>
+                                <div className="text-center mb-10">
+                                    <h2 className="text-4xl font-bold tracking-tight mb-4">Matriz 2x2: O Tabuleiro Geopolítico</h2>
+                                    <p className="text-slate-500 max-w-2xl mx-auto">Mapeando ecossistemas globais com base na estabilidade de fomento e na integração efetiva entre Academia, Empresa e Capital de Risco.</p>
+                                </div>
+                            </FadeIn>
+
+                            <FadeIn delay={200}>
+                                <div className="relative w-full max-w-4xl mx-auto aspect-square md:aspect-[3/2] matrix-grid border-2 border-slate-300 rounded-xl p-2 md:p-8 flex flex-col justify-between mt-12 shadow-md bg-slate-50">
+                                    
+                                    {/* Eixos */}
+                                    <div className="absolute top-1/2 -left-12 -translate-y-1/2 -rotate-90 text-[10px] md:text-xs font-bold text-slate-500 tracking-widest uppercase bg-slate-50 px-2 rounded">Baixa &larr; Estabilidade da Política &rarr; Alta</div>
+                                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] md:text-xs font-bold text-slate-500 tracking-widest text-center uppercase bg-slate-50 px-2 rounded">Baixa &larr; Integração Tripla Hélice &rarr; Alta</div>
+
+                                    {/* Grid Base */}
+                                    <div className="w-full h-full grid grid-cols-2 grid-rows-2 relative">
+                                        <div className="absolute top-1/2 w-full h-1 bg-slate-800 -translate-y-1/2 z-0"></div>
+                                        <div className="absolute left-1/2 h-full w-1 bg-slate-800 -translate-x-1/2 z-0"></div>
+
+                                        {/* Quadrante 1 */}
+                                        <div className="p-4 md:p-8 z-10 flex flex-col justify-start items-end text-right">
+                                            <h4 className="font-black text-lg md:text-xl text-slate-700">Estado-Laboratório</h4>
+                                            <p className="text-xs text-slate-500 mt-2 max-w-[200px]">Dinheiro público constante, papers gerados, mas sem conversão comercial global.</p>
+                                        </div>
+
+                                        {/* Quadrante 2 */}
+                                        <div className="p-4 md:p-8 z-10 bg-emerald-100/50 border-l-4 border-b-4 border-emerald-500 flex flex-col justify-start items-start">
+                                            <h4 className="font-black text-xl md:text-2xl text-emerald-800">Máquina Missionária</h4>
+                                            <p className="text-xs text-emerald-700 mt-2 font-medium max-w-[250px]">O quadrante da soberania. Capital privado alavancado por missões do Estado.</p>
+                                            <div className="flex gap-2 mt-4">
+                                                <span className="bg-slate-900 text-white px-3 py-1 rounded-full text-xs font-bold">China</span>
+                                                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold">Índia</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Quadrante 3 */}
+                                        <div className="p-4 md:p-8 z-10 flex flex-col justify-end items-end text-right">
+                                            <h4 className="font-black text-lg md:text-xl text-rose-800">Pântano Incremental</h4>
+                                            <p className="text-xs text-rose-600 mt-2 mb-4 max-w-[250px]">Fomento volátil, projetos isolados. A inovação atua apenas para a sobrevivência diária.</p>
+                                            <div className="flex gap-2 justify-end flex-wrap">
+                                                <span className="bg-amber-200 text-amber-900 px-3 py-1 rounded-full text-xs font-bold shadow-sm">Brasil (Oscilante)</span>
+                                                <span className="bg-slate-800 text-white border border-slate-600 px-3 py-1 rounded-full text-xs font-bold shadow-sm">Goiás (Transição)</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Quadrante 4 */}
+                                        <div className="p-4 md:p-8 z-10 flex flex-col justify-end items-start">
+                                            <h4 className="font-black text-lg md:text-xl text-slate-700">Ilhas Privadas</h4>
+                                            <p className="text-xs text-slate-500 mt-2 max-w-[200px]">Corporações gigantes inovam sozinhas em um país instável. Falta escala sistêmica.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </FadeIn>
                         </div>
                     </section>
 
-                    {/* CONE OF FUTURES */}
-                    <section className="py-32 px-6 bg-slate-50 border-t border-slate-200 overflow-hidden">
+                    {/* METODOLOGIA 2: CONE DE FUTUROS (RESTAURADO) */}
+                    <section className="py-24 px-6 bg-slate-900 text-white border-t-4 border-slate-800">
                         <div className="max-w-7xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-10">
-                                    <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-slate-900">Cone de Futuros (2025–2035)</h2>
-                                    <p className="text-xl text-slate-600 max-w-3xl mx-auto">Uma ferramenta visual para enxergar além do amanhã imediato.</p>
+                                    <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-white">Cone de Futuros (Design Estratégico)</h2>
+                                    <p className="text-xl text-slate-400 max-w-3xl mx-auto">Mapeando trajetórias a partir do "Ponto Zero" (2025).</p>
                                 </div>
                                 <NotaDidatica 
-                                    titulo="Metodologia: O que é o Cone de Futuros?" 
-                                    texto="Em Foresight, sabemos que o futuro não é único. O Cone ilustra as possibilidades que se abrem com o tempo. O Provável é o que acontece se continuarmos na inércia. O Plausível e Possível englobam cenários alternativos. O Preferível é o futuro que projetamos estrategicamente e construímos ativamente a partir de hoje."
+                                    titulo="O Framework Analítico" 
+                                    texto="O Cone ilustra que o futuro se expande com o tempo. O 'Provável' é a inércia. O 'Plausível' e 'Possível' são alternativas se agirmos em partes. O 'Preferível' é a visão audaciosa que planejamos e construímos unindo todas as forças do estado."
                                 />
                             </FadeIn>
 
-                            {/* Cone Visual Representation */}
                             <div className="relative w-full overflow-x-auto pb-8 mt-12">
-                                <div className="min-w-[900px] flex gap-4 h-auto relative items-center">
-                                    
-                                    {/* Present */}
+                                <div className="min-w-[1000px] flex gap-4 h-auto relative items-center">
                                     <FadeIn delay={100} className="w-1/5 z-10">
-                                        <div className="bg-slate-800 text-white p-6 rounded-2xl border border-slate-700 shadow-xl relative">
+                                        <div className="bg-slate-800 p-6 rounded-2xl border border-slate-600 shadow-xl relative">
                                             <div className="absolute w-0 h-0 border-t-[20px] border-t-transparent border-l-[20px] border-l-slate-800 border-b-[20px] border-b-transparent -right-4 top-1/2 -translate-y-1/2"></div>
                                             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Ponto Zero (2025)</p>
                                             <h4 className="text-xl font-bold mb-2">Presente Estendido</h4>
-                                            <p className="text-sm text-slate-300">Temos instrumentos fortes, mas o ecossistema é fragmentado. Goiás exibe alto potencial latente, mas baixa conversão em propriedade intelectual.</p>
+                                            <p className="text-sm text-slate-300">Goiás exibe altíssimo potencial latente no Agro, mas a baixa conversão industrial em patentes o prende na 19ª posição (Tecnologia).</p>
                                         </div>
                                     </FadeIn>
 
-                                    {/* Expanding Cone Scenarios */}
                                     <div className="w-4/5 grid grid-cols-2 grid-rows-2 gap-4 relative pl-8">
-                                        
-                                        {/* Plausible / Preferable (Top) */}
                                         <FadeIn delay={300} className="col-start-1 row-start-1">
-                                            <div className="bg-blue-50 border-2 border-blue-200 p-6 rounded-2xl h-full flex flex-col justify-center">
-                                                <span className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1 block">Futuro Plausível</span>
-                                                <h4 className="text-lg font-bold text-blue-900 mb-2">Reindustrialização por Missões</h4>
-                                                <p className="text-sm text-blue-800/80">Brasil consegue conectar fomento e mercado. Goiás escolhe o vetor Agro-Bio-Digital e salta para o Top 6 nacional em inovação.</p>
+                                            <div className="bg-slate-800/50 border border-blue-500/50 p-6 rounded-2xl h-full flex flex-col justify-center">
+                                                <span className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1 block">Futuro Plausível</span>
+                                                <h4 className="text-lg font-bold text-blue-200 mb-2">Reindustrialização Efetiva</h4>
+                                                <p className="text-sm text-blue-100/70">O estado conecta fomento e mercado local, escalando na matriz de inovação e atingindo o Top 6 nacional.</p>
                                             </div>
                                         </FadeIn>
-
                                         <FadeIn delay={600} className="col-start-2 row-start-1">
-                                            <div className="bg-emerald-600 text-white p-6 rounded-2xl h-full shadow-lg transform hover:-translate-y-1 transition duration-500 flex flex-col justify-center relative overflow-hidden">
-                                                <div className="absolute right-0 bottom-0 opacity-10"><IconTarget className="w-48 h-48 -mr-10 -mb-10"/></div>
-                                                <span className="text-xs font-bold text-emerald-200 uppercase tracking-widest mb-1 block relative z-10">Futuro Preferível</span>
+                                            <div className="bg-emerald-600 border-2 border-emerald-400 p-6 rounded-2xl h-full shadow-2xl transform hover:-translate-y-1 transition duration-500 flex flex-col justify-center relative overflow-hidden">
+                                                <div className="absolute right-0 bottom-0 opacity-20"><IconTarget className="w-48 h-48 -mr-10 -mb-10"/></div>
+                                                <span className="text-xs font-bold text-emerald-200 uppercase tracking-widest mb-1 block relative z-10">Futuro Preferível (O Alvo)</span>
                                                 <h4 className="text-2xl font-bold mb-2 relative z-10">Salto Deep Tech Tropical</h4>
-                                                <p className="text-sm text-emerald-50 relative z-10">Brasil vira potência sustentável global. Goiás consolida-se como Hub do Centro-Oeste: deixa de ser apenas produtor e passa a ser <strong>exportador de tecnologia produtiva</strong> patenteada.</p>
+                                                <p className="text-sm text-emerald-50 relative z-10">Goiás consolida-se como Hub Global: passa de produtor primário a <strong>exportador de tecnologia agro-bio-digital patenteada</strong>.</p>
                                             </div>
                                         </FadeIn>
-
-                                        {/* Probable / Undesired (Bottom) */}
                                         <FadeIn delay={400} className="col-start-1 row-start-2">
-                                            <div className="bg-white border-2 border-slate-200 p-6 rounded-2xl h-full flex flex-col justify-center">
-                                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 block">Futuro Provável (Inércia)</span>
-                                                <h4 className="text-lg font-bold text-slate-800 mb-2">Inovação Incremental</h4>
-                                                <p className="text-sm text-slate-600">Melhora lenta. Goiás amplia editais e bolsas, mas as inovações são de sobrevivência. O estado mantém seu ritmo, mas não rompe barreiras tecnológicas.</p>
+                                            <div className="bg-slate-800/50 border border-slate-600 p-6 rounded-2xl h-full flex flex-col justify-center">
+                                                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 block">Futuro Provável (Inércia)</span>
+                                                <h4 className="text-lg font-bold text-slate-200 mb-2">Inovação Incremental</h4>
+                                                <p className="text-sm text-slate-400">Ampliam-se editais isolados. O estado cresce economicamente, mas a matriz tecnológica continua frágil e dependente do exterior.</p>
                                             </div>
                                         </FadeIn>
-
                                         <FadeIn delay={500} className="col-start-2 row-start-2">
-                                            <div className="bg-rose-50 border-2 border-rose-200 p-6 rounded-2xl h-full flex flex-col justify-center">
-                                                <span className="text-xs font-bold text-rose-600 uppercase tracking-widest mb-1 block">Futuro Indesejado</span>
-                                                <h4 className="text-lg font-bold text-rose-900 mb-2">O Pântano da Dispersão</h4>
-                                                <p className="text-sm text-rose-800/80">O Brasil volta a cortar verbas da ciência. Ocorre fuga maciça de talentos. Goiás perde a janela demográfica e tecnológica global para diversificar sua economia.</p>
+                                            <div className="bg-rose-900/40 border border-rose-500/50 p-6 rounded-2xl h-full flex flex-col justify-center">
+                                                <span className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-1 block">Futuro Indesejado</span>
+                                                <h4 className="text-lg font-bold text-rose-200 mb-2">Pântano Tecnológico</h4>
+                                                <p className="text-sm text-rose-300/80">Fuga maciça de cérebros. As indústrias estagnam e a janela demográfica se fecha sem geração de cadeias de alto valor.</p>
                                             </div>
                                         </FadeIn>
 
-                                        {/* Visual Cone Lines */}
                                         <svg className="absolute left-0 top-0 w-full h-full pointer-events-none -z-10" preserveAspectRatio="none">
-                                            <path d="M 0,50% L 100%,0 L 100%,100% Z" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="6,6"/>
+                                            <path d="M 0,50% L 100%,0 L 100%,100% Z" fill="transparent" stroke="#334155" strokeWidth="2" strokeDasharray="6,6"/>
                                         </svg>
                                     </div>
                                 </div>
@@ -454,125 +542,163 @@
                         </div>
                     </section>
 
-                    {/* 2X2 MATRIX */}
-                    <section className="py-24 px-6 bg-white">
-                        <div className="max-w-5xl mx-auto">
+                    {/* AGENDA ESTRATÉGICA */}
+                    <section className="py-24 bg-slate-50 px-6">
+                        <div className="max-w-6xl mx-auto">
                             <FadeIn>
-                                <div className="text-center mb-10">
-                                    <h2 className="text-4xl font-bold tracking-tight mb-4">Matriz 2x2 Geopolítica</h2>
-                                    <p className="text-slate-500">Mapeando os ecossistemas no tabuleiro global da inovação sistêmica.</p>
-                                </div>
-                                <NotaDidatica 
-                                    titulo="Como ler esta Matriz" 
-                                    texto="O eixo vertical julga se as leis e orçamentos do país são constantes ou vivem mudando. O eixo horizontal avalia se Universidades, Governo e Capital de Risco (Investidores) jogam no mesmo time ou trabalham isolados. Nações líderes fogem para o quadrante superior direito (A Máquina Missionária)."
-                                />
+                                <p className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4 text-center">Da Teoria à Execução Prática</p>
+                                <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-20 text-center text-slate-900">A Agenda Estratégica.</h2>
                             </FadeIn>
 
-                            <FadeIn delay={200}>
-                                <div className="relative w-full aspect-square md:aspect-[3/2] matrix-grid border border-slate-300 rounded-lg p-2 md:p-8 flex flex-col justify-between mt-12 shadow-sm">
-                                    
-                                    {/* Axis Labels */}
-                                    <div className="absolute top-1/2 -left-14 -translate-y-1/2 -rotate-90 text-xs font-bold text-slate-400 tracking-widest hidden md:block uppercase bg-white px-2">Baixa &larr; Política de Estado Constante &rarr; Alta</div>
-                                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] md:text-xs font-bold text-slate-400 tracking-widest w-full text-center uppercase bg-white inline-block">Baixa &larr; Integração Universidade, Empresa e Capital &rarr; Alta</div>
-
-                                    {/* Quadrants Wrapper */}
-                                    <div className="w-full h-full grid grid-cols-2 grid-rows-2 relative">
-                                        <div className="absolute top-1/2 w-full h-1 bg-slate-800 -translate-y-1/2 z-0"></div>
-                                        <div className="absolute left-1/2 h-full w-1 bg-slate-800 -translate-x-1/2 z-0"></div>
-
-                                        {/* Q1: Top Left */}
-                                        <div className="p-4 md:p-8 z-10 flex flex-col justify-start items-end text-right">
-                                            <h4 className="font-bold text-lg text-slate-700">Estado-Laboratório</h4>
-                                            <p className="text-xs text-slate-500 mt-2">O Estado injeta dinheiro em pesquisa de base, há constância, mas pouca coisa vira empresa global de tecnologia.</p>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                                {[
+                                    { id: "01", title: "Missões, não Editais Soltos", text: "Parar de pulverizar recursos. Alinhar FAPEG, Universidades e Indústria em 4 missões centrais (ex: IA Agrícola)." },
+                                    { id: "02", title: "Trilha de Maturidade (TRL)", text: "Financiar todas as fases da pesquisa. Do protótipo de laboratório até o piloto industrial validado no SENAI." },
+                                    { id: "03", title: "Meta Estadual de PI", text: "Patente para currículo não serve. A meta deve ser gerar PI com dono, com viés comercial, pronta para licenciamento global." },
+                                    { id: "04", title: "Compras Públicas Inovadoras", text: "Em vez de comprar caixas pretas de fora, o Governo deve abrir desafios para as startups locais resolverem suas dores operacionais." },
+                                    { id: "05", title: "Talentos no Chão de Fábrica", text: "Bolsa teórica não segura talento. Inserir mestres e doutores na indústria para resolver problemas via programas como o Inova Talentos." },
+                                    { id: "06", title: "Captação Alavancada (Crowding-in)", text: "Usar fundos locais estritamente como 'contrapartida' inteligente para arrancar grandes fatias do FNDCT, EMBRAPII e BNDES." },
+                                ].map((item, i) => (
+                                    <FadeIn key={i} delay={i * 100}>
+                                        <div className="border-t-2 border-slate-200 pt-6 group hover:border-emerald-500 transition-colors duration-300">
+                                            <div className="text-3xl font-black text-slate-300 group-hover:text-emerald-500 transition-colors mb-4">{item.id}</div>
+                                            <h3 className="text-xl font-bold mb-3 text-slate-800">{item.title}</h3>
+                                            <p className="text-slate-600 text-sm leading-relaxed">{item.text}</p>
                                         </div>
+                                    </FadeIn>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
 
-                                        {/* Q2: Top Right (Ideal) */}
-                                        <div className="p-4 md:p-8 z-10 bg-emerald-50/70 border-l-4 border-b-4 border-emerald-500 flex flex-col justify-start items-start">
-                                            <h4 className="font-bold text-xl text-emerald-800">A Máquina Missionária</h4>
-                                            <p className="text-xs text-emerald-600 mt-2">Política duradoura. Startups atraem capital global para resolver missões de Estado. Onde ocorre o 'Crowding-in'.</p>
-                                            <div className="flex gap-2 mt-4">
-                                                <span className="bg-slate-900 text-white px-3 py-1 rounded-full text-xs font-bold">China</span>
-                                                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold">Índia</span>
-                                            </div>
-                                        </div>
+                    {/* SIMULADOR: HÉLICE QUÁDRUPLA + HORIZONTES DE TEMPO */}
+                    <section className="py-24 bg-black text-white px-6 border-t-[8px] border-emerald-500 shadow-[inset_0_20px_50px_rgba(0,0,0,0.5)]">
+                        <div className="max-w-7xl mx-auto">
+                            <FadeIn>
+                                <div className="text-center mb-16">
+                                    <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 flex justify-center items-center gap-4">
+                                        <IconZap className="w-10 h-10 text-yellow-400" /> Simulador: A Quádrupla Hélice
+                                    </h2>
+                                    <p className="text-xl text-slate-400 max-w-3xl mx-auto">Combine as escolhas dos atores de Goiás e projete os cenários em 5, 10 e 20 anos.</p>
+                                </div>
+                            </FadeIn>
 
-                                        {/* Q3: Bottom Left */}
-                                        <div className="p-4 md:p-8 z-10 flex flex-col justify-end items-end text-right">
-                                            <h4 className="font-bold text-lg text-rose-800">Pântano Incremental</h4>
-                                            <p className="text-xs text-rose-600 mt-2 mb-4">Muda o governo, corta-se a verba. Editais esparsos. A inovação é feita apenas para sobreviver ao mercado doméstico.</p>
-                                            <div className="flex gap-2 justify-end flex-wrap">
-                                                <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold">Brasil (Oscilante)</span>
-                                                <span className="bg-slate-200 text-slate-700 border border-slate-300 px-3 py-1 rounded-full text-xs font-bold">Goiás (Transição)</span>
-                                            </div>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                                <FadeIn delay={100} className="bg-slate-900 border border-slate-700 p-5 rounded-2xl flex flex-col justify-between hover:border-blue-500/50 transition">
+                                    <div>
+                                        <div className="flex items-center gap-3 mb-6"><div className="bg-blue-500/20 p-3 rounded-lg"><IconBuilding className="w-6 h-6 text-blue-400"/></div><h3 className="text-lg font-bold">Governo</h3></div>
+                                        <div className="space-y-4">
+                                            <button onClick={() => setSimGov(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simGov === 0 ? 'bg-blue-600/20 border-blue-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Inércia</span><span className="text-xs text-slate-400">Pulveriza editais sem missão.</span></button>
+                                            <button onClick={() => setSimGov(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simGov === 1 ? 'bg-blue-600/20 border-blue-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Estado Empreendedor</span><span className="text-xs text-slate-400">Compras públicas e foco temático.</span></button>
                                         </div>
+                                    </div>
+                                </FadeIn>
 
-                                        {/* Q4: Bottom Right */}
-                                        <div className="p-4 md:p-8 z-10 flex flex-col justify-end items-start">
-                                            <h4 className="font-bold text-lg text-slate-700">Ilhas Privadas</h4>
-                                            <p className="text-xs text-slate-500 mt-2">Algumas corporações inovam brilhantemente sozinhas. A política é volátil, então o país como um todo não ganha escala sistêmica.</p>
+                                <FadeIn delay={200} className="bg-slate-900 border border-slate-700 p-5 rounded-2xl flex flex-col justify-between hover:border-rose-500/50 transition">
+                                    <div>
+                                        <div className="flex items-center gap-3 mb-6"><div className="bg-rose-500/20 p-3 rounded-lg"><IconGraduationCap className="w-6 h-6 text-rose-400"/></div><h3 className="text-lg font-bold">Academia (ICTs)</h3></div>
+                                        <div className="space-y-4">
+                                            <button onClick={() => setSimAca(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simAca === 0 ? 'bg-rose-600/20 border-rose-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Isolamento Teórico</span><span className="text-xs text-slate-400">Aversão ao mercado, foco em papers.</span></button>
+                                            <button onClick={() => setSimAca(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simAca === 1 ? 'bg-rose-600/20 border-rose-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">P&D Translacional</span><span className="text-xs text-slate-400">Gera spin-offs e co-desenvolve via PI.</span></button>
                                         </div>
+                                    </div>
+                                </FadeIn>
+
+                                <FadeIn delay={300} className="bg-slate-900 border border-slate-700 p-5 rounded-2xl flex flex-col justify-between hover:border-emerald-500/50 transition">
+                                    <div>
+                                        <div className="flex items-center gap-3 mb-6"><div className="bg-emerald-500/20 p-3 rounded-lg"><IconBriefcase className="w-6 h-6 text-emerald-400"/></div><h3 className="text-lg font-bold">Setor Privado</h3></div>
+                                        <div className="space-y-4">
+                                            <button onClick={() => setSimPriv(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simPriv === 0 ? 'bg-emerald-600/20 border-emerald-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Apenas Incremental</span><span className="text-xs text-slate-400">Renúncia fiscal para rotina da fábrica.</span></button>
+                                            <button onClick={() => setSimPriv(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simPriv === 1 ? 'bg-emerald-600/20 border-emerald-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Deep Tech / CVC</span><span className="text-xs text-slate-400">Apetite a risco e apoio a startups locais.</span></button>
+                                        </div>
+                                    </div>
+                                </FadeIn>
+
+                                <FadeIn delay={400} className="bg-slate-900 border border-slate-700 p-5 rounded-2xl flex flex-col justify-between hover:border-purple-500/50 transition">
+                                    <div>
+                                        <div className="flex items-center gap-3 mb-6"><div className="bg-purple-500/20 p-3 rounded-lg"><IconCog className="w-6 h-6 text-purple-400"/></div><h3 className="text-lg font-bold">Institutos/SENAI</h3></div>
+                                        <div className="space-y-4">
+                                            <button onClick={() => setSimInst(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simInst === 0 ? 'bg-purple-600/20 border-purple-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Serviço Básico</span><span className="text-xs text-slate-400">Apenas laudos e ensino técnico.</span></button>
+                                            <button onClick={() => setSimInst(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simInst === 1 ? 'bg-purple-600/20 border-purple-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Centros de Escala</span><span className="text-xs text-slate-400">Plantas-piloto para indústria avançar.</span></button>
+                                        </div>
+                                    </div>
+                                </FadeIn>
+                            </div>
+
+                            <FadeIn delay={500} className="bg-slate-950 p-8 rounded-3xl border border-slate-800 shadow-2xl relative">
+                                <div className="border-b border-slate-800 pb-6 mb-8 text-center">
+                                    <h3 className={`text-2xl md:text-3xl font-black ${proj.color} transition-colors duration-500`}>{proj.title}</h3>
+                                    <div className="w-full max-w-2xl mx-auto h-2 bg-slate-800 rounded-full mt-6 overflow-hidden">
+                                        <div className="h-full bg-gradient-to-r from-slate-600 via-blue-500 to-emerald-400 transition-all duration-1000 ease-in-out" style={{ width: proj.width }}></div>
+                                    </div>
+                                </div>
+
+                                <div className="grid md:grid-cols-3 gap-6 relative">
+                                    <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800/50 hover:border-slate-600 transition">
+                                        <div className="flex items-center gap-2 mb-4"><IconClock className="w-5 h-5 text-slate-400" /><span className="text-xs font-bold uppercase tracking-widest text-slate-400">Curto Prazo</span><span className="ml-auto bg-slate-800 text-slate-300 px-3 py-1 rounded text-xs font-bold">+ 5 Anos</span></div>
+                                        <p className="text-sm text-slate-300 leading-relaxed">{proj.y5}</p>
+                                    </div>
+                                    <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800/50 hover:border-slate-600 transition">
+                                        <div className="flex items-center gap-2 mb-4"><IconClock className="w-5 h-5 text-blue-400" /><span className="text-xs font-bold uppercase tracking-widest text-blue-400">Médio Prazo</span><span className="ml-auto bg-blue-900/30 text-blue-300 px-3 py-1 rounded text-xs font-bold">+ 10 Anos</span></div>
+                                        <p className="text-sm text-slate-300 leading-relaxed">{proj.y10}</p>
+                                    </div>
+                                    <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800/50 hover:border-emerald-600 transition relative overflow-hidden">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-emerald-900/10 pointer-events-none"></div>
+                                        <div className="flex items-center gap-2 mb-4 relative z-10"><IconClock className="w-5 h-5 text-emerald-400" /><span className="text-xs font-bold uppercase tracking-widest text-emerald-400">Longo Prazo</span><span className="ml-auto bg-emerald-900/30 text-emerald-300 px-3 py-1 rounded text-xs font-bold">+ 20 Anos</span></div>
+                                        <p className="text-sm text-slate-300 leading-relaxed relative z-10">{proj.y20}</p>
                                     </div>
                                 </div>
                             </FadeIn>
                         </div>
                     </section>
 
-                    {/* STRATEGIC AGENDA (HOW TO WIN) */}
-                    <section className="py-24 md:py-32 bg-slate-900 text-white px-6">
-                        <div className="max-w-6xl mx-auto">
-                            <FadeIn>
-                                <p className="text-blue-400 font-bold tracking-widest uppercase text-sm mb-4 text-center flex justify-center items-center gap-2">
-                                    <IconAlertTriangle className="w-4 h-4"/> Da Teoria à Execução Prática
-                                </p>
-                                <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-20 text-center">A Agenda Estratégica.</h2>
-                            </FadeIn>
-
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                                {[
-                                    { id: "01", title: "Missões, não Edital Solto", text: "Goiás deve parar de pulverizar recursos. Escolher 4 missões-chave (ex: Rastreabilidade Agro) e alinhar FAPEG, Universidades e Indústria em torno da solução." },
-                                    { id: "02", title: "Portfólio de Maturidade", text: "Financiar todas as fases de vida da pesquisa (TRL). Do protótipo bancado pelo Estado até o piloto industrial validado pelo primeiro cliente." },
-                                    { id: "03", title: "Meta Estadual de PI", text: "Registrar patente só para enfeitar currículo não serve. A meta 2030 deve ser gerar propriedade intelectual com viés comercial, que possa ser licenciada." },
-                                    { id: "04", title: "Compras Públicas como Alavanca", text: "O Governo tem problemas caros. Em vez de comprar soluções prontas de fora, deve abrir editais para startups locais resolverem desafios (ex: IA na saúde pública)." },
-                                    { id: "05", title: "Trilhas de Talentos", text: "O programa Inova Talentos (FAPEG/IEL) é o caminho. Colocar bolsistas de mestrado/doutorado para resolver desafios reais dentro da fábrica, não apenas na universidade." },
-                                    { id: "06", title: "Captar para Multiplicar", text: "O jogo mudou. Usar o fundo financeiro de Goiás como 'contrapartida inteligente' para atrair fatias gigantescas do FNDCT, EMBRAPII e fundos privados." },
-                                ].map((item, i) => (
-                                    <FadeIn key={i} delay={i * 100}>
-                                        <div className="border-t border-slate-700 pt-6 group hover:border-emerald-500 transition-colors duration-300">
-                                            <div className="text-3xl font-black text-slate-600 group-hover:text-emerald-400 transition-colors mb-4">{item.id}</div>
-                                            <h3 className="text-xl font-bold mb-3 text-slate-100">{item.title}</h3>
-                                            <p className="text-slate-400 text-sm leading-relaxed">{item.text}</p>
-                                        </div>
-                                    </FadeIn>
-                                ))}
-                            </div>
-
-                            {/* EXECUTIVE CLOSING */}
-                            <FadeIn delay={800}>
-                                <div className="mt-32 pt-16 border-t border-slate-800 text-center max-w-4xl mx-auto">
-                                    <h2 className="text-3xl md:text-5xl font-light text-slate-300 leading-snug">
-                                        "O futuro não será vencido por quem lançar mais editais soltos, mas por quem tiver a competência de transformar conhecimento em patente, patente em negócio escalável, e <strong className="text-white font-bold">negócio em soberania</strong>."
-                                    </h2>
-                                </div>
-                            </FadeIn>
+                    {/* CLOSING & FOOTER */}
+                    <footer className="bg-white border-t border-slate-200">
+                        <div className="py-24 px-6 text-center max-w-5xl mx-auto border-b border-slate-100">
+                            <h2 className="text-3xl md:text-5xl font-light text-slate-800 leading-snug">
+                                "O futuro não será vencido por quem lançar mais editais, mas por quem transformar conhecimento em patente, patente em negócio, e <strong className="text-slate-900 font-black">negócio em soberania</strong>."
+                            </h2>
                         </div>
-                    </section>
-                    
-                    {/* FOOTER */}
-                    <footer className="bg-black py-12 px-6 text-center">
-                        <p className="text-slate-500 text-sm mb-4">Estudo desenvolvido com arquitetura de Foresight Estratégico & Design de Dados.</p>
-                        <p className="text-slate-600 text-xs flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
-                            <span>Fontes Consolidadas:</span>
-                            <span>IGI (2025)</span> &bull;
-                            <span>INPI & IBID (2025)</span> &bull;
-                            <span>MCTI / FNDCT</span> &bull;
-                            <span>FAPEG / IBGE</span>
-                        </p>
+                        
+                        <div className="bg-slate-50 py-16 px-6">
+                            <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-start justify-between">
+                                {/* Créditos Autorais */}
+                                <div className="md:w-1/2 text-left space-y-4">
+                                    <div>
+                                        <p className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-1">Elaborado por</p>
+                                        <h4 className="text-xl font-black text-slate-900">Antonio Balduino Neto</h4>
+                                        <p className="text-sm text-slate-500 mt-1">Especialista em Foresight Estratégico e Design de Futuros</p>
+                                    </div>
+                                    <div className="pt-4 border-t border-slate-200">
+                                        <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Fontes Analisadas</p>
+                                        <p className="text-xs text-slate-500 leading-relaxed">
+                                            Índice Global de Inovação (2015-2025) &bull;
+                                            INPI & IBID (2025) &bull;
+                                            ENCTI / FNDCT / Finep / EMBRAPII &bull;
+                                            FAPEG / IEL-GO / IBGE
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Nota Didática de Foresight */}
+                                <div className="md:w-1/2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-left relative overflow-hidden">
+                                    <div className="absolute -right-4 -bottom-4 opacity-5"><IconTelescope className="w-40 h-40" /></div>
+                                    <div className="flex items-center gap-2 mb-3 relative z-10">
+                                        <IconTelescope className="w-5 h-5 text-blue-500" />
+                                        <h5 className="font-bold text-sm text-slate-800 uppercase tracking-wide">Nota de Foresight</h5>
+                                    </div>
+                                    <p className="text-sm text-slate-600 leading-relaxed relative z-10">
+                                        O <strong>Foresight Estratégico</strong> não "prevê" o futuro de forma determinística, como se ele fosse um destino imutável. Trata-se de uma disciplina de mapeamento que subsidia a construção de cenários <em>(possíveis, plausíveis e preferíveis)</em>. <br/><br/>
+                                        Seu propósito é instigar tomadores de decisão a agir com intencionalidade hoje. Afinal, <strong>o futuro não está dado; ele é construído.</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </footer>
                 </div>
             );
         }
 
-        // --- Renderização Segura ---
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<ForesightInfographic />);
     </script>

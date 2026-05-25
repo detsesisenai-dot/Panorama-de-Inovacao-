@@ -26,11 +26,14 @@
             margin: 0; padding: 0; overflow-x: hidden; background-color: #ffffff;
         }
         .recharts-wrapper { width: 100% !important; }
-        
         .matrix-grid {
-            background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+            background-image: linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px);
             background-size: 50% 50%;
             background-position: center;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#334155 1px, transparent 1px);
+            background-size: 20px 20px;
         }
     </style>
 </head>
@@ -63,6 +66,13 @@
         const IconHardHat = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 18a1 1 0 0 0 2 0v-2h16v2a1 1 0 0 0 2 0v-2a6 6 0 0 0-12 0H4a6 6 0 0 0-2 2z"/><path d="M12 2a6 6 0 0 0-6 6v2h12V8a6 6 0 0 0-6-6z"/></svg>;
         const IconCode = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>;
 
+        // --- PALETA DE CORES DAS NAÇÕES ---
+        const colors = {
+            br: '#10b981', // Verde Esmeralda
+            in: '#f97316', // Laranja Açafrão
+            cn: '#ef4444'  // Vermelho Carmesim
+        };
+
         // --- DADOS ---
         const rankingData = [
             { year: '2015', Brasil: 70, India: 81, China: 29 },
@@ -72,9 +82,9 @@
         ];
 
         const investimentoData = [
-            { country: 'China', value: 2.55, fill: '#0f172a' },
-            { country: 'Brasil', value: 1.19, fill: '#e11d48' },
-            { country: 'Índia', value: 0.64, fill: '#2563eb' },
+            { country: '🇨🇳 China', value: 2.55, fill: colors.cn },
+            { country: '🇧🇷 Brasil', value: 1.19, fill: colors.br },
+            { country: '🇮🇳 Índia', value: 0.64, fill: colors.in },
         ];
         
         const engBrasilBreakdown = [
@@ -87,10 +97,10 @@
 
         const patentsData = [
             { name: 'Qualcomm (Estrangeira)', val: 1002, type: 'ext' },
-            { name: 'Huawei (Estrangeira)', val: 330, type: 'ext' },
-            { name: 'Stellantis (Residente)', val: 185, type: 'br' },
-            { name: 'Petrobras (Residente)', val: 155, type: 'br' },
-            { name: 'UFCG (Residente)', val: 86, type: 'br' },
+            { name: 'Huawei (🇨🇳 Estrangeira)', val: 330, type: 'ext' },
+            { name: 'Stellantis (🇧🇷 Residente)', val: 185, type: 'br' },
+            { name: 'Petrobras (🇧🇷 Residente)', val: 155, type: 'br' },
+            { name: 'UFCG (🇧🇷 Residente)', val: 86, type: 'br' },
         ];
 
         const goiasRadarData = [
@@ -169,7 +179,7 @@
         );
 
         const Fonte = ({ texto }) => (
-            <div className="text-right mt-4">
+            <div className="text-right mt-2 border-t border-slate-100 pt-2">
                 <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Fonte: {texto}</span>
             </div>
         );
@@ -202,14 +212,14 @@
                     {/* HERO SECTION */}
                     <section className="min-h-screen flex flex-col justify-center items-center px-6 py-20 text-center relative overflow-hidden bg-slate-900">
                         <div className="absolute inset-0 z-0">
-                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80" alt="Globo Tecnológico" className="w-full h-full object-cover opacity-30 mix-blend-luminosity" />
+                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80" alt="" className="w-full h-full object-cover opacity-30 mix-blend-luminosity" />
                             <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/80 to-slate-900"></div>
                         </div>
                         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 via-emerald-500 to-rose-600 z-10"></div>
                         
                         <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
                             <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 shadow-xl flex justify-center items-center">
-                                <img src="https://i.postimg.cc/3wW9LVRV/senai-gti.png" alt="Logo SENAI" className="h-10 md:h-14 object-contain brightness-0 invert drop-shadow-md opacity-90" />
+                                <img src="https://i.postimg.cc/3wW9LVRV/senai-gti.png" alt="" className="h-10 md:h-14 object-contain brightness-0 invert drop-shadow-md opacity-90" />
                             </div>
                         </div>
                         
@@ -258,7 +268,7 @@
                                             <h3 className="font-bold text-slate-800 mb-6 uppercase tracking-wide text-sm flex items-center gap-2"><IconDollar className="w-5 h-5 text-emerald-500"/> Esforço: Investimento em P&D (% do PIB)</h3>
                                             <div className="h-64 w-full">
                                                 <ResponsiveContainer width="100%" height="100%">
-                                                    <BarChart data={investimentoData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+                                                    <BarChart data={investimentoData} layout="vertical" margin={{ top: 5, right: 30, left: 60, bottom: 5 }}>
                                                         <XAxis type="number" hide />
                                                         <YAxis dataKey="country" type="category" axisLine={false} tickLine={false} tick={{fill: '#475569', fontWeight: 'bold'}} />
                                                         <Tooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
@@ -270,10 +280,11 @@
                                                     </BarChart>
                                                 </ResponsiveContainer>
                                             </div>
-                                            <p className="text-sm text-slate-500 italic mt-4 text-center">
+                                            <p className="text-sm text-slate-500 italic mt-4 text-center mb-4">
                                                 <strong>O Contraste de Esforço:</strong> O Brasil aloca quase o dobro do percentual de riqueza que a Índia em Pesquisa e Desenvolvimento.
                                             </p>
                                         </div>
+                                        <Fonte texto="Banco Mundial / MCTI (Dados ref. 2023)" />
                                     </div>
                                 </FadeIn>
 
@@ -290,32 +301,42 @@
                                                         <YAxis reversed axisLine={false} tickLine={false} tick={{fill: '#64748b'}} domain={[1, 90]} />
                                                         <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
                                                         <Legend iconType="circle" wrapperStyle={{ paddingTop: '10px' }}/>
-                                                        <Line type="monotone" dataKey="Brasil" stroke="#e11d48" strokeWidth={4} dot={{r: 4}} />
-                                                        <Line type="monotone" dataKey="India" name="Índia" stroke="#2563eb" strokeWidth={4} dot={{r: 4}} />
-                                                        <Line type="monotone" dataKey="China" stroke="#0f172a" strokeWidth={4} dot={{r: 4}} />
+                                                        <Line type="monotone" dataKey="Brasil" name="🇧🇷 Brasil" stroke={colors.br} strokeWidth={4} dot={{r: 4}} />
+                                                        <Line type="monotone" dataKey="India" name="🇮🇳 Índia" stroke={colors.in} strokeWidth={4} dot={{r: 4}} />
+                                                        <Line type="monotone" dataKey="China" name="🇨🇳 China" stroke={colors.cn} strokeWidth={4} dot={{r: 4}} />
                                                     </LineChart>
                                                 </ResponsiveContainer>
                                             </div>
-                                            <p className="text-sm text-slate-500 italic mt-4 text-center">
-                                                <strong>A Queda Oposta:</strong> (Linhas em queda representam subida). Mesmo gastando menos, a Índia nos ultrapassou e assumiu o 38º lugar global por eficiência na conversão.
+                                            <p className="text-sm text-slate-500 italic mt-4 text-center mb-4">
+                                                <strong>A Queda Oposta:</strong> (Linhas descendo = subida no ranking). Mesmo gastando menos, a Índia assumiu o 38º lugar global por eficiência na conversão.
                                             </p>
                                         </div>
+                                        <Fonte texto="Índice Global de Inovação (GII 2015-2025) / WIPO" />
                                     </div>
                                 </FadeIn>
                             </div>
-                            <Fonte texto="Índice Global de Inovação (GII 2015-2025) / MCTI" />
                         </div>
                     </section>
 
+                    {/* OVERLAY DE IMAGEM 1 */}
+                    <div className="w-full h-64 md:h-96 relative">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1920&q=80" alt="" className="w-full h-full object-cover grayscale" />
+                        <div className="absolute inset-0 bg-blue-900/70 mix-blend-multiply"></div>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                            <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter mb-4">A tecnologia não brota do chão.</h2>
+                            <p className="text-lg md:text-xl text-blue-200 max-w-2xl font-light">Ela é forjada por cérebros direcionados a resolver os problemas corretos.</p>
+                        </div>
+                    </div>
+
                     {/* O MOTOR INVISÍVEL (ENGENHARIA) */}
-                    <section className="py-24 bg-slate-900 text-white px-6">
+                    <section className="py-24 bg-slate-900 text-white px-6 bg-pattern">
                         <div className="max-w-7xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-10">
                                     <span className="bg-blue-900/50 text-blue-400 border border-blue-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">O Capital Humano</span>
                                     <h2 className="text-4xl md:text-5xl font-bold tracking-tight mt-6 mb-4">O Motor Invisível: A Engenharia</h2>
                                     <p className="text-lg md:text-xl text-slate-400 max-w-4xl mx-auto leading-relaxed">
-                                        Inovação não brota espontaneamente de editais; ela é construída por cérebros treinados. A diferença brutal entre China, Índia e Brasil está na forma como cada país direciona e absorve sua força de trabalho técnica.
+                                        China, Índia e Brasil não têm apenas políticas diferentes de fomento; eles <strong>formam engenheiros diferentes, em volumes diferentes, para economias diferentes</strong>. O dinheiro não inova sozinho; quem inova é o cérebro treinado absorvido pela indústria.
                                     </p>
                                 </div>
                                 <NotaDidatica 
@@ -326,67 +347,68 @@
                             </FadeIn>
 
                             {/* Os 3 Motores Originais */}
-                            <div className="grid md:grid-cols-3 gap-8 mt-12 mb-12">
-                                <FadeIn delay={100} className="bg-slate-800/80 border border-slate-700 p-8 rounded-3xl flex flex-col h-full hover:border-slate-500 transition-colors">
+                            <div className="grid md:grid-cols-3 gap-8 mt-12 mb-16">
+                                <FadeIn delay={100} className="bg-slate-800/90 backdrop-blur-sm border border-red-500/30 p-8 rounded-3xl flex flex-col h-full shadow-[0_0_30px_rgba(239,68,68,0.1)]">
                                     <div className="flex items-center gap-4 mb-6">
-                                        <div className="bg-slate-700 p-3 rounded-xl"><IconBuilding className="w-8 h-8 text-white"/></div>
-                                        <h3 className="text-2xl font-black">A Máquina<br/>Industrial</h3>
+                                        <div className="bg-red-500/20 p-3 rounded-xl"><IconBuilding className="w-8 h-8 text-red-400"/></div>
+                                        <h3 className="text-2xl font-black text-white">A Máquina<br/>Industrial 🇨🇳</h3>
                                     </div>
                                     <h4 className="text-xl font-bold text-slate-300 mb-2">China</h4>
-                                    <p className="text-slate-400 text-sm leading-relaxed flex-grow">
-                                        Mais de <strong>6,7 milhões de estudantes</strong> de graduação. Forma a engenharia como infraestrutura de soberania nacional.
+                                    <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                                        Engenharia massiva voltada para manufatura avançada, semicondutores e elétricos. Forma a engenharia como verdadeira infraestrutura de soberania nacional.
                                     </p>
-                                    <div className="mt-6 bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
-                                        <span className="block text-3xl font-black text-white">357k</span>
+                                    <div className="mt-auto bg-slate-950 p-4 rounded-xl border border-slate-700 text-center">
+                                        <span className="block text-3xl font-black text-red-400">357k</span>
                                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Pós-Graduados / ano</span>
                                     </div>
+                                    <Fonte texto="Ministério da Educação da China" />
                                 </FadeIn>
 
-                                <FadeIn delay={300} className="bg-slate-800/80 border border-slate-700 p-8 rounded-3xl flex flex-col h-full hover:border-blue-500/50 transition-colors">
+                                <FadeIn delay={300} className="bg-slate-800/90 backdrop-blur-sm border border-orange-500/30 p-8 rounded-3xl flex flex-col h-full shadow-[0_0_30px_rgba(249,115,22,0.1)]">
                                     <div className="flex items-center gap-4 mb-6">
-                                        <div className="bg-blue-900/50 p-3 rounded-xl"><IconCode className="w-8 h-8 text-blue-400"/></div>
-                                        <h3 className="text-2xl font-black">A Máquina<br/>Digital</h3>
+                                        <div className="bg-orange-500/20 p-3 rounded-xl"><IconCode className="w-8 h-8 text-orange-400"/></div>
+                                        <h3 className="text-2xl font-black text-white">A Máquina<br/>Digital 🇮🇳</h3>
                                     </div>
-                                    <h4 className="text-xl font-bold text-blue-300 mb-2">Índia</h4>
-                                    <p className="text-slate-400 text-sm leading-relaxed flex-grow">
-                                        Converteu sua força em exportação de software e Centros Globais de P&D (GCCs).
+                                    <h4 className="text-xl font-bold text-orange-300 mb-2">Índia</h4>
+                                    <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                                        O coração do modelo indiano: das 4.13 milhões de matrículas, só a <strong>Computação domina 1.29 milhões</strong>. O país usou essa base para exportar software globalmente.
                                     </p>
-                                    <div className="mt-6 bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
-                                        <span className="block text-3xl font-black text-blue-400">829k</span>
+                                    <div className="mt-auto bg-slate-950 p-4 rounded-xl border border-slate-700 text-center">
+                                        <span className="block text-3xl font-black text-orange-400">829k</span>
                                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Graduados STEM / ano</span>
                                     </div>
+                                    <Fonte texto="AISHE / DST Índia" />
                                 </FadeIn>
 
-                                <FadeIn delay={500} className="bg-slate-800/80 border border-slate-700 p-8 rounded-3xl flex flex-col h-full hover:border-rose-500/50 transition-colors">
+                                <FadeIn delay={500} className="bg-slate-800/90 backdrop-blur-sm border border-emerald-500/30 p-8 rounded-3xl flex flex-col h-full shadow-[0_0_30px_rgba(16,185,129,0.1)]">
                                     <div className="flex items-center gap-4 mb-6">
-                                        <div className="bg-rose-900/50 p-3 rounded-xl"><IconHardHat className="w-8 h-8 text-rose-400"/></div>
-                                        <h3 className="text-2xl font-black">A Manutenção<br/>do Sistema</h3>
+                                        <div className="bg-emerald-500/20 p-3 rounded-xl"><IconHardHat className="w-8 h-8 text-emerald-400"/></div>
+                                        <h3 className="text-2xl font-black text-white">A Manutenção<br/>do Sistema 🇧🇷</h3>
                                     </div>
-                                    <h4 className="text-xl font-bold text-rose-300 mb-2">Brasil</h4>
-                                    <p className="text-slate-400 text-sm leading-relaxed flex-grow">
-                                        Forma engenheiros focados em manter a velha base (Civil, Mecânica). O volume caiu drasticamente desde 2018.
+                                    <h4 className="text-xl font-bold text-emerald-300 mb-2">Brasil</h4>
+                                    <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                                        Forma engenheiros excelentes para manter a velha base (Civil, Mecânica). Porém, o volume total caiu e segue descompassado da fronteira Deep Tech mundial.
                                     </p>
-                                    <div className="mt-6 bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
-                                        <span className="block text-3xl font-black text-rose-400">95k</span>
+                                    <div className="mt-auto bg-slate-950 p-4 rounded-xl border border-slate-700 text-center">
+                                        <span className="block text-3xl font-black text-emerald-400">95k</span>
                                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Graduados Eng / ano</span>
                                     </div>
+                                    <Fonte texto="INEP/MEC" />
                                 </FadeIn>
                             </div>
 
-                            {/* NOVO BLOCO: ANÁLISE DE GAPS E REFLEXOS */}
+                            {/* ANÁLISE DE GAPS E REFLEXOS */}
                             <FadeIn delay={600}>
-                                <div className="mb-16 bg-slate-950 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 blur-[100px] rounded-full pointer-events-none"></div>
-                                    
+                                <div className="mb-16 bg-slate-950/80 backdrop-blur-md p-8 md:p-10 rounded-3xl border border-slate-700 shadow-2xl relative overflow-hidden">
                                     <div className="text-center mb-10 relative z-10">
                                         <h3 className="text-3xl font-black mb-2 text-white">O Desalinhamento Global</h3>
-                                        <p className="text-slate-400">O que os países formam, o que lhes falta (Gap) e como isso reflete na inovação.</p>
+                                        <p className="text-slate-400">O que os países formam, o que lhes falta (Gap) e como isso reflete na inovação na prática.</p>
                                     </div>
                                     
                                     <div className="grid md:grid-cols-3 gap-6 relative z-10">
                                         {/* China Detail */}
-                                        <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 hover:border-slate-500 transition">
-                                            <h4 className="text-slate-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center gap-2"><IconBuilding className="w-5 h-5 text-slate-400"/> China</h4>
+                                        <div className="bg-slate-900 p-6 rounded-2xl border-t-4 border-red-500 hover:bg-slate-800 transition">
+                                            <h4 className="text-slate-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center gap-2"><IconBuilding className="w-5 h-5 text-red-500"/> China</h4>
                                             <div className="space-y-4 text-sm">
                                                 <div><strong className="text-white block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Engenharia para manufatura avançada, robótica, energia e IA Industrial. Missão de Estado.</span></div>
                                                 <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Ciência teórica original e design de semicondutores de fronteira extrema (para furar embargos).</span></div>
@@ -395,22 +417,22 @@
                                         </div>
 
                                         {/* India Detail */}
-                                        <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 hover:border-blue-500/50 transition">
-                                            <h4 className="text-blue-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center gap-2"><IconCode className="w-5 h-5 text-blue-400"/> Índia</h4>
+                                        <div className="bg-slate-900 p-6 rounded-2xl border-t-4 border-orange-500 hover:bg-slate-800 transition">
+                                            <h4 className="text-blue-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center gap-2"><IconCode className="w-5 h-5 text-orange-500"/> Índia</h4>
                                             <div className="space-y-4 text-sm">
-                                                <div><strong className="text-blue-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Absoluto domínio em Ciências da Computação, Software, TI e Eletrônica de software.</span></div>
-                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Infraestrutura física, engenharia pesada (Heavy Tech) e fabricação de hardware avançado.</span></div>
-                                                <div><strong className="text-emerald-400 block mb-1">🚀 Reflexo na Inovação:</strong> <span className="text-slate-400">Virou o "cérebro" de P&D de multinacionais (GCCs) e potência de unicórnios SaaS (Software).</span></div>
+                                                <div><strong className="text-blue-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Absoluto domínio em Ciências da Computação, Software, TI e Eletrônica.</span></div>
+                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Infraestrutura física, engenharia civil pesada e fabricação de hardware avançado.</span></div>
+                                                <div><strong className="text-emerald-400 block mb-1">🚀 Reflexo na Inovação:</strong> <span className="text-slate-400">Virou o "cérebro" de P&D de multinacionais (GCCs) e potência de unicórnios em Software (SaaS).</span></div>
                                             </div>
                                         </div>
 
                                         {/* Brazil Detail */}
-                                        <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 hover:border-rose-500/50 transition">
-                                            <h4 className="text-rose-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center gap-2"><IconHardHat className="w-5 h-5 text-rose-400"/> Brasil</h4>
+                                        <div className="bg-slate-900 p-6 rounded-2xl border-t-4 border-emerald-500 hover:bg-slate-800 transition">
+                                            <h4 className="text-rose-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center gap-2"><IconHardHat className="w-5 h-5 text-emerald-500"/> Brasil</h4>
                                             <div className="space-y-4 text-sm">
-                                                <div><strong className="text-rose-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Engenharias clássicas para manutenção e operação (Civil, Produção, Mecânica e Elétrica).</span></div>
-                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Formamos 5x mais Civis que profissionais de Computação. Falta brutal de engenheiros "híbridos" (Deep Tech).</span></div>
-                                                <div><strong className="text-amber-400 block mb-1">⚓ Reflexo na Inovação:</strong> <span className="text-slate-400">Presos na inovação incremental. Alta performance no Agro, mas importando o maquinário e o software.</span></div>
+                                                <div><strong className="text-emerald-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Engenharias clássicas para manutenção e operação (Civil, Produção, Mecânica e Elétrica).</span></div>
+                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Formamos 5x mais Civis que prof. de Computação. Falta brutal de engenheiros "híbridos" (Deep Tech).</span></div>
+                                                <div><strong className="text-amber-400 block mb-1">⚓ Reflexo na Inovação:</strong> <span className="text-slate-400">Presos na inovação incremental. Somos potência no Agronegócio, mas importamos o maquinário e o software.</span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -423,7 +445,7 @@
                                     <div className="w-full lg:w-1/2">
                                         <h3 className="text-2xl font-bold text-white mb-4">O Funil Brasileiro (2023)</h3>
                                         <p className="text-slate-400 text-sm leading-relaxed mb-8">
-                                            O Censo de Educação Superior expõe o desalinhamento: formamos <strong>5 vezes mais Engenheiros Civis do que de Computação</strong>. As engenharias de base continuam vitais, mas a inovação exige profissionais híbridos (Agronomia + Sensores, Elétrica + Software Embarcado).
+                                            O Censo expõe o nosso desalinhamento: formamos <strong>5 vezes mais Engenheiros Civis do que de Computação</strong>. As engenharias de base continuam vitais, mas a inovação exige profissionais <em>híbridos</em>.
                                         </p>
                                         <div className="space-y-4">
                                             {engBrasilBreakdown.map((item, idx) => (
@@ -433,7 +455,7 @@
                                                         <span className="font-bold text-slate-400">{item.val.toLocaleString('pt-BR')} concluintes</span>
                                                     </div>
                                                     <div className="w-full bg-slate-800 rounded-full h-2">
-                                                        <div className={`h-2 rounded-full ${item.name === 'Computação' ? 'bg-blue-500' : 'bg-rose-500'}`} style={{width: `${(item.val/26314)*100}%`}}></div>
+                                                        <div className={`h-2 rounded-full ${item.name === 'Computação' ? 'bg-blue-500' : 'bg-emerald-500'}`} style={{width: `${(item.val/26314)*100}%`}}></div>
                                                     </div>
                                                 </div>
                                             ))}
@@ -445,10 +467,10 @@
                                         <IconAlertTriangle className="absolute -right-10 -bottom-10 w-48 h-48 text-slate-800 opacity-30" />
                                         <h4 className="text-amber-400 font-bold uppercase tracking-widest text-xs mb-4">A Resposta do Mercado</h4>
                                         <p className="text-xl md:text-2xl font-light text-slate-200 leading-snug relative z-10">
-                                            "Não adianta multiplicar vagas na universidade se a indústria local atua apenas importando caixas-pretas."
+                                            "Não adianta multiplicar vagas na universidade se a indústria local atua apenas importando caixas-pretas estrangeiras."
                                         </p>
                                         <p className="text-sm text-slate-400 mt-6 relative z-10 leading-relaxed">
-                                            O grande déficit do Brasil é a <strong>falta de demanda sofisticada</strong>. Precisamos que as empresas abram centros de P&D (com apoio da EMBRAPII/SENAI) para absorver esses talentos. Hoje, sem laboratório de fronteira para atuar, o engenheiro brilhante vira um solucionador de rotinas burocráticas e vendas. O talento existe, mas morre na falta de projeto disruptivo.
+                                            O grande déficit do Brasil é a <strong>falta de demanda sofisticada</strong>. Precisamos que as empresas abram centros de P&D para absorver esses talentos. Hoje, sem laboratório de fronteira para atuar, o engenheiro brilhante vira um solucionador de rotinas operacionais ou de vendas.
                                         </p>
                                     </div>
                                 </div>
@@ -467,7 +489,7 @@
                                 </p>
                                 <NotaDidatica 
                                     titulo="O Vale da Morte da Inovação" 
-                                    texto="Existe um abismo entre o projeto brilhante que sai do laboratório da universidade (TRL baixo) e o produto final que chega à prateleira do consumidor (TRL alto). Ferramentas como EMBRAPII e os Institutos SENAI são cruciais justamente porque criam 'plantas-piloto' para ajudar a pesquisa a atravessar esse vale da morte sem que a empresa tenha que assumir o risco técnico inteiro sozinha."
+                                    texto="Existe um abismo financeiro e técnico entre o projeto brilhante que sai da universidade (TRL baixo) e o produto final que chega à prateleira do consumidor (TRL alto). Ferramentas como EMBRAPII e os Institutos de Inovação são cruciais justamente porque criam 'plantas-piloto' para ajudar a pesquisa a atravessar esse vale da morte sem que a empresa assuma o risco sozinha."
                                 />
                             </FadeIn>
 
@@ -476,15 +498,15 @@
                                     <ul className="space-y-6">
                                         <li className="flex gap-4 p-4 border border-slate-100 rounded-2xl bg-slate-50/50 hover:bg-slate-50 transition">
                                             <div className="bg-emerald-100 text-emerald-700 p-3 rounded-xl shrink-0 h-12 w-12 flex items-center justify-center"><IconBuilding className="w-6 h-6"/></div>
-                                            <div><strong className="block text-slate-800 text-lg">Lei do Bem (R$ 51.6 Bi)</strong> <span className="text-slate-600 text-sm">Fomenta a engenharia, mas concentra-se no Sudeste e favorece inovações seguras (incrementais).</span></div>
+                                            <div><strong className="block text-slate-800 text-lg">Lei do Bem (R$ 51.6 Bi)</strong> <span className="text-slate-600 text-sm block mt-1">Fomenta a engenharia, mas concentra-se no Sudeste e favorece inovações seguras (incrementais).</span></div>
                                         </li>
                                         <li className="flex gap-4 p-4 border border-slate-100 rounded-2xl bg-slate-50/50 hover:bg-slate-50 transition">
                                             <div className="bg-blue-100 text-blue-700 p-3 rounded-xl shrink-0 h-12 w-12 flex items-center justify-center"><IconCog className="w-6 h-6"/></div>
-                                            <div><strong className="block text-slate-800 text-lg">EMBRAPII (811 Projetos)</strong> <span className="text-slate-600 text-sm">Rede que bateu recordes por atuar na dor do 'Vale da Morte', dividindo o risco do escalonamento.</span></div>
+                                            <div><strong className="block text-slate-800 text-lg">EMBRAPII (811 Projetos)</strong> <span className="text-slate-600 text-sm block mt-1">Rede que bateu recordes por atuar na dor do 'Vale da Morte', dividindo o risco do escalonamento.</span></div>
                                         </li>
                                         <li className="flex gap-4 p-4 border border-slate-100 rounded-2xl bg-slate-50/50 hover:bg-slate-50 transition">
                                             <div className="bg-rose-100 text-rose-700 p-3 rounded-xl shrink-0 h-12 w-12 flex items-center justify-center"><IconTarget className="w-6 h-6"/></div>
-                                            <div><strong className="block text-slate-800 text-lg">FNDCT Blindado</strong> <span className="text-slate-600 text-sm">O dinheiro foi protegido de cortes. Precisa ser usado para grandes missões transversais, não projetos pulverizados.</span></div>
+                                            <div><strong className="block text-slate-800 text-lg">FNDCT Blindado</strong> <span className="text-slate-600 text-sm block mt-1">O dinheiro foi protegido de cortes. Precisa ser usado para grandes missões transversais, não projetos pulverizados.</span></div>
                                         </li>
                                     </ul>
                                 </FadeIn>
@@ -495,17 +517,17 @@
                                         <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-rose-400">
                                             <IconAlertTriangle /> O Retrato do INPI (2024)
                                         </h3>
-                                        <p className="text-slate-300 text-sm mb-6 leading-relaxed">Pedidos de patentes de invenção provam o déficit de conversão: a fronteira da tecnologia no Brasil é controlada por quem vem de fora.</p>
+                                        <p className="text-slate-300 text-sm mb-6 leading-relaxed">Pedidos de patentes de invenção provam o déficit de conversão: a fronteira da tecnologia (Deep Tech) no Brasil é controlada por quem vem de fora.</p>
                                         
                                         <div className="space-y-4">
                                             {patentsData.map((item, idx) => (
                                                 <div key={idx}>
                                                     <div className="flex justify-between text-sm mb-1">
-                                                        <span className={item.type === 'ext' ? 'text-rose-400 font-bold' : 'text-slate-300'}>{item.name}</span>
+                                                        <span className={item.type === 'ext' ? 'text-rose-400 font-bold' : 'text-emerald-300'}>{item.name}</span>
                                                         <span className="font-bold">{item.val} ped.</span>
                                                     </div>
                                                     <div className="w-full bg-slate-800 rounded-full h-1.5">
-                                                        <div className={`h-1.5 rounded-full ${item.type === 'ext' ? 'bg-rose-500' : 'bg-slate-500'}`} style={{width: `${(item.val/1002)*100}%`}}></div>
+                                                        <div className={`h-1.5 rounded-full ${item.type === 'ext' ? 'bg-rose-500' : 'bg-emerald-500'}`} style={{width: `${(item.val/1002)*100}%`}}></div>
                                                     </div>
                                                 </div>
                                             ))}
@@ -513,21 +535,31 @@
                                         <p className="text-xs text-slate-500 italic mt-6 text-center">
                                             Empresas estrangeiras lideram de forma esmagadora os depósitos de tecnologia proprietária no país.
                                         </p>
+                                        <Fonte texto="INPI - Instituto Nacional da Propriedade Industrial (2025)" />
                                     </div>
                                 </FadeIn>
                             </div>
                         </div>
                     </section>
 
+                    {/* OVERLAY DE IMAGEM 2: CERRADO */}
+                    <div className="w-full h-64 md:h-96 relative">
+                        <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?auto=format&fit=crop&w=1920&q=80" alt="" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-emerald-900/80 mix-blend-multiply"></div>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                            <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter mb-4">A Lente Regional.</h2>
+                            <p className="text-lg md:text-xl text-emerald-100 max-w-2xl font-light">Como o estado de Goiás reflete o paradoxo nacional e onde está a sua grande oportunidade.</p>
+                        </div>
+                    </div>
+
                     {/* DEEP DIVE: GOIÁS */}
                     <section className="py-24 bg-slate-50 px-6 border-b border-slate-200">
                         <div className="max-w-6xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-10">
-                                    <span className="bg-emerald-100 text-emerald-800 px-4 py-1 rounded-full text-sm font-bold tracking-wide">A Lente Regional</span>
-                                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight mt-6 mb-4">O Diagnóstico de Goiás</h2>
+                                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 text-slate-900">O Diagnóstico de Goiás</h2>
                                     <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                                        Goiás é o laboratório perfeito. Um estado que enriqueceu dominando o agronegócio primário e agora enfrenta o desafio de adicionar tecnologia de fronteira (Deep Tech) à sua matriz.
+                                        Goiás é o laboratório perfeito. Um estado que enriqueceu dominando o agronegócio primário e agora enfrenta o desafio inadiável de adicionar tecnologia de fronteira (Deep Tech) à sua matriz produtiva.
                                     </p>
                                 </div>
                             </FadeIn>
@@ -541,10 +573,11 @@
                                         </p>
                                         <ul className="space-y-4 mt-6">
                                             <li className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-200"><span className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full font-bold text-xl shrink-0">3º</span> <div><strong className="block text-slate-800">Instituições Fortes</strong> Fomento (FAPEG) operando ativamente.</div></li>
-                                            <li className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-200"><span className="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full font-bold text-xl shrink-0">6º</span> <div><strong className="block text-slate-800">Base Econômica</strong> PIB crescendo acima da média nacional (+4.8%).</div></li>
+                                            <li className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-200"><span className="w-12 h-12 flex items-center justify-center bg-emerald-100 text-emerald-700 rounded-full font-bold text-xl shrink-0">6º</span> <div><strong className="block text-slate-800">Base Econômica</strong> PIB crescendo acima da média nacional (+4.8%).</div></li>
                                             <li className="flex items-center gap-4 bg-rose-50 p-4 rounded-xl shadow-sm border border-rose-200"><span className="w-12 h-12 flex items-center justify-center bg-rose-200 text-rose-800 rounded-full font-bold text-xl shrink-0">19º</span> <div><strong className="block text-rose-900">Conhec. e Tecnologia</strong> O Gargalo: Baixa patente e escalonamento.</div></li>
                                         </ul>
                                     </div>
+                                    <Fonte texto="Índice Brasil de Inovação e Desenvolvimento (IBID 2025) / IBGE" />
                                 </FadeIn>
 
                                 <FadeIn delay={400}>
@@ -573,7 +606,8 @@
                         <div className="max-w-7xl mx-auto relative z-10">
                             <FadeIn>
                                 <div className="text-center mb-10">
-                                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Setores Portadores (A Vocação Nativa)</h2>
+                                    <span className="bg-emerald-900/50 text-emerald-400 border border-emerald-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">A Plataforma Agro-Bio-Digital</span>
+                                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mt-6 mb-4">Setores Portadores para Goiás</h2>
                                     <p className="text-lg text-slate-400 max-w-3xl mx-auto">
                                         Para reverter a 19ª posição, Goiás não deve tentar criar um "Vale do Silício" genérico. O salto virá da <strong>verticalização radical</strong> nas áreas onde o estado já domina o mundo físico.
                                     </p>
@@ -639,8 +673,8 @@
                                             <h4 className="font-black text-xl md:text-2xl text-emerald-800">Máquina Missionária</h4>
                                             <p className="text-xs text-emerald-700 mt-2 font-medium max-w-[250px]">O quadrante da soberania. Capital privado alavancado agressivamente por missões do Estado.</p>
                                             <div className="flex gap-2 mt-4">
-                                                <span className="bg-slate-900 text-white px-3 py-1 rounded-full text-xs font-bold">China</span>
-                                                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold">Índia</span>
+                                                <span className="bg-slate-900 text-white px-3 py-1 rounded-full text-xs font-bold">🇨🇳 China</span>
+                                                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold">🇮🇳 Índia</span>
                                             </div>
                                         </div>
 
@@ -648,7 +682,7 @@
                                             <h4 className="font-black text-lg md:text-xl text-rose-800">Cerrado Incremental</h4>
                                             <p className="text-xs text-rose-600 mt-2 mb-4 max-w-[250px]">Fomento volátil e projetos pontuais. Inovação restrita à melhoria para não perder margem de lucro.</p>
                                             <div className="flex gap-2 justify-end flex-wrap">
-                                                <span className="bg-amber-200 text-amber-900 px-3 py-1 rounded-full text-xs font-bold shadow-sm">Brasil (Oscilante)</span>
+                                                <span className="bg-amber-200 text-amber-900 px-3 py-1 rounded-full text-xs font-bold shadow-sm">🇧🇷 Brasil (Oscilante)</span>
                                                 <span className="bg-slate-800 text-white border border-slate-600 px-3 py-1 rounded-full text-xs font-bold shadow-sm">Goiás (Transição)</span>
                                             </div>
                                         </div>
@@ -673,11 +707,11 @@
                                 </div>
                                 <NotaDidatica 
                                     titulo="O Cone Metodológico" 
-                                    texto="O Cone ilustra graficamente que o futuro se expande com o tempo. O caminho 'Provável' é a continuação da inércia. O 'Plausível' e 'Possível' englobam reações econômicas pontuais. O 'Preferível' é o cume da intenção estratégica: o futuro audacioso que exigirá o máximo de alinhamento entre todos os atores."
+                                    texto="O Cone ilustra graficamente que o futuro se expande com o tempo. O caminho 'Provável' é a continuação da inércia. O 'Plausível' e 'Possível' englobam reações econômicas pontuais. O 'Preferível' é o cume da intenção estratégica: o futuro audacioso que exigirá o máximo de alinhamento entre todos os atores para se materializar."
                                 />
                             </FadeIn>
 
-                            <div className="relative w-full overflow-x-auto pb-8 mt-12">
+                            <div className="relative w-full overflow-x-auto pb-8 mt-12 custom-scrollbar">
                                 <div className="min-w-[1000px] flex gap-4 h-auto relative items-center">
                                     <FadeIn delay={100} className="w-1/5 z-10">
                                         <div className="bg-slate-800 p-6 rounded-2xl border border-slate-600 shadow-xl relative">
@@ -735,13 +769,13 @@
                                 <p className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4 text-center">Os Primeiros Passos</p>
                                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-10 text-center text-slate-900">A Agenda Estratégica.</h2>
                                 <p className="text-lg text-slate-600 text-center max-w-3xl mx-auto mb-16">
-                                    Para evitar a inércia e alcançar o futuro preferível, o estado não precisa de novas grandes secretarias; precisa redirecionar o fluxo das instituições que já existem.
+                                    Para evitar a inércia e alcançar o futuro preferível, o estado não precisa de novas leis; precisa redirecionar o fluxo das instituições que já existem.
                                 </p>
                             </FadeIn>
 
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                                 {[
-                                    { id: "01", title: "Missões, não Editais Soltos", text: "Parar de pulverizar recursos. Alinhar FAPEG, Universidades e Indústria em 4 missões centrais (ex: IA Agrícola)." },
+                                    { id: "01", title: "Missões, não Editais Soltos", text: "Parar de pulverizar recursos. Alinhar FAPEG, Universidades e Indústria em missões centrais (ex: IA Agrícola)." },
                                     { id: "02", title: "Trilha de Maturidade (TRL)", text: "Financiar todas as fases da pesquisa. Do protótipo de laboratório até o piloto industrial validado nas plantas do SENAI." },
                                     { id: "03", title: "Meta Estadual de PI", text: "Patente que morre no currículo não serve. A meta do estado deve focar em gerar PI com viés comercial, pronta para licenciamento." },
                                     { id: "04", title: "Compras Públicas Inovadoras", text: "O Governo tem bilhões em compras. Em vez de comprar soluções de fora, deve abrir desafios para startups e ICTs locais resolverem." },
@@ -772,7 +806,7 @@
                                 </div>
                                 <NotaDidatica 
                                     titulo="O Conceito da Hélice Quádrupla" 
-                                    texto="Em ambientes de alta performance (como Shenzhen ou Boston), Governo, Academia e Setor Privado não trabalham sozinhos. Eles contam com um quarto pilar — Institutos de Tecnologia e Hubs (como o SENAI) — que servem como a 'engrenagem' que pega a ideia da universidade e a transforma em um processo fabricável e lucrativo para a empresa."
+                                    texto="Em ambientes de alta performance, Governo, Academia e Setor Privado não trabalham sozinhos. Eles contam com um quarto pilar — Institutos de Tecnologia e Hubs (como o SENAI) — que servem como a 'engrenagem' que pega a ideia teórica da universidade e a transforma em um processo escalável e lucrativo para a empresa."
                                 />
                             </FadeIn>
 
@@ -869,7 +903,7 @@
                                             Índice Global de Inovação (2015-2025) &bull;
                                             INPI & IBID (2025) &bull;
                                             ENCTI / FNDCT / Finep / EMBRAPII &bull;
-                                            FAPEG / IEL-GO / IBGE
+                                            FAPEG / IEL-GO / INEP-MEC / IBGE
                                         </p>
                                     </div>
                                 </div>

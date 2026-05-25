@@ -26,8 +26,9 @@
             margin: 0; padding: 0; overflow-x: hidden; background-color: #ffffff;
         }
         .recharts-wrapper { width: 100% !important; }
+        
         .matrix-grid {
-            background-image: linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px);
+            background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
             background-size: 50% 50%;
             background-position: center;
         }
@@ -189,7 +190,7 @@
                 2: { title: "Ilhas de Excelência", color: "text-blue-400", width: "50%",
                      y5: "Surgem polos fortes no agro e fármacos, mas altamente isolados.", y10: "Crescimento econômico desigual, sem alavancagem de uma rede estadual.", y20: "Competitivos em 2 nichos, mas irrelevantes na transição energética global." },
                 3: { title: "Motor de Inovação Ativado", color: "text-emerald-300", width: "75%",
-                     y5: "A Hélice Tripla funciona. Aumento massivo em depósitos de patentes locais.", y10: "Atração massiva de Venture Capital global pela segurança do ecossistema.", y20: "Transição da pauta de exportações: mais licenças e patentes, menos commodity crua." },
+                     y5: "A Hélice Tripla funciona. Aumento massivo em depósitos de patentes locais.", y10: "Atração massiva de Venture Capital global pela segurança do ecossistema.", y20: "Transição da pauta de exportações: mais licenças e software, menos commodity crua." },
                 4: { title: "Máquina Missionária Agro-Bio-Digital", color: "text-emerald-500", width: "100%",
                      y5: "Integração plena. Institutos entregam Plantas-Piloto e empresas as escalam.", y10: "Salto Deep Tech. Atraímos grandes centros de P&D globais para Goiás.", y20: "Soberania plena. O Brasil e o mundo dependem da Propriedade Intelectual nascida no estado." }
             };
@@ -245,7 +246,7 @@
                                 </p>
                                 <NotaDidatica 
                                     titulo="Por que o Brasil é um 'Overperformer' no Índice Global?" 
-                                    texto="O Índice Global de Inovação classifica o Brasil há 5 anos como overperformer porque entregamos mais do que o esperado para nossa faixa de PIB per capita. Isso mostra que fazemos muito com pouco, mas é uma armadilha: mascara o fato de que ainda não possuímos uma máquina pesada de conversão capaz de bater de frente com a Ásia."
+                                    texto="O Índice Global de Inovação classifica o Brasil há 5 anos como overperformer porque entregamos mais do que o esperado para nossa faixa de PIB per capita. Isso mostra que fazemos muito com pouco, mas é uma armadilha: mascara o fato de que ainda não possuímos uma máquina pesada de conversão capaz de bater de frente com a Ásia Central e Meridional."
                                 />
                             </FadeIn>
                             
@@ -314,27 +315,28 @@
                                     <span className="bg-blue-900/50 text-blue-400 border border-blue-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">O Capital Humano</span>
                                     <h2 className="text-4xl md:text-5xl font-bold tracking-tight mt-6 mb-4">O Motor Invisível: A Engenharia</h2>
                                     <p className="text-lg md:text-xl text-slate-400 max-w-4xl mx-auto leading-relaxed">
-                                        Inovação não brota espontaneamente de editais; ela é construída por cérebros treinados. A diferença entre China, Índia e Brasil está na forma como cada país direciona e absorve sua força de trabalho técnica.
+                                        Inovação não brota espontaneamente de editais; ela é construída por cérebros treinados. A diferença brutal entre China, Índia e Brasil está na forma como cada país direciona e absorve sua força de trabalho técnica.
                                     </p>
                                 </div>
                                 <NotaDidatica 
-                                    titulo="O Gargalo de Absorção" 
-                                    texto="O Brasil não sofre apenas de 'falta de engenheiros'. Nosso maior problema é o déficit de demanda sofisticada. Quando as indústrias não investem em Deep Tech, o engenheiro formado na universidade federal acaba virando um solucionador de rotinas (vendas, manutenção básica) em vez de criador de patentes globais."
+                                    titulo="O Paradoxo da Escassez no Volume" 
+                                    texto="Foresight Estratégico nos ensina que volume sem alinhamento gera desperdício. Ter centenas de milhares de engenheiros formados não garante inovação se eles estiverem sendo educados para operar as máquinas da economia do século passado. O Brasil forma muitos engenheiros, mas sofre uma escassez severa justamente nas engenharias que criam o futuro (Deep Tech, IA, Semicondutores)."
                                     icon={IconGraduationCap}
                                 />
                             </FadeIn>
 
-                            <div className="grid md:grid-cols-3 gap-8 mb-16 mt-12">
+                            {/* Os 3 Motores Originais */}
+                            <div className="grid md:grid-cols-3 gap-8 mt-12 mb-12">
                                 <FadeIn delay={100} className="bg-slate-800/80 border border-slate-700 p-8 rounded-3xl flex flex-col h-full hover:border-slate-500 transition-colors">
                                     <div className="flex items-center gap-4 mb-6">
                                         <div className="bg-slate-700 p-3 rounded-xl"><IconBuilding className="w-8 h-8 text-white"/></div>
                                         <h3 className="text-2xl font-black">A Máquina<br/>Industrial</h3>
                                     </div>
                                     <h4 className="text-xl font-bold text-slate-300 mb-2">China</h4>
-                                    <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
-                                        Engenharia massiva voltada para manufatura avançada, semicondutores e elétricos. Forma a engenharia como verdadeira infraestrutura de soberania.
+                                    <p className="text-slate-400 text-sm leading-relaxed flex-grow">
+                                        Mais de <strong>6,7 milhões de estudantes</strong> de graduação. Forma a engenharia como infraestrutura de soberania nacional.
                                     </p>
-                                    <div className="mt-auto bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                    <div className="mt-6 bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
                                         <span className="block text-3xl font-black text-white">357k</span>
                                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Pós-Graduados / ano</span>
                                     </div>
@@ -346,10 +348,10 @@
                                         <h3 className="text-2xl font-black">A Máquina<br/>Digital</h3>
                                     </div>
                                     <h4 className="text-xl font-bold text-blue-300 mb-2">Índia</h4>
-                                    <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
-                                        Das 4.13 milhões de matrículas, só a <strong>Computação domina 1.29 milhões</strong>. O país usou essa base para exportar software e virar hub de Centros de P&D (GCCs).
+                                    <p className="text-slate-400 text-sm leading-relaxed flex-grow">
+                                        Converteu sua força em exportação de software e Centros Globais de P&D (GCCs).
                                     </p>
-                                    <div className="mt-auto bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                    <div className="mt-6 bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
                                         <span className="block text-3xl font-black text-blue-400">829k</span>
                                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Graduados STEM / ano</span>
                                     </div>
@@ -361,22 +363,67 @@
                                         <h3 className="text-2xl font-black">A Manutenção<br/>do Sistema</h3>
                                     </div>
                                     <h4 className="text-xl font-bold text-rose-300 mb-2">Brasil</h4>
-                                    <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
-                                        Forma engenheiros excelentes para manter a velha base (Civil, Mecânica). Porém, o volume total caiu e segue descompassado da fronteira Deep Tech mundial.
+                                    <p className="text-slate-400 text-sm leading-relaxed flex-grow">
+                                        Forma engenheiros focados em manter a velha base (Civil, Mecânica). O volume caiu drasticamente desde 2018.
                                     </p>
-                                    <div className="mt-auto bg-slate-900 p-4 rounded-xl border border-slate-700">
+                                    <div className="mt-6 bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
                                         <span className="block text-3xl font-black text-rose-400">95k</span>
                                         <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Graduados Eng / ano</span>
                                     </div>
                                 </FadeIn>
                             </div>
 
+                            {/* NOVO BLOCO: ANÁLISE DE GAPS E REFLEXOS */}
                             <FadeIn delay={600}>
-                                <div className="bg-slate-950 p-8 md:p-12 rounded-3xl border border-slate-800 flex flex-col lg:flex-row items-center gap-12">
+                                <div className="mb-16 bg-slate-950 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+                                    
+                                    <div className="text-center mb-10 relative z-10">
+                                        <h3 className="text-3xl font-black mb-2 text-white">O Desalinhamento Global</h3>
+                                        <p className="text-slate-400">O que os países formam, o que lhes falta (Gap) e como isso reflete na inovação.</p>
+                                    </div>
+                                    
+                                    <div className="grid md:grid-cols-3 gap-6 relative z-10">
+                                        {/* China Detail */}
+                                        <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 hover:border-slate-500 transition">
+                                            <h4 className="text-slate-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center gap-2"><IconBuilding className="w-5 h-5 text-slate-400"/> China</h4>
+                                            <div className="space-y-4 text-sm">
+                                                <div><strong className="text-white block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Engenharia para manufatura avançada, robótica, energia e IA Industrial. Missão de Estado.</span></div>
+                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Ciência teórica original e design de semicondutores de fronteira extrema (para furar embargos).</span></div>
+                                                <div><strong className="text-emerald-400 block mb-1">🚀 Reflexo na Inovação:</strong> <span className="text-slate-400">Liderança absoluta em patentes aplicadas e domínio da cadeia global de EVs e baterias.</span></div>
+                                            </div>
+                                        </div>
+
+                                        {/* India Detail */}
+                                        <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 hover:border-blue-500/50 transition">
+                                            <h4 className="text-blue-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center gap-2"><IconCode className="w-5 h-5 text-blue-400"/> Índia</h4>
+                                            <div className="space-y-4 text-sm">
+                                                <div><strong className="text-blue-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Absoluto domínio em Ciências da Computação, Software, TI e Eletrônica de software.</span></div>
+                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Infraestrutura física, engenharia pesada (Heavy Tech) e fabricação de hardware avançado.</span></div>
+                                                <div><strong className="text-emerald-400 block mb-1">🚀 Reflexo na Inovação:</strong> <span className="text-slate-400">Virou o "cérebro" de P&D de multinacionais (GCCs) e potência de unicórnios SaaS (Software).</span></div>
+                                            </div>
+                                        </div>
+
+                                        {/* Brazil Detail */}
+                                        <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 hover:border-rose-500/50 transition">
+                                            <h4 className="text-rose-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center gap-2"><IconHardHat className="w-5 h-5 text-rose-400"/> Brasil</h4>
+                                            <div className="space-y-4 text-sm">
+                                                <div><strong className="text-rose-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Engenharias clássicas para manutenção e operação (Civil, Produção, Mecânica e Elétrica).</span></div>
+                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Formamos 5x mais Civis que profissionais de Computação. Falta brutal de engenheiros "híbridos" (Deep Tech).</span></div>
+                                                <div><strong className="text-amber-400 block mb-1">⚓ Reflexo na Inovação:</strong> <span className="text-slate-400">Presos na inovação incremental. Alta performance no Agro, mas importando o maquinário e o software.</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </FadeIn>
+
+                            {/* O Gargalo Interno do Brasil */}
+                            <FadeIn delay={700}>
+                                <div className="bg-slate-900 p-8 md:p-12 rounded-3xl border border-slate-700 flex flex-col lg:flex-row items-center gap-12">
                                     <div className="w-full lg:w-1/2">
                                         <h3 className="text-2xl font-bold text-white mb-4">O Funil Brasileiro (2023)</h3>
                                         <p className="text-slate-400 text-sm leading-relaxed mb-8">
-                                            O Censo de Educação expõe que formamos <strong>5 vezes mais Engenheiros Civis do que de Computação</strong>. As engenharias tradicionais são vitais, mas a inovação exige profissionais híbridos (Agro + IA, Materiais + Software).
+                                            O Censo de Educação Superior expõe o desalinhamento: formamos <strong>5 vezes mais Engenheiros Civis do que de Computação</strong>. As engenharias de base continuam vitais, mas a inovação exige profissionais híbridos (Agronomia + Sensores, Elétrica + Software Embarcado).
                                         </p>
                                         <div className="space-y-4">
                                             {engBrasilBreakdown.map((item, idx) => (
@@ -394,14 +441,14 @@
                                         <Fonte texto="INEP/MEC e Censo SEESP" />
                                     </div>
                                     
-                                    <div className="w-full lg:w-1/2 bg-slate-900 p-8 rounded-2xl border border-slate-700 relative overflow-hidden">
-                                        <IconAlertTriangle className="absolute -right-10 -bottom-10 w-48 h-48 text-slate-800 opacity-50" />
+                                    <div className="w-full lg:w-1/2 bg-slate-950 p-8 rounded-2xl border border-slate-800 relative overflow-hidden">
+                                        <IconAlertTriangle className="absolute -right-10 -bottom-10 w-48 h-48 text-slate-800 opacity-30" />
                                         <h4 className="text-amber-400 font-bold uppercase tracking-widest text-xs mb-4">A Resposta do Mercado</h4>
                                         <p className="text-xl md:text-2xl font-light text-slate-200 leading-snug relative z-10">
-                                            "Não adianta multiplicar vagas na universidade se a indústria local atua apenas importando pacotes prontos."
+                                            "Não adianta multiplicar vagas na universidade se a indústria local atua apenas importando caixas-pretas."
                                         </p>
                                         <p className="text-sm text-slate-400 mt-6 relative z-10 leading-relaxed">
-                                            Precisamos que as empresas abram centros de P&D (com apoio da EMBRAPII/SENAI) para absorver esses talentos, convertendo diplomas em patentes de alto impacto econômico.
+                                            O grande déficit do Brasil é a <strong>falta de demanda sofisticada</strong>. Precisamos que as empresas abram centros de P&D (com apoio da EMBRAPII/SENAI) para absorver esses talentos. Hoje, sem laboratório de fronteira para atuar, o engenheiro brilhante vira um solucionador de rotinas burocráticas e vendas. O talento existe, mas morre na falta de projeto disruptivo.
                                         </p>
                                     </div>
                                 </div>
@@ -626,7 +673,7 @@
                                 </div>
                                 <NotaDidatica 
                                     titulo="O Cone Metodológico" 
-                                    texto="O Cone ilustra graficamente que o futuro se expande. O caminho 'Provável' é a continuação da inércia. O 'Plausível' e 'Possível' englobam reações econômicas pontuais. O 'Preferível' é o cume da intenção estratégica: o futuro audacioso que exigirá o máximo de alinhamento entre todos os atores."
+                                    texto="O Cone ilustra graficamente que o futuro se expande com o tempo. O caminho 'Provável' é a continuação da inércia. O 'Plausível' e 'Possível' englobam reações econômicas pontuais. O 'Preferível' é o cume da intenção estratégica: o futuro audacioso que exigirá o máximo de alinhamento entre todos os atores."
                                 />
                             </FadeIn>
 

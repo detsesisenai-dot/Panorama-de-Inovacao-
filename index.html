@@ -26,10 +26,15 @@
             margin: 0; padding: 0; overflow-x: hidden; background-color: #ffffff;
         }
         .recharts-wrapper { width: 100% !important; }
+        
         .matrix-grid {
             background-image: linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px);
             background-size: 50% 50%;
             background-position: center;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#334155 1px, transparent 1px);
+            background-size: 20px 20px;
         }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -67,9 +72,16 @@
         const IconTractor = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="7" cy="15" r="4"/><circle cx="17" cy="17" r="2"/><path d="M11 11L9 15"/><path d="M16 11l-4-4-3 3-4-2v7"/><path d="M18 17h3v-3l-3-3h-4l-2 2"/></svg>;
         const IconDrone = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>;
         const IconGlobe = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>;
+        const IconLock = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>;
+        const IconScale = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>;
+        const IconMap = ({className}) => <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>;
 
-        // --- PALETA DE CORES ---
-        const colors = { br: '#10b981', in: '#f97316', cn: '#ef4444' };
+        // --- PALETA DE CORES DAS NAÇÕES ---
+        const colors = {
+            br: '#10b981', // Verde Esmeralda
+            in: '#f97316', // Laranja Açafrão
+            cn: '#ef4444'  // Vermelho Carmesim
+        };
 
         // --- DADOS ---
         const rankingData = [
@@ -121,36 +133,36 @@
 
         const goiasSectorsData = [
             {
-                title: "Agroindústria & Bioinsumos", icon: <IconLeaf className="w-8 h-8"/>,
-                context: "A força motriz do estado em transição para o biológico e digital.",
-                opp: "Tornar-se polo exportador de genética tropical e biodefensivos.",
-                cha: "Tirar a pesquisa da bancada das ICTs e escalá-la para a fábrica.",
-                risk: "Pagar royalties eternos por patentes estrangeiras aplicadas no nosso solo."
+                title: "Agroindústria Avançada & Bioinsumos", icon: <IconLeaf className="w-8 h-8"/>,
+                context: "A força motriz do estado em transição acelerada para o biológico e digital.",
+                opp: "Tornar-se laboratório exportador global de genética tropical e biodefensivos.",
+                cha: "Cruzar o 'Vale da Morte': tirar a pesquisa da bancada e escalá-la para a fábrica.",
+                risk: "Pagar royalties eternos por softwares e sementes estrangeiras aplicadas no nosso solo."
             },
             {
                 title: "Saúde, Fármacos & Bioativos", icon: <IconFlask className="w-8 h-8"/>,
                 context: "Goiás possui um polo farma robusto (DAIA) imerso no bioma Cerrado.",
-                opp: "Transformar a biodiversidade em patentes farmacêuticas e IA clínica.",
-                cha: "Integrar Institutos e Universidades no P&D direto das indústrias locais.",
-                risk: "Atuar apenas como 'envasador' de Insumos Ativos (IFAs) importados da Ásia."
+                opp: "Transformar biodiversidade em patentes farmacêuticas e IA clínica.",
+                cha: "Integrar Institutos (ex: SENAI) na esteira de P&D das farmacêuticas locais.",
+                risk: "Atuar apenas como 'envasador' de insumos ativos (IFAs) importados da Ásia."
             },
             {
-                title: "Mineração Inteligente", icon: <IconHexagon className="w-8 h-8"/>,
+                title: "Mineração Inteligente & Novos Materiais", icon: <IconHexagon className="w-8 h-8"/>,
                 context: "Riqueza geológica vital num mundo movido a minerais críticos.",
-                opp: "Beneficiamento local de minerais para a transição (terras raras, níquel).",
-                cha: "Modernização extrativa com automação extrema e circularidade de rejeitos.",
-                risk: "Manter o modelo colonial: exportar o minério cru barato, importar o chip caro."
+                opp: "Beneficiamento local de minerais para a transição energética (terras raras).",
+                cha: "Modernização extrativa com rastreabilidade rigorosa e circularidade de rejeitos.",
+                risk: "Manter o modelo primário: exportar minério cru barato, importar a bateria cara."
             },
             {
-                title: "Transição Energética & SAF", icon: <IconWind className="w-8 h-8"/>,
+                title: "Transição Energética & Biomassa", icon: <IconWind className="w-8 h-8"/>,
                 context: "Abundância de resíduos agroindustriais numa matriz já limpa.",
-                opp: "Liderar a produção de Biometano, Combustível Sustentável de Aviação (SAF) e H2.",
+                opp: "Liderar a produção de Biometano e Combustível Sustentável de Aviação (SAF).",
                 cha: "Criar redes de distribuição e certificação de carbono com padrão global.",
-                risk: "Perder prêmios bilionários de fundos ESG por falta de rastreabilidade tecnológica."
+                risk: "Perder prêmios bilionários de fundos ESG por falta de certificação local."
             }
         ];
 
-        // --- Hooks ---
+        // --- Hooks & Components ---
         const useIntersectionObserver = (options) => {
             const [isVisible, setIsVisible] = useState(false);
             const domRef = useRef(null);
@@ -186,7 +198,7 @@
         );
 
         const Fonte = ({ texto }) => (
-            <div className="text-right mt-2 border-t border-slate-100/20 pt-2">
+            <div className="text-right mt-2 border-t border-slate-100 pt-2">
                 <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Fonte: {texto}</span>
             </div>
         );
@@ -200,11 +212,16 @@
             const totalScore = simGov + simAca + simPriv + simInst;
 
             const projData = {
-                0: { title: "Estado-Laboratório", color: "text-slate-400", width: "10%", y5: "Fuga de talentos e projetos interrompidos.", y10: "Defasagem estrutural. Indústria vira mera montadora do capital externo.", y20: "Dependência tecnológica severa, inclusive nas raízes do Agronegócio." },
-                1: { title: "Cerrado Incremental", color: "text-amber-500", width: "25%", y5: "Modernização superficial sem inovação radical.", y10: "Presos na 'Armadilha da Renda Média'. Crescimento estagna.", y20: "Consolidação do modelo primário-exportador. Competição apenas por custo." },
-                2: { title: "Ilhas de Excelência", color: "text-blue-400", width: "50%", y5: "Surgem polos fortes no agro e fármacos, mas isolados.", y10: "Crescimento econômico desigual, sem alavancagem de uma rede estadual.", y20: "Competitivos em 2 nichos, mas irrelevantes na transição energética global." },
-                3: { title: "Motor de Inovação Ativado", color: "text-emerald-300", width: "75%", y5: "A Hélice Tripla funciona. Aumento massivo em depósitos de patentes.", y10: "Atração massiva de Venture Capital global pela segurança do ecossistema.", y20: "Transição da pauta de exportações: licenças e software superam commodity crua." },
-                4: { title: "Máquina Missionária Agro-Bio-Digital", color: "text-emerald-500", width: "100%", y5: "Integração plena. Institutos entregam Plantas-Piloto e empresas as escalam.", y10: "Salto Deep Tech. Atraímos grandes centros de P&D globais para Goiás.", y20: "Soberania plena. O mundo passa a depender da Propriedade Intelectual nascida no estado." }
+                0: { title: "Estado-Laboratório", color: "text-slate-400", width: "10%",
+                     y5: "Fuga de talentos e projetos interrompidos pela instabilidade.", y10: "Defasagem estrutural. Indústria vira mera montadora do capital externo.", y20: "Dependência tecnológica severa, inclusive nas raízes do Agronegócio." },
+                1: { title: "Cerrado Incremental", color: "text-amber-500", width: "25%",
+                     y5: "Modernização sem inovação radical.", y10: "Presos na 'Armadilha da Renda Média'. Crescimento econômico estagna.", y20: "Consolidação do modelo primário-exportador. Competição apenas por custo." },
+                2: { title: "Ilhas de Excelência", color: "text-blue-400", width: "50%",
+                     y5: "Surgem polos fortes no agro e fármacos, mas altamente isolados.", y10: "Crescimento econômico desigual, sem alavancagem de uma rede estadual.", y20: "Competitivos em 2 nichos, mas irrelevantes na transição energética global." },
+                3: { title: "Motor de Inovação Ativado", color: "text-emerald-300", width: "75%",
+                     y5: "A Hélice Tripla funciona. Aumento massivo em depósitos de patentes locais.", y10: "Atração massiva de Venture Capital global pela segurança do ecossistema.", y20: "Transição da pauta de exportações: mais licenças e software, menos commodity crua." },
+                4: { title: "Máquina Missionária Agro-Bio-Digital", color: "text-emerald-500", width: "100%",
+                     y5: "Integração plena. Institutos entregam Plantas-Piloto e empresas as escalam.", y10: "Salto Deep Tech. Atraímos grandes centros de P&D globais para Goiás.", y20: "Soberania plena. O Brasil e o mundo dependem da Propriedade Intelectual nascida no estado." }
             };
             const proj = projData[totalScore];
 
@@ -254,11 +271,11 @@
                                 <p className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4 text-center">Visão Macro</p>
                                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-center">O Paradoxo do Investimento</h2>
                                 <p className="text-lg md:text-xl text-slate-500 text-center max-w-3xl mx-auto mb-10">
-                                    Muitas vezes, a narrativa comum culpa a "falta de dinheiro" pelo nosso atraso. Mas os dados globais provam que o nosso gargalo real é a falta de continuidade e alinhamento estratégico.
+                                    A narrativa comum culpa a "falta de dinheiro" pelo nosso atraso. Mas os dados globais provam que o nosso gargalo real é a falta de continuidade e alinhamento estratégico da política industrial.
                                 </p>
                                 <NotaDidatica 
                                     titulo="Por que o Brasil é um 'Overperformer' no Índice Global?" 
-                                    texto="O Índice Global de Inovação classifica o Brasil há 5 anos como overperformer porque entregamos mais do que o esperado para nossa faixa de PIB per capita. Isso mostra que fazemos muito com pouco, mas é uma armadilha: mascara o fato de que ainda não possuímos uma máquina pesada de conversão capaz de bater de frente com a Ásia Central e Meridional."
+                                    texto="O Índice Global de Inovação classifica o Brasil há 5 anos como overperformer porque entregamos mais do que o esperado para nossa faixa de PIB per capita. Isso mostra que fazemos milagre com o que temos, mas é uma armadilha analítica: mascara o fato de que ainda não possuímos uma máquina pesada de conversão capaz de bater de frente com a Ásia."
                                 />
                             </FadeIn>
                             
@@ -308,7 +325,7 @@
                                                 </ResponsiveContainer>
                                             </div>
                                             <p className="text-sm text-slate-500 italic mt-4 text-center mb-4">
-                                                <strong>A Queda Oposta:</strong> (Linhas descendo = subida no ranking). Mesmo gastando menos, a Índia assumiu o 38º lugar global por eficiência na conversão.
+                                                <strong>A Queda Oposta:</strong> (Linhas descendo = subida no ranking). Mesmo gastando menos, a Índia nos ultrapassou e assumiu o 38º lugar global por eficiência na conversão.
                                             </p>
                                         </div>
                                         <Fonte texto="Índice Global de Inovação (GII 2015-2025) / WIPO" />
@@ -324,70 +341,123 @@
                         <div className="absolute inset-0 bg-blue-900/80 mix-blend-multiply"></div>
                         <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
                             <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter mb-4">A tecnologia não brota do chão.</h2>
-                            <p className="text-lg md:text-xl text-blue-200 max-w-2xl font-light">Ela é forjada por cérebros direcionados a resolver os problemas corretos.</p>
+                            <p className="text-lg md:text-xl text-blue-200 max-w-2xl font-light">Ela é forjada por talentos direcionados a resolver os problemas corretos do mercado.</p>
                         </div>
                     </div>
 
                     {/* O MOTOR INVISÍVEL (ENGENHARIA GLOBAL) */}
-                    <section className="py-24 bg-slate-900 text-white px-6">
+                    <section className="py-24 bg-slate-900 text-white px-6 bg-pattern">
                         <div className="max-w-7xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-10">
                                     <span className="bg-blue-900/50 text-blue-400 border border-blue-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">O Capital Humano Global</span>
                                     <h2 className="text-4xl md:text-5xl font-bold tracking-tight mt-6 mb-4">O Motor Invisível: A Engenharia</h2>
                                     <p className="text-lg md:text-xl text-slate-400 max-w-4xl mx-auto leading-relaxed">
-                                        Inovação não brota de editais; é construída por cérebros treinados. A diferença brutal entre China, Índia e Brasil está na forma como cada país direciona e absorve sua força técnica.
+                                        Inovação não nasce por geração espontânea. A diferença de conversão entre China, Índia e Brasil reside na forma como cada nação desenhou sua esteira de formação técnica para os desafios do século XXI.
                                     </p>
                                 </div>
+                                <NotaDidatica 
+                                    titulo="O Paradoxo da Escassez no Volume" 
+                                    texto="Foresight Estratégico nos ensina que volume de formandos sem alinhamento à matriz econômica gera desperdício de potencial. O Brasil forma excelentes engenheiros, mas sofre uma escassez severa nas vertentes que criam a economia do futuro (Deep Tech, Inteligência Artificial, Engenharia de Software e Semicondutores)."
+                                    icon={IconGraduationCap}
+                                />
                             </FadeIn>
 
-                            <FadeIn delay={200}>
+                            <div className="grid md:grid-cols-3 gap-8 mt-12 mb-16">
+                                <FadeIn delay={100} className="bg-slate-800/90 backdrop-blur-sm border border-red-500/30 p-8 rounded-3xl flex flex-col h-full shadow-[0_0_30px_rgba(239,68,68,0.1)] hover:border-red-500/60 transition-colors">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="bg-red-500/20 p-3 rounded-xl"><IconBuilding className="w-8 h-8 text-red-400"/></div>
+                                        <h3 className="text-2xl font-black text-white">A Máquina<br/>Industrial 🇨🇳</h3>
+                                    </div>
+                                    <h4 className="text-xl font-bold text-slate-300 mb-2">China</h4>
+                                    <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                                        Engenharia massiva e direcionada pelo Estado para manufatura avançada, robótica e veículos elétricos. Mais de <strong>6,7 milhões de estudantes</strong> de graduação.
+                                    </p>
+                                    <div className="mt-auto bg-slate-950 p-4 rounded-xl border border-slate-700 text-center">
+                                        <span className="block text-3xl font-black text-red-400">357k</span>
+                                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Pós-Graduados / ano</span>
+                                    </div>
+                                    <Fonte texto="Ministério da Educação da China" />
+                                </FadeIn>
+
+                                <FadeIn delay={300} className="bg-slate-800/90 backdrop-blur-sm border border-orange-500/30 p-8 rounded-3xl flex flex-col h-full shadow-[0_0_30px_rgba(249,115,22,0.1)] hover:border-orange-500/60 transition-colors">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="bg-orange-500/20 p-3 rounded-xl"><IconCode className="w-8 h-8 text-orange-400"/></div>
+                                        <h3 className="text-2xl font-black text-white">A Máquina<br/>Digital 🇮🇳</h3>
+                                    </div>
+                                    <h4 className="text-xl font-bold text-orange-300 mb-2">Índia</h4>
+                                    <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                                        O coração do modelo: das 4.13 milhões de matrículas, só a <strong>Computação domina 1.29 milhões</strong>. Converteu sua força de trabalho no cérebro de software global.
+                                    </p>
+                                    <div className="mt-auto bg-slate-950 p-4 rounded-xl border border-slate-700 text-center">
+                                        <span className="block text-3xl font-black text-orange-400">829k</span>
+                                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Graduados STEM / ano</span>
+                                    </div>
+                                    <Fonte texto="AISHE / DST Índia" />
+                                </FadeIn>
+
+                                <FadeIn delay={500} className="bg-slate-800/90 backdrop-blur-sm border border-emerald-500/30 p-8 rounded-3xl flex flex-col h-full shadow-[0_0_30px_rgba(16,185,129,0.1)] hover:border-emerald-500/60 transition-colors">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="bg-emerald-500/20 p-3 rounded-xl"><IconHardHat className="w-8 h-8 text-emerald-400"/></div>
+                                        <h3 className="text-2xl font-black text-white">A Manutenção<br/>do Sistema 🇧🇷</h3>
+                                    </div>
+                                    <h4 className="text-xl font-bold text-emerald-300 mb-2">Brasil</h4>
+                                    <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                                        Forma engenheiros vitais para manter a infraestrutura clássica (Civil, Mecânica). Porém, o volume caiu brutalmente (de 128k em 2018 para 95k) e segue descompassado da fronteira Deep Tech.
+                                    </p>
+                                    <div className="mt-auto bg-slate-950 p-4 rounded-xl border border-slate-700 text-center">
+                                        <span className="block text-3xl font-black text-emerald-400">95k</span>
+                                        <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Graduados Eng / ano</span>
+                                    </div>
+                                    <Fonte texto="INEP/MEC" />
+                                </FadeIn>
+                            </div>
+
+                            {/* ANÁLISE DE GAPS E REFLEXOS */}
+                            <FadeIn delay={600}>
                                 <div className="mb-16 bg-slate-950/80 backdrop-blur-md p-8 md:p-10 rounded-3xl border border-slate-700 shadow-2xl relative overflow-hidden">
                                     <div className="text-center mb-10 relative z-10">
                                         <h3 className="text-3xl font-black mb-2 text-white">O Desalinhamento Global</h3>
-                                        <p className="text-slate-400">O que os países formam, onde apostam e como isso reflete na inovação na prática.</p>
+                                        <p className="text-slate-400">A relação direta entre o perfil de formação (Gap) e o reflexo na capacidade de inovar de cada nação.</p>
                                     </div>
                                     
                                     <div className="grid md:grid-cols-3 gap-6 relative z-10">
                                         <div className="bg-slate-900 p-6 rounded-2xl border-t-4 border-red-500 hover:bg-slate-800 transition">
-                                            <h4 className="text-slate-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center justify-between"><span>🇨🇳 China</span> <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">Industrial</span></h4>
+                                            <h4 className="text-slate-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center justify-between"><span>🇨🇳 China</span></h4>
                                             <div className="space-y-4 text-sm">
-                                                <div><strong className="text-white block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Manufatura avançada, robótica, energia e IA. >6.7M de alunos.</span></div>
-                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Design de semicondutores de fronteira extrema.</span></div>
-                                                <div><strong className="text-emerald-400 block mb-1">🚀 Reflexo na Inovação:</strong> <span className="text-slate-400">Liderança absoluta em patentes aplicadas e domínio de EVs/baterias.</span></div>
+                                                <div><strong className="text-white block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Engenharia pesada para manufatura avançada, energia renovável e IA Industrial. Missão de Estado.</span></div>
+                                                <div><strong className="text-rose-400 block mb-1">⚠️ O Gap Estratégico:</strong> <span className="text-slate-400">Ciência teórica original e design de semicondutores de fronteira extrema (para furar embargos americanos).</span></div>
+                                                <div><strong className="text-emerald-400 block mb-1">🚀 Reflexo na Inovação:</strong> <span className="text-slate-400">Liderança absoluta em patentes aplicadas e domínio da cadeia global de Carros Elétricos (EVs) e baterias.</span></div>
                                             </div>
-                                            <Fonte texto="Ministério da Educação / China" />
                                         </div>
 
                                         <div className="bg-slate-900 p-6 rounded-2xl border-t-4 border-orange-500 hover:bg-slate-800 transition">
-                                            <h4 className="text-blue-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center justify-between"><span>🇮🇳 Índia</span> <span className="text-xs bg-orange-500/20 text-orange-400 px-2 py-1 rounded">Digital</span></h4>
+                                            <h4 className="text-blue-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center justify-between"><span>🇮🇳 Índia</span></h4>
                                             <div className="space-y-4 text-sm">
-                                                <div><strong className="text-blue-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Domínio absoluto em Ciências da Computação, Software e TI.</span></div>
-                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Infraestrutura física, civil e hardware avançado.</span></div>
-                                                <div><strong className="text-emerald-400 block mb-1">🚀 Reflexo na Inovação:</strong> <span className="text-slate-400">Cérebro de P&D de multinacionais (GCCs) e potência em Software.</span></div>
+                                                <div><strong className="text-blue-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Absoluto domínio em Ciências da Computação, Engenharia de Software, TI e Startups de serviços.</span></div>
+                                                <div><strong className="text-rose-400 block mb-1">⚠️ O Gap Estratégico:</strong> <span className="text-slate-400">Baixa infraestrutura civil, logística pesada (Heavy Tech) e fabricação de hardware/componentes avançados.</span></div>
+                                                <div><strong className="text-emerald-400 block mb-1">🚀 Reflexo na Inovação:</strong> <span className="text-slate-400">Tornou-se o "cérebro" de P&D de multinacionais do ocidente (via GCCs) e potência de unicórnios em Software (SaaS).</span></div>
                                             </div>
-                                            <Fonte texto="AISHE / DST Índia" />
                                         </div>
 
                                         <div className="bg-slate-900 p-6 rounded-2xl border-t-4 border-emerald-500 hover:bg-slate-800 transition">
-                                            <h4 className="text-emerald-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center justify-between"><span>🇧🇷 Brasil</span> <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded">Operacional</span></h4>
+                                            <h4 className="text-emerald-100 font-bold mb-4 border-b border-slate-700 pb-3 flex items-center justify-between"><span>🇧🇷 Brasil</span></h4>
                                             <div className="space-y-4 text-sm">
-                                                <div><strong className="text-emerald-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Manutenção e operação clássica (Civil, Produção, Mecânica).</span></div>
-                                                <div><strong className="text-rose-400 block mb-1">⚠️ Gap / Escassez:</strong> <span className="text-slate-400">Falta brutal de engenheiros híbridos (IA + Agro, Software + Indústria).</span></div>
-                                                <div><strong className="text-amber-400 block mb-1">⚓ Reflexo na Inovação:</strong> <span className="text-slate-400">Potência primária, mas importando o maquinário e o cérebro digital.</span></div>
+                                                <div><strong className="text-emerald-300 block mb-1">🎯 Foco da Formação:</strong> <span className="text-slate-400">Engenharias clássicas para manutenção e operação da matriz pré-digital (Civil, Produção, Mecânica).</span></div>
+                                                <div><strong className="text-rose-400 block mb-1">⚠️ O Gap Estratégico:</strong> <span className="text-slate-400">Formamos 5x mais Civis que profissionais de Computação. Falta brutal de engenheiros "híbridos" (Deep Tech / IA).</span></div>
+                                                <div><strong className="text-amber-400 block mb-1">⚓ Reflexo na Inovação:</strong> <span className="text-slate-400">O ecossistema fica preso na inovação incremental. Somos potência no Agronegócio, mas importamos o maquinário e o software.</span></div>
                                             </div>
-                                            <Fonte texto="INEP / MEC" />
                                         </div>
                                     </div>
                                 </div>
                             </FadeIn>
                             
-                            <FadeIn delay={400}>
+                            <FadeIn delay={700}>
                                 <div className="bg-slate-900 p-8 md:p-12 rounded-3xl border border-slate-700 flex flex-col lg:flex-row items-center gap-12">
                                     <div className="w-full lg:w-1/2">
                                         <h3 className="text-2xl font-bold text-white mb-4">O Funil Brasileiro (2023)</h3>
                                         <p className="text-slate-400 text-sm leading-relaxed mb-8">
-                                            O Censo expõe o desalinhamento: formamos <strong>5 vezes mais Engenheiros Civis do que de Computação</strong>. As engenharias de base continuam vitais, mas a inovação global exige profissionais híbridos.
+                                            O Censo expõe o desalinhamento da nossa esteira educacional com a inovação global: formamos <strong>5 vezes mais Engenheiros Civis do que de Computação</strong>.
                                         </p>
                                         <div className="space-y-4">
                                             {engBrasilBreakdown.map((item, idx) => (
@@ -407,12 +477,12 @@
                                     
                                     <div className="w-full lg:w-1/2 bg-slate-950 p-8 rounded-2xl border border-slate-800 relative overflow-hidden">
                                         <IconAlertTriangle className="absolute -right-10 -bottom-10 w-48 h-48 text-slate-800 opacity-30" />
-                                        <h4 className="text-amber-400 font-bold uppercase tracking-widest text-xs mb-4">O Déficit de Absorção</h4>
+                                        <h4 className="text-amber-400 font-bold uppercase tracking-widest text-xs mb-4">A Resposta do Mercado</h4>
                                         <p className="text-xl md:text-2xl font-light text-slate-200 leading-snug relative z-10">
-                                            "Não adianta multiplicar vagas na universidade se a indústria local atua apenas importando caixas-pretas."
+                                            "Não adianta apenas multiplicar vagas na universidade se a indústria local atua apenas importando caixas-pretas."
                                         </p>
                                         <p className="text-sm text-slate-400 mt-6 relative z-10 leading-relaxed">
-                                            Precisamos que as empresas abram centros de P&D para absorver talentos locais. Sem laboratório para inovar, o engenheiro de ponta vira um mero solucionador de rotinas (vendas, compliance). O talento morre na falta de projeto.
+                                            O grande déficit do Brasil é a <strong>falta de demanda empresarial sofisticada</strong>. Precisamos que as empresas abram centros de P&D (com apoio do SENAI) para absorver talentos. Hoje, sem laboratório de fronteira na fábrica, o engenheiro de ponta vira um mero solucionador de rotinas (vendas, compliance). O talento existe, mas foge do país pela falta de projeto disruptivo.
                                         </p>
                                     </div>
                                 </div>
@@ -420,181 +490,26 @@
                         </div>
                     </section>
 
-                    {/* NOVA SEÇÃO: A BATALHA DO AGRO GLOBAL */}
-                    <section className="py-24 bg-white px-6 border-b border-slate-100 bg-pattern">
-                        <div className="max-w-7xl mx-auto">
-                            <FadeIn>
-                                <div className="text-center mb-16">
-                                    <span className="bg-emerald-100 text-emerald-800 border border-emerald-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">Agritech & Geopolítica</span>
-                                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mt-6 mb-4">A Batalha Global do Agronegócio</h2>
-                                    <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-                                        A China e a Índia lideram o PIB e a produção agrícola global, consolidando-se como os principais polos de inovação tecnológica (agritech) no campo. Veja como as estratégias diferem e ameaçam a posição do Brasil.
-                                    </p>
-                                </div>
-                            </FadeIn>
-
-                            <div className="grid md:grid-cols-2 gap-8 mb-12">
-                                {/* Card China */}
-                                <FadeIn delay={100}>
-                                    <div className="bg-slate-50 border border-slate-200 p-8 rounded-3xl h-full shadow-sm">
-                                        <div className="flex items-center gap-3 mb-6">
-                                            <span className="text-4xl">🇨🇳</span>
-                                            <h3 className="text-2xl font-black text-slate-900">A Força da China</h3>
-                                        </div>
-                                        <p className="text-sm text-red-600 font-bold uppercase tracking-widest mb-4">Automação & Bio de Alta Densidade</p>
-                                        <p className="text-slate-600 mb-6 text-sm leading-relaxed">Com o desafio de alimentar 20% do mundo usando 9% das terras, a inovação no agro é segurança nacional.</p>
-                                        <ul className="space-y-4 text-sm text-slate-700">
-                                            <li className="flex gap-3"><IconDrone className="w-5 h-5 text-red-500 shrink-0"/><p><strong>Drones e Robótica:</strong> Liderança na exportação global de VANTs de pulverização.</p></li>
-                                            <li className="flex gap-3"><IconTractor className="w-5 h-5 text-red-500 shrink-0"/><p><strong>Maquinário Competitivo:</strong> Gigantes (Lovol, Zoomlion) exportam tratores com IA barata.</p></li>
-                                            <li className="flex gap-3"><IconLeaf className="w-5 h-5 text-red-500 shrink-0"/><p><strong>Bioengenharia:</strong> Bancos genéticos para criar sementes ultrarresistentes ao clima.</p></li>
-                                        </ul>
-                                    </div>
-                                </FadeIn>
-
-                                {/* Card India */}
-                                <FadeIn delay={300}>
-                                    <div className="bg-slate-50 border border-slate-200 p-8 rounded-3xl h-full shadow-sm">
-                                        <div className="flex items-center gap-3 mb-6">
-                                            <span className="text-4xl">🇮🇳</span>
-                                            <h3 className="text-2xl font-black text-slate-900">A Força da Índia</h3>
-                                        </div>
-                                        <p className="text-sm text-orange-600 font-bold uppercase tracking-widest mb-4">Startups & Inclusão Digital</p>
-                                        <p className="text-slate-600 mb-6 text-sm leading-relaxed">Foco na democratização da tecnologia para pequenos produtores e serviços em nuvem.</p>
-                                        <ul className="space-y-4 text-sm text-slate-700">
-                                            <li className="flex gap-3"><IconGlobe className="w-5 h-5 text-orange-500 shrink-0"/><p><strong>AgriStack:</strong> Identidade digital, mapa de terras e dados públicos integrados aos produtores.</p></li>
-                                            <li className="flex gap-3"><IconZap className="w-5 h-5 text-orange-500 shrink-0"/><p><strong>7.000+ Startups:</strong> Criam sensores baratos e plataformas que cortam intermediários.</p></li>
-                                            <li className="flex gap-3"><IconCode className="w-5 h-5 text-orange-500 shrink-0"/><p><strong>IA por Voz:</strong> Apps que diagnosticam pragas via fotos e comandos de voz offline.</p></li>
-                                        </ul>
-                                    </div>
-                                </FadeIn>
-                            </div>
-
-                            {/* O Impacto no Brasil */}
-                            <FadeIn delay={500}>
-                                <div className="bg-slate-900 text-white p-8 md:p-12 rounded-3xl border border-slate-800 shadow-xl mt-8">
-                                    <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
-                                        <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center shrink-0">
-                                            <span className="text-3xl">🇧🇷</span>
-                                        </div>
-                                        <div>
-                                            <h3 className="text-2xl md:text-3xl font-bold mb-2">Impactos e Riscos para o Brasil</h3>
-                                            <p className="text-slate-400 text-sm">Onde a dupla dinâmica asiática intercepta o nosso futuro.</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="grid md:grid-cols-2 gap-8">
-                                        <div className="bg-slate-800/50 p-6 rounded-2xl border-l-4 border-emerald-500">
-                                            <h4 className="text-emerald-400 font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><IconTrendingUp className="w-4 h-4"/> A Grande Oportunidade</h4>
-                                            <p className="text-slate-300 text-sm leading-relaxed">
-                                                <strong>A Índia como a "Nova China" Comercial:</strong> Com a forte expansão da classe média urbana indiana, a demanda por proteína dispara. O Ministério da Agricultura estima que a Índia pode movimentar até <strong>US$ 9 bilhões/ano</strong> em exportações do agro brasileiro até 2030.
-                                            </p>
-                                        </div>
-                                        
-                                        <div className="bg-slate-800/50 p-6 rounded-2xl border-l-4 border-rose-500">
-                                            <h4 className="text-rose-400 font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><IconAlertTriangle className="w-4 h-4"/> O Risco de Submissão Tech</h4>
-                                            <p className="text-slate-300 text-sm leading-relaxed">
-                                                <strong>Invasão de Tecnologia Barata:</strong> O Brasil vive um aumento brutal na importação de maquinários, drones e defensivos da Ásia. Sem P&D local (Deep Tech), o Brasil corre o risco de ser um mero comprador de tratores chineses operados por softwares indianos, reduzindo a margem do produtor local.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </FadeIn>
-                        </div>
-                    </section>
-
-                    {/* INFRAESTRUTURA & INPI */}
-                    <section className="py-24 bg-white px-6 border-b border-slate-100">
-                        <div className="max-w-6xl mx-auto">
-                            <FadeIn>
-                                <p className="text-emerald-600 font-bold tracking-widest uppercase text-sm mb-4 text-center">Fomento & Proteção</p>
-                                <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-center">A Infraestrutura Existe</h2>
-                                <p className="text-lg md:text-xl text-slate-500 text-center max-w-3xl mx-auto mb-10">
-                                    O Brasil não joga no escuro. Construímos um arcabouço de financiamento bilionário. O desafio atual não é criar novas leis, mas direcionar as que já existem para a disrupção.
-                                </p>
-                                <NotaDidatica 
-                                    titulo="O Vale da Morte da Inovação" 
-                                    texto="Existe um abismo financeiro e técnico entre o projeto brilhante que sai da universidade (TRL baixo) e o produto final que chega à prateleira do consumidor (TRL alto). Ferramentas como EMBRAPII e os Institutos SENAI são cruciais justamente porque criam 'plantas-piloto' para ajudar a pesquisa a atravessar esse vale sem que a empresa assuma o risco sozinha."
-                                />
-                            </FadeIn>
-
-                            <div className="grid lg:grid-cols-2 gap-16 items-center mt-16">
-                                <FadeIn delay={200}>
-                                    <ul className="space-y-6">
-                                        <li className="flex gap-4 p-4 border border-slate-100 rounded-2xl bg-slate-50/50 hover:bg-slate-50 transition">
-                                            <div className="bg-emerald-100 text-emerald-700 p-3 rounded-xl shrink-0 h-12 w-12 flex items-center justify-center"><IconBuilding className="w-6 h-6"/></div>
-                                            <div><strong className="block text-slate-800 text-lg">Lei do Bem (R$ 51.6 Bi)</strong> <span className="text-slate-600 text-sm block mt-1">Fomenta a engenharia, mas concentra-se no Sudeste e favorece inovações seguras (incrementais).</span></div>
-                                        </li>
-                                        <li className="flex gap-4 p-4 border border-slate-100 rounded-2xl bg-slate-50/50 hover:bg-slate-50 transition">
-                                            <div className="bg-blue-100 text-blue-700 p-3 rounded-xl shrink-0 h-12 w-12 flex items-center justify-center"><IconCog className="w-6 h-6"/></div>
-                                            <div><strong className="block text-slate-800 text-lg">EMBRAPII (811 Projetos)</strong> <span className="text-slate-600 text-sm block mt-1">Rede que bateu recordes por atuar na dor do 'Vale da Morte', dividindo o risco do escalonamento.</span></div>
-                                        </li>
-                                        <li className="flex gap-4 p-4 border border-slate-100 rounded-2xl bg-slate-50/50 hover:bg-slate-50 transition">
-                                            <div className="bg-rose-100 text-rose-700 p-3 rounded-xl shrink-0 h-12 w-12 flex items-center justify-center"><IconTarget className="w-6 h-6"/></div>
-                                            <div><strong className="block text-slate-800 text-lg">FNDCT Blindado</strong> <span className="text-slate-600 text-sm block mt-1">O dinheiro foi protegido de cortes. Precisa ser usado para grandes missões transversais.</span></div>
-                                        </li>
-                                    </ul>
-                                </FadeIn>
-
-                                <FadeIn delay={400}>
-                                    <div className="bg-slate-900 text-white p-8 rounded-3xl relative overflow-hidden shadow-xl">
-                                        <IconFileText className="absolute -right-4 -top-4 w-40 h-40 opacity-10" />
-                                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-rose-400">
-                                            <IconAlertTriangle /> O Retrato do INPI (2024)
-                                        </h3>
-                                        <p className="text-slate-300 text-sm mb-6 leading-relaxed">Pedidos de patentes de invenção provam o déficit de conversão (O Vale da Morte): a fronteira da tecnologia (Deep Tech) no Brasil é controlada por estrangeiros.</p>
-                                        
-                                        <div className="space-y-4">
-                                            {patentsData.map((item, idx) => (
-                                                <div key={idx}>
-                                                    <div className="flex justify-between text-sm mb-1">
-                                                        <span className={item.type === 'ext' ? 'text-rose-400 font-bold' : 'text-emerald-300'}>{item.name}</span>
-                                                        <span className="font-bold">{item.val} ped.</span>
-                                                    </div>
-                                                    <div className="w-full bg-slate-800 rounded-full h-1.5">
-                                                        <div className={`h-1.5 rounded-full ${item.type === 'ext' ? 'bg-rose-500' : 'bg-emerald-500'}`} style={{width: `${(item.val/1002)*100}%`}}></div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                        <p className="text-xs text-slate-500 italic mt-6 text-center">
-                                            Gigantes multinacionais lideram de forma esmagadora os depósitos de tecnologia proprietária no país.
-                                        </p>
-                                        <Fonte texto="INPI - Instituto Nacional da Propriedade Industrial (2025)" />
-                                    </div>
-                                </FadeIn>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* OVERLAY DE IMAGEM 2: CERRADO */}
-                    <div className="w-full h-64 md:h-96 relative">
-                        <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?auto=format&fit=crop&w=1920&q=80" alt="" className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-emerald-900/80 mix-blend-multiply"></div>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                            <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter mb-4">A Lente Regional.</h2>
-                            <p className="text-lg md:text-xl text-emerald-100 max-w-2xl font-light">Como Goiás reflete o paradoxo nacional e onde está a sua grande oportunidade de salto.</p>
-                        </div>
-                    </div>
-
-                    {/* NOVO BLOCO: O FUNIL DE GOIÁS (ENGENHARIA) */}
+                    {/* NOVO BLOCO: O FUNIL DE GOIÁS */}
                     <section className="py-24 bg-white px-6 border-b border-slate-200">
                         <div className="max-w-7xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-16">
-                                    <span className="bg-emerald-100 text-emerald-800 border border-emerald-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">Talentos Regionais</span>
+                                    <span className="bg-emerald-100 text-emerald-800 border border-emerald-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">A Lente Regional de Talentos</span>
                                     <h2 className="text-4xl md:text-5xl font-bold tracking-tight mt-6 mb-4">O Funil de Engenharia em Goiás</h2>
                                     <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-                                        Goiás possui uma rede de ensino de excelência, mas forma talentos que frequentemente são drenados para outros polos por falta de P&D nas cadeias locais.
+                                        Goiás reflete o paradoxo nacional com sua própria nuance: o estado possui uma rede de ensino de excelência, mas forma talentos que frequentemente são drenados para outros estados por falta de oportunidades de P&D profundo nas cadeias locais.
                                     </p>
                                 </div>
                             </FadeIn>
 
                             <div className="grid lg:grid-cols-2 gap-12 items-center">
+                                {/* O Funil de GO */}
                                 <FadeIn delay={200}>
                                     <div className="bg-slate-50 p-8 md:p-10 rounded-3xl border border-slate-200 shadow-sm">
                                         <h3 className="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2"><IconTractor className="w-6 h-6 text-emerald-600"/> O Perfil do Formando Goiano</h3>
                                         <p className="text-slate-600 text-sm mb-8 leading-relaxed">
-                                            A forte herança do agronegócio e da construção civil dita a pirâmide de formação. Engenharias Agronômica e Civil dominam as bancadas. O desafio é formar os talentos híbridos que vão digitalizar esse campo.
+                                            A forte herança do agronegócio e da construção civil dita a pirâmide de formação. Engenharias Agronômica e Civil dominam o cenário. O desafio agora é formar os talentos híbridos que vão digitalizar esse campo (IA, Sensores e Bioinsumos).
                                         </p>
                                         
                                         <div className="space-y-5">
@@ -610,33 +525,214 @@
                                                 </div>
                                             ))}
                                         </div>
-                                        <p className="text-xs text-slate-500 mt-6 italic">*Estimativa de proporção com base na vocação regional (INEP/MEC).</p>
+                                        <p className="text-xs text-slate-500 mt-6 italic">*Estimativa de proporção baseada na vocação regional (Dados INEP/MEC).</p>
                                     </div>
                                 </FadeIn>
 
+                                {/* Gaps, Instituições e Inovação */}
                                 <FadeIn delay={400} className="space-y-6">
-                                    <div className="bg-white p-6 rounded-2xl border-l-4 border-blue-500 shadow-sm">
+                                    <div className="bg-white p-6 rounded-2xl border-l-4 border-blue-500 shadow-sm hover:shadow-md transition">
                                         <h4 className="text-slate-800 font-bold mb-2 flex items-center gap-2"><IconBuilding className="w-5 h-5 text-blue-500"/> A Rede Formadora</h4>
                                         <p className="text-slate-600 text-sm">
-                                            A força bruta vem da <strong>UFG, IFG, IF Goiano e UEG</strong>, além do setor privado (PUC, SENAI FATESG). São instituições capazes de gerar pesquisa de fronteira, mas que esbarram no escalonamento comercial.
+                                            A força bruta e acadêmica vem das <strong>UFG, IFG, IF Goiano e UEG</strong>, impulsionada pelo vigor privado e técnico (PUC Goiás e SENAI FATESG). São instituições plenamente capazes de gerar pesquisa de fronteira.
                                         </p>
                                     </div>
 
-                                    <div className="bg-white p-6 rounded-2xl border-l-4 border-amber-500 shadow-sm">
-                                        <h4 className="text-slate-800 font-bold mb-2 flex items-center gap-2"><IconAlertTriangle className="w-5 h-5 text-amber-500"/> O Desafio (Fuga de Cérebros)</h4>
+                                    <div className="bg-white p-6 rounded-2xl border-l-4 border-amber-500 shadow-sm hover:shadow-md transition">
+                                        <h4 className="text-slate-800 font-bold mb-2 flex items-center gap-2"><IconAlertTriangle className="w-5 h-5 text-amber-500"/> O Desafio de Absorção (A Fuga)</h4>
                                         <p className="text-slate-600 text-sm">
-                                            Se formamos mestres em IA e doutores em biotecnologia em Goiânia, mas a indústria local não possui laboratórios, esse talento foge para São Paulo ou exterior.
+                                            Se formamos mestres em Inteligência Artificial e doutores em biotecnologia em Goiânia, mas não há um laboratório da indústria pronto para absorvê-los, o destino é São Paulo ou o exterior. <strong>O desafio não é só entregar o diploma, é criar postos de P&D nas fábricas locais.</strong>
                                         </p>
                                     </div>
 
-                                    <div className="bg-white p-6 rounded-2xl border-l-4 border-emerald-500 shadow-sm">
-                                        <h4 className="text-slate-800 font-bold mb-2 flex items-center gap-2"><IconTrendingUp className="w-5 h-5 text-emerald-500"/> A Grande Oportunidade</h4>
+                                    <div className="bg-white p-6 rounded-2xl border-l-4 border-emerald-500 shadow-sm hover:shadow-md transition">
+                                        <h4 className="text-slate-800 font-bold mb-2 flex items-center gap-2"><IconTrendingUp className="w-5 h-5 text-emerald-500"/> Oportunidade: Engenharia Híbrida</h4>
                                         <p className="text-slate-600 text-sm">
-                                            Cruzar as disciplinas. Goiás será imbatível quando juntar o Agrônomo com o Cientista de Dados, criando a nova geração da <strong>Engenharia Agro-Bio-Digital</strong>.
+                                            A virada de chave para Goiás exige a união das disciplinas. O estado precisa desesperadamente do <strong>Agrônomo que entenda de Inteligência Artificial</strong>, e do Engenheiro de Software que entenda de rastreabilidade animal no pasto.
                                         </p>
                                     </div>
                                 </FadeIn>
                             </div>
+                        </div>
+                    </section>
+
+                    {/* A BATALHA DO AGRO GLOBAL */}
+                    <section className="py-24 bg-slate-50 px-6 border-b border-slate-200">
+                        <div className="max-w-7xl mx-auto">
+                            <FadeIn>
+                                <div className="text-center mb-16">
+                                    <span className="bg-emerald-100 text-emerald-800 border border-emerald-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">Agritech & Geopolítica</span>
+                                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mt-6 mb-4">A Batalha Global do Agronegócio</h2>
+                                    <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
+                                        A China e a Índia não são apenas gigantes no abastecimento de alimentos, mas consolidaram-se como os <strong>principais polos de inovação tecnológica (agritech) no campo</strong>. Veja como as estratégias diferem.
+                                    </p>
+                                </div>
+                            </FadeIn>
+
+                            <div className="grid md:grid-cols-2 gap-8 mb-12">
+                                {/* Card China */}
+                                <FadeIn delay={100}>
+                                    <div className="bg-white border-t-4 border-red-500 p-8 rounded-3xl h-full shadow-sm hover:shadow-lg transition">
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <span className="text-4xl">🇨🇳</span>
+                                            <h3 className="text-2xl font-black text-slate-900">A Força da China</h3>
+                                        </div>
+                                        <p className="text-sm text-red-600 font-bold uppercase tracking-widest mb-4">Automação & Bio de Alta Densidade</p>
+                                        <p className="text-slate-600 mb-6 text-sm leading-relaxed">Com o desafio de alimentar quase 20% do mundo usando apenas 9% das terras aráveis, a inovação no agro tornou-se questão de segurança nacional inegociável.</p>
+                                        <ul className="space-y-4 text-sm text-slate-700">
+                                            <li className="flex gap-3"><IconDrone className="w-5 h-5 text-red-500 shrink-0"/><p><strong>Drones e Robótica:</strong> Liderança na exportação global de VANTs (drones) de pulverização pesada.</p></li>
+                                            <li className="flex gap-3"><IconTractor className="w-5 h-5 text-red-500 shrink-0"/><p><strong>Maquinário Competitivo:</strong> Gigantes (Lovol, Zoomlion) exportam tratores com IA a preços agressivos.</p></li>
+                                            <li className="flex gap-3"><IconLeaf className="w-5 h-5 text-red-500 shrink-0"/><p><strong>Bioengenharia:</strong> Edição genética agressiva para criar sementes ultrarresistentes ao clima e pragas.</p></li>
+                                        </ul>
+                                    </div>
+                                </FadeIn>
+
+                                {/* Card India */}
+                                <FadeIn delay={300}>
+                                    <div className="bg-white border-t-4 border-orange-500 p-8 rounded-3xl h-full shadow-sm hover:shadow-lg transition">
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <span className="text-4xl">🇮🇳</span>
+                                            <h3 className="text-2xl font-black text-slate-900">A Força da Índia</h3>
+                                        </div>
+                                        <p className="text-sm text-orange-600 font-bold uppercase tracking-widest mb-4">Startups & Inclusão Digital</p>
+                                        <p className="text-slate-600 mb-6 text-sm leading-relaxed">Com foco em democratizar a tecnologia, a Índia usa seu exército de engenheiros de software para conectar os pequenos e médios produtores rurais.</p>
+                                        <ul className="space-y-4 text-sm text-slate-700">
+                                            <li className="flex gap-3"><IconGlobe className="w-5 h-5 text-orange-500 shrink-0"/><p><strong>AgriStack Público:</strong> Identidade digital governamental que mapeia terras e unifica dados dos agricultores.</p></li>
+                                            <li className="flex gap-3"><IconZap className="w-5 h-5 text-orange-500 shrink-0"/><p><strong>7.000+ Startups:</strong> Criam sensores baratos e plataformas logísticas que cortam intermediários.</p></li>
+                                            <li className="flex gap-3"><IconCode className="w-5 h-5 text-orange-500 shrink-0"/><p><strong>IA por Voz:</strong> Aplicativos que diagnosticam pragas via fotos e dão comandos de voz em áreas sem internet.</p></li>
+                                        </ul>
+                                    </div>
+                                </FadeIn>
+                            </div>
+
+                            {/* O Impacto no Brasil */}
+                            <FadeIn delay={500}>
+                                <div className="bg-slate-900 text-white p-8 md:p-12 rounded-3xl border border-slate-800 shadow-xl mt-8">
+                                    <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-8">
+                                        <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center shrink-0">
+                                            <span className="text-3xl">🇧🇷</span>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-2xl md:text-3xl font-bold mb-2">Impactos e Riscos para o Brasil</h3>
+                                            <p className="text-slate-400 text-sm">A dupla asiática redesenha o mercado global sob duas frentes que atingem diretamente as nossas lavouras.</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid md:grid-cols-2 gap-8">
+                                        <div className="bg-slate-800/50 p-6 rounded-2xl border-l-4 border-emerald-500">
+                                            <h4 className="text-emerald-400 font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><IconTrendingUp className="w-4 h-4"/> A Grande Oportunidade Comercial</h4>
+                                            <p className="text-slate-300 text-sm leading-relaxed">
+                                                <strong>A Índia como a "Nova China":</strong> A rápida expansão da classe média urbana indiana faz a demanda por proteína disparar. O Ministério da Agricultura estima que a Índia pode movimentar até <strong>US$ 9 bilhões/ano</strong> em importações do agronegócio brasileiro até 2030.
+                                            </p>
+                                        </div>
+                                        
+                                        <div className="bg-slate-800/50 p-6 rounded-2xl border-l-4 border-rose-500">
+                                            <h4 className="text-rose-400 font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2"><IconAlertTriangle className="w-4 h-4"/> O Risco da Submissão Tecnológica</h4>
+                                            <p className="text-slate-300 text-sm leading-relaxed">
+                                                <strong>A Invasão de Tecnologia Barata:</strong> O Brasil vive um aumento brutal na importação de drones e defensivos da Ásia. Sem P&D local (Deep Tech), o produtor brasileiro corre o risco de ser apenas um <em>"comprador do trator chinês operado pelo software indiano"</em>, perdendo totalmente a margem de lucro.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </FadeIn>
+                        </div>
+                    </section>
+
+                    {/* INFRAESTRUTURA & INPI & LEI DO BEM */}
+                    <section className="py-24 bg-white px-6 border-b border-slate-100">
+                        <div className="max-w-7xl mx-auto">
+                            <FadeIn>
+                                <p className="text-emerald-600 font-bold tracking-widest uppercase text-sm mb-4 text-center">Fomento & Proteção</p>
+                                <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-center">A Infraestrutura Existe</h2>
+                                <p className="text-lg md:text-xl text-slate-500 text-center max-w-3xl mx-auto mb-10">
+                                    O Brasil não joga no escuro. Construímos um arcabouço de financiamento bilionário. O desafio atual não é criar novas leis, mas direcionar as ferramentas existentes (e corrigir suas travas) em prol da disrupção tecnológica.
+                                </p>
+                                <NotaDidatica 
+                                    titulo="O Vale da Morte da Inovação" 
+                                    texto="Existe um abismo financeiro entre o projeto brilhante que sai do laboratório da universidade (TRL baixo) e o produto final que chega à prateleira (TRL alto). Ferramentas como a EMBRAPII e os Institutos SENAI são vitais porque atuam no meio desse vale, escalonando a pesquisa em 'plantas-piloto' sem que a indústria assuma o risco de falha sozinha."
+                                />
+                            </FadeIn>
+
+                            <div className="grid lg:grid-cols-2 gap-16 mt-16">
+                                <FadeIn delay={200}>
+                                    <h3 className="text-2xl font-bold text-slate-900 mb-6">O Poder de Fogo Atual</h3>
+                                    <ul className="space-y-6">
+                                        <li className="flex gap-4 p-5 border border-slate-100 rounded-2xl bg-slate-50 shadow-sm hover:shadow-md transition">
+                                            <div className="bg-emerald-100 text-emerald-700 p-3 rounded-xl shrink-0 h-12 w-12 flex items-center justify-center"><IconBuilding className="w-6 h-6"/></div>
+                                            <div><strong className="block text-slate-800 text-lg mb-1">Lei do Bem (R$ 51.6 Bi)</strong> <span className="text-slate-600 text-sm">Principal incentivo fiscal que apoiou 4.2 mil projetos em 2024. Fomenta a engenharia interna corporativa.</span></div>
+                                        </li>
+                                        <li className="flex gap-4 p-5 border border-slate-100 rounded-2xl bg-slate-50 shadow-sm hover:shadow-md transition">
+                                            <div className="bg-blue-100 text-blue-700 p-3 rounded-xl shrink-0 h-12 w-12 flex items-center justify-center"><IconCog className="w-6 h-6"/></div>
+                                            <div><strong className="block text-slate-800 text-lg mb-1">EMBRAPII (811 Projetos)</strong> <span className="text-slate-600 text-sm">A rede bateu recordes por atuar na dor do escalonamento (prototipagem), dividindo o risco do projeto.</span></div>
+                                        </li>
+                                        <li className="flex gap-4 p-5 border border-slate-100 rounded-2xl bg-slate-50 shadow-sm hover:shadow-md transition">
+                                            <div className="bg-rose-100 text-rose-700 p-3 rounded-xl shrink-0 h-12 w-12 flex items-center justify-center"><IconTarget className="w-6 h-6"/></div>
+                                            <div><strong className="block text-slate-800 text-lg mb-1">FNDCT Protegido</strong> <span className="text-slate-600 text-sm">A Lei Complementar nº 177 proibiu limites de execução orçamentária para o principal fundo da ciência.</span></div>
+                                        </li>
+                                    </ul>
+                                </FadeIn>
+
+                                <FadeIn delay={400}>
+                                    <div className="bg-slate-900 text-white p-8 rounded-3xl relative overflow-hidden shadow-xl h-full flex flex-col justify-center">
+                                        <IconFileText className="absolute -right-4 -top-4 w-40 h-40 opacity-10" />
+                                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-rose-400">
+                                            <IconAlertTriangle /> O Retrato do INPI (2024)
+                                        </h3>
+                                        <p className="text-slate-300 text-sm mb-6 leading-relaxed">Pedidos de patentes de invenção provam o déficit de conversão final: a fronteira da tecnologia (Deep Tech) que explora nosso mercado é desenhada lá fora.</p>
+                                        
+                                        <div className="space-y-4">
+                                            {patentsData.map((item, idx) => (
+                                                <div key={idx}>
+                                                    <div className="flex justify-between text-sm mb-1">
+                                                        <span className={item.type === 'ext' ? 'text-rose-400 font-bold' : 'text-emerald-300'}>{item.name}</span>
+                                                        <span className="font-bold">{item.val} ped.</span>
+                                                    </div>
+                                                    <div className="w-full bg-slate-800 rounded-full h-1.5">
+                                                        <div className={`h-1.5 rounded-full ${item.type === 'ext' ? 'bg-rose-500' : 'bg-emerald-500'}`} style={{width: `${(item.val/1002)*100}%`}}></div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <p className="text-xs text-slate-500 italic mt-6 text-center">
+                                            Gigantes multinacionais lideram de forma esmagadora os depósitos de tecnologia proprietária de alto impacto no país.
+                                        </p>
+                                        <Fonte texto="INPI - Instituto Nacional da Propriedade Industrial (2025)" />
+                                    </div>
+                                </FadeIn>
+                            </div>
+
+                            {/* O Motor Travado: Lei do Bem */}
+                            <FadeIn delay={500}>
+                                <div className="mt-16 bg-slate-50 p-8 md:p-10 rounded-3xl border border-slate-200">
+                                    <h3 className="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-3">
+                                        <IconAlertTriangle className="text-amber-500 w-8 h-8"/> 
+                                        O Motor Travado: Os Gargalos da Lei do Bem
+                                    </h3>
+                                    <p className="text-slate-600 mb-8 max-w-3xl leading-relaxed">
+                                        Se a Lei do Bem mobiliza R$ 51.6 Bilhões, por que o Brasil não decola? A resposta, em visão de Foresight Estratégico, recai sobre quatro travas sistêmicas de aplicação da lei que penalizam quem assume o risco de tentar inovar no país:
+                                    </p>
+                                    
+                                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:border-amber-300 transition-colors">
+                                            <h4 className="font-bold text-slate-800 mb-2 border-b border-slate-100 pb-2">1. Exigência de Lucro Real</h4>
+                                            <p className="text-sm text-slate-600 leading-relaxed">A lei restringe o incentivo fiscal a empresas no regime de Lucro Real. Isso <strong>exclui massivamente as startups (PMEs) e empresas em fase de queima de caixa (prejuízo)</strong>, concentrando o benefício em grandes corporações estabelecidas.</p>
+                                        </div>
+                                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:border-amber-300 transition-colors">
+                                            <h4 className="font-bold text-slate-800 mb-2 border-b border-slate-100 pb-2">2. Insegurança Jurídica</h4>
+                                            <p className="text-sm text-slate-600 leading-relaxed">A burocracia de prestação de contas (MCTI) é extrema e sujeita a avaliações subjetivas. O receio de sofrer glosas (rejeições) pela Receita Federal anos após o gasto faz diretores vetarem inovações arrojadas.</p>
+                                        </div>
+                                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:border-amber-300 transition-colors">
+                                            <h4 className="font-bold text-slate-800 mb-2 border-b border-slate-100 pb-2">3. O Viés Incremental</h4>
+                                            <p className="text-sm text-slate-600 leading-relaxed">O modelo atual incentiva o gasto seguro. Diretores preferem focar em "melhoria contínua de software de ERP" para abater imposto sem erro, em vez de arriscar bilhões no desenvolvimento incerto de uma patente global de biotecnologia.</p>
+                                        </div>
+                                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:border-amber-300 transition-colors">
+                                            <h4 className="font-bold text-slate-800 mb-2 border-b border-slate-100 pb-2">4. Concentração Geográfica</h4>
+                                            <p className="text-sm text-slate-600 leading-relaxed">Historicamente, <strong>mais de 70% da renúncia fiscal concentra-se apenas no Eixo Sudeste e Sul</strong> (SP, RJ, SC), deixando ecossistemas com enorme potencial latente, como Goiás e todo o Centro-Oeste, subfinanciados.</p>
+                                        </div>
+                                    </div>
+                                    <Fonte texto="MCTI / Análises de Foresight de Políticas Públicas" />
+                                </div>
+                            </FadeIn>
                         </div>
                     </section>
 
@@ -645,9 +741,10 @@
                         <div className="max-w-6xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-10">
+                                    <span className="bg-emerald-100 text-emerald-800 px-4 py-1 rounded-full text-sm font-bold tracking-wide">A Lente Regional</span>
                                     <h2 className="text-4xl md:text-6xl font-bold tracking-tight mt-6 mb-4">O Diagnóstico de Goiás</h2>
                                     <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                                        Goiás é o laboratório perfeito. Um estado que enriqueceu dominando o agronegócio primário e agora enfrenta o desafio inadiável de adicionar tecnologia de fronteira (Deep Tech) à sua matriz produtiva.
+                                        Goiás é o laboratório perfeito. Um estado que enriqueceu dominando a engenharia agronômica e a civil primária, e agora enfrenta o desafio de adicionar Deep Tech ao seu PIB.
                                     </p>
                                 </div>
                             </FadeIn>
@@ -697,15 +794,19 @@
                                     <span className="bg-emerald-900/50 text-emerald-400 border border-emerald-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">A Plataforma Agro-Bio-Digital</span>
                                     <h2 className="text-4xl md:text-5xl font-bold tracking-tight mt-6 mb-4">Setores Portadores para Goiás</h2>
                                     <p className="text-lg text-slate-400 max-w-3xl mx-auto">
-                                        Para reverter a 19ª posição, Goiás não deve tentar criar um "Vale do Silício" genérico. O salto virá da <strong>verticalização radical</strong> nas áreas onde o estado já domina o mundo físico.
+                                        Para reverter a 19ª posição, Goiás não deve tentar criar um polo genérico. O salto virá da <strong>verticalização radical</strong> nas áreas onde o estado já domina o mundo físico.
                                     </p>
                                 </div>
+                                <NotaDidatica 
+                                    titulo="O que é Deep Tech aplicada ao Cerrado?" 
+                                    texto="Deep Tech (tecnologia profunda) são inovações baseadas em descobertas científicas de alto risco. Para Goiás, isso significa parar de vender apenas a soja ou minério e passar a patentear o bioinsumo genético, criar os sensores das colheitadeiras e a rastreabilidade animal em blockchain."
+                                />
                             </FadeIn>
 
                             <div className="grid md:grid-cols-2 gap-8 mt-12">
                                 {goiasSectorsData.map((sector, i) => (
                                     <FadeIn key={i} delay={i * 100}>
-                                        <div className="bg-slate-800/80 backdrop-blur-sm rounded-3xl border border-slate-700 h-full flex flex-col hover:border-emerald-500/50 transition duration-300">
+                                        <div className="bg-slate-800/80 backdrop-blur-sm rounded-3xl border border-slate-700 h-full flex flex-col hover:border-emerald-500/50 transition duration-300 shadow-xl">
                                             <div className="p-6 md:p-8 bg-slate-800/50 border-b border-slate-700 flex items-start gap-5">
                                                 <div className="p-4 bg-emerald-500/10 text-emerald-400 rounded-2xl shrink-0">{sector.icon}</div>
                                                 <div>
@@ -722,6 +823,7 @@
                                     </FadeIn>
                                 ))}
                             </div>
+                            <Fonte texto="Estratégia Nacional de Ciência, Tecnologia e Inovação (ENCTI 2024–2034) / Nova Indústria Brasil" />
                         </div>
                     </section>
 
@@ -730,15 +832,21 @@
                         <div className="max-w-6xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-10">
-                                    <h2 className="text-4xl font-bold tracking-tight mb-4">Matriz 2x2: O Tabuleiro Global</h2>
-                                    <p className="text-slate-500 max-w-2xl mx-auto">Onde nós estamos comparados às potências asiáticas?</p>
+                                    <span className="bg-slate-100 text-slate-600 border border-slate-300 px-4 py-1 rounded-full text-sm font-bold tracking-wide">Foresight Frameworks</span>
+                                    <h2 className="text-4xl font-bold tracking-tight mt-6 mb-4">Matriz 2x2: O Tabuleiro Global</h2>
+                                    <p className="text-slate-500 max-w-2xl mx-auto">Onde o Brasil (e Goiás) se localiza em comparação às potências asiáticas?</p>
                                 </div>
+                                <NotaDidatica 
+                                    titulo="Lendo a Matriz" 
+                                    texto="Em Foresight, matrizes organizam variáveis críticas. Aqui, o Eixo Vertical avalia se as verbas do governo (FNDCT, por ex.) são constantes na década. O Eixo Horizontal mede se a Universidade cria junto com a Empresa no mercado. Nações líderes fogem para o quadrante Máquina Missionária."
+                                    icon={IconTarget}
+                                />
                             </FadeIn>
 
                             <FadeIn delay={200}>
                                 <div className="relative w-full max-w-4xl mx-auto aspect-square md:aspect-[3/2] matrix-grid border-2 border-slate-300 rounded-xl p-2 md:p-8 flex flex-col justify-between mt-12 shadow-md bg-slate-50">
-                                    <div className="absolute top-1/2 -left-12 -translate-y-1/2 -rotate-90 text-[10px] md:text-xs font-bold text-slate-500 tracking-widest uppercase bg-slate-50 px-2 rounded">Baixa &larr; Estabilidade da Política &rarr; Alta</div>
-                                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] md:text-xs font-bold text-slate-500 tracking-widest text-center uppercase bg-slate-50 px-2 rounded">Baixa &larr; Integração Tripla Hélice &rarr; Alta</div>
+                                    <div className="absolute top-1/2 -left-12 -translate-y-1/2 -rotate-90 text-[10px] md:text-xs font-bold text-slate-500 tracking-widest uppercase bg-slate-50 px-2 rounded border border-slate-200 shadow-sm">Baixa &larr; Estabilidade da Política (Fomento) &rarr; Alta</div>
+                                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] md:text-xs font-bold text-slate-500 tracking-widest text-center uppercase bg-slate-50 px-2 rounded border border-slate-200 shadow-sm">Baixa &larr; Integração da Hélice Tripla &rarr; Alta</div>
 
                                     <div className="w-full h-full grid grid-cols-2 grid-rows-2 relative">
                                         <div className="absolute top-1/2 w-full h-1 bg-slate-800 -translate-y-1/2 z-0"></div>
@@ -746,30 +854,30 @@
 
                                         <div className="p-4 md:p-8 z-10 flex flex-col justify-start items-end text-right">
                                             <h4 className="font-black text-lg md:text-xl text-slate-700">Estado-Laboratório</h4>
-                                            <p className="text-xs text-slate-500 mt-2 max-w-[200px]">Dinheiro público constante, gerando publicações acadêmicas isoladas do mercado produtivo.</p>
+                                            <p className="text-xs text-slate-500 mt-2 max-w-[200px]">Dinheiro público garantido, produzindo papers acadêmicos isolados da fábrica.</p>
                                         </div>
 
-                                        <div className="p-4 md:p-8 z-10 bg-emerald-100/50 border-l-4 border-b-4 border-emerald-500 flex flex-col justify-start items-start">
+                                        <div className="p-4 md:p-8 z-10 bg-emerald-100/60 border-l-4 border-b-4 border-emerald-500 flex flex-col justify-start items-start">
                                             <h4 className="font-black text-xl md:text-2xl text-emerald-800">Máquina Missionária</h4>
-                                            <p className="text-xs text-emerald-700 mt-2 font-medium max-w-[250px]">O quadrante da soberania. Capital privado alavancado agressivamente por missões do Estado.</p>
+                                            <p className="text-xs text-emerald-700 mt-2 font-medium max-w-[250px]">O quadrante da soberania. Capital privado guiado e alavancado por missões do Estado.</p>
                                             <div className="flex gap-2 mt-4">
-                                                <span className="bg-slate-900 text-white px-3 py-1 rounded-full text-xs font-bold">🇨🇳 China</span>
-                                                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold">🇮🇳 Índia</span>
+                                                <span className="bg-slate-900 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">🇨🇳 China</span>
+                                                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">🇮🇳 Índia</span>
                                             </div>
                                         </div>
 
                                         <div className="p-4 md:p-8 z-10 flex flex-col justify-end items-end text-right">
                                             <h4 className="font-black text-lg md:text-xl text-rose-800">Cerrado Incremental</h4>
-                                            <p className="text-xs text-rose-600 mt-2 mb-4 max-w-[250px]">Fomento volátil e projetos pontuais. Inovação restrita à melhoria para não perder margem de lucro.</p>
+                                            <p className="text-xs text-rose-600 mt-2 mb-4 max-w-[250px]">Fomento volátil, editais isolados. A inovação atua apenas para tentar manter margem de lucro.</p>
                                             <div className="flex gap-2 justify-end flex-wrap">
-                                                <span className="bg-amber-200 text-amber-900 px-3 py-1 rounded-full text-xs font-bold shadow-sm">🇧🇷 Brasil (Oscilante)</span>
+                                                <span className="bg-amber-100 text-amber-800 border border-amber-300 px-3 py-1 rounded-full text-xs font-bold shadow-sm">🇧🇷 Brasil (Oscilante)</span>
                                                 <span className="bg-slate-800 text-white border border-slate-600 px-3 py-1 rounded-full text-xs font-bold shadow-sm">Goiás (Transição)</span>
                                             </div>
                                         </div>
 
                                         <div className="p-4 md:p-8 z-10 flex flex-col justify-end items-start">
                                             <h4 className="font-black text-lg md:text-xl text-slate-700">Ilhas Privadas</h4>
-                                            <p className="text-xs text-slate-500 mt-2 max-w-[200px]">Gigantes corporativos inovam muito sozinhos. Falta de rede de PMEs e fornecedores tech no país.</p>
+                                            <p className="text-xs text-slate-500 mt-2 max-w-[200px]">Gigantes corporativas inovam sozinhas (ex: AgTechs gringas). Falta escala nacional sistêmica.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -778,16 +886,18 @@
                     </section>
 
                     {/* CONE DE FUTUROS */}
-                    <section className="py-24 px-6 bg-slate-900 text-white border-t-4 border-slate-800">
+                    <section className="py-24 px-6 bg-slate-900 text-white border-t-[6px] border-slate-800">
                         <div className="max-w-7xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-10">
-                                    <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-white">Cone de Futuros (2025–2035)</h2>
-                                    <p className="text-xl text-slate-400 max-w-3xl mx-auto">As trajetórias desenhadas a partir do "Ponto Zero".</p>
+                                    <span className="bg-slate-800 text-slate-400 border border-slate-600 px-4 py-1 rounded-full text-sm font-bold tracking-wide">Foresight Frameworks</span>
+                                    <h2 className="text-4xl md:text-5xl font-black tracking-tight mt-6 mb-4 text-white">O Cone de Futuros (2025–2035)</h2>
+                                    <p className="text-xl text-slate-400 max-w-3xl mx-auto">As trajetórias projetadas a partir do contexto (Ponto Zero).</p>
                                 </div>
                                 <NotaDidatica 
                                     titulo="O Cone Metodológico" 
-                                    texto="O Cone ilustra graficamente que o futuro se expande com o tempo. O caminho 'Provável' é a continuação da inércia. O 'Plausível' e 'Possível' englobam reações estruturais. O 'Preferível' é o cume da intenção estratégica: o futuro audacioso que exigirá o máximo de alinhamento entre todos os atores para se materializar."
+                                    texto="O Cone ilustra visualmente que o futuro não é único, mas se expande a partir de hoje. O caminho 'Provável' é a continuação da inércia. O 'Plausível' abrange o que pode acontecer dado o conhecimento atual. O 'Preferível' é o cume da nossa intenção estratégica: o futuro audacioso que exigirá o máximo de alinhamento político e privado para se materializar."
+                                    icon={IconTarget}
                                 />
                             </FadeIn>
 
@@ -798,41 +908,42 @@
                                             <div className="absolute w-0 h-0 border-t-[20px] border-t-transparent border-l-[20px] border-l-slate-800 border-b-[20px] border-b-transparent -right-4 top-1/2 -translate-y-1/2"></div>
                                             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Ponto Zero (2025)</p>
                                             <h4 className="text-xl font-bold mb-2">Presente Estendido</h4>
-                                            <p className="text-sm text-slate-300">Goiás exibe alto potencial latente no Agro, mas a baixa conversão o prende na 19ª posição tecnológica.</p>
+                                            <p className="text-sm text-slate-300">Goiás exibe alto potencial latente no Agro, mas o baixo registro de patentes e Deep Tech o prende na 19ª posição na área de conhecimento.</p>
                                         </div>
                                     </FadeIn>
 
                                     <div className="w-4/5 grid grid-cols-2 grid-rows-2 gap-4 relative pl-8">
                                         <FadeIn delay={300} className="col-start-1 row-start-1">
                                             <div className="bg-slate-800/50 border border-blue-500/50 p-6 rounded-2xl h-full flex flex-col justify-center">
-                                                <span className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1 block">Futuro Plausível</span>
+                                                <span className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1 block flex items-center gap-2"><IconInfo className="w-4 h-4"/> Futuro Plausível</span>
                                                 <h4 className="text-lg font-bold text-blue-200 mb-2">Reindustrialização Efetiva</h4>
-                                                <p className="text-sm text-blue-100/70">O estado conecta fomento e mercado local, escalando na matriz de inovação ao Top 6 nacional.</p>
+                                                <p className="text-sm text-blue-100/70">O estado conecta o fundo FAPEG ao mercado da indústria local, escalando no ranking tecnológico rumo ao Top 6 nacional.</p>
                                             </div>
                                         </FadeIn>
                                         <FadeIn delay={600} className="col-start-2 row-start-1">
-                                            <div className="bg-emerald-600 border-2 border-emerald-400 p-6 rounded-2xl h-full shadow-2xl transform hover:-translate-y-1 transition duration-500 flex flex-col justify-center relative overflow-hidden">
+                                            <div className="bg-emerald-600 border-2 border-emerald-400 p-6 rounded-2xl h-full shadow-[0_0_40px_rgba(16,185,129,0.3)] transform hover:-translate-y-1 transition duration-500 flex flex-col justify-center relative overflow-hidden">
                                                 <div className="absolute right-0 bottom-0 opacity-20"><IconTarget className="w-48 h-48 -mr-10 -mb-10"/></div>
-                                                <span className="text-xs font-bold text-emerald-200 uppercase tracking-widest mb-1 block relative z-10">Futuro Preferível (O Alvo)</span>
+                                                <span className="text-xs font-bold text-emerald-200 uppercase tracking-widest mb-1 block relative z-10 flex items-center gap-2"><IconTrendingUp className="w-4 h-4"/> Futuro Preferível (O Alvo)</span>
                                                 <h4 className="text-2xl font-bold mb-2 relative z-10">Salto Deep Tech Tropical</h4>
-                                                <p className="text-sm text-emerald-50 relative z-10">Goiás consolida-se como Hub Global: passa de produtor primário a <strong>exportador de tecnologia agro patenteada</strong>.</p>
+                                                <p className="text-sm text-emerald-50 relative z-10">Goiás consolida-se como Hub Global: passa da fase de produtor primário para tornar-se <strong>exportador de tecnologia agro-bio-digital proprietária</strong>.</p>
                                             </div>
                                         </FadeIn>
                                         <FadeIn delay={400} className="col-start-1 row-start-2">
                                             <div className="bg-slate-800/50 border border-slate-600 p-6 rounded-2xl h-full flex flex-col justify-center">
-                                                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 block">Futuro Provável (Inércia)</span>
+                                                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 block flex items-center gap-2"><IconTrendingDown className="w-4 h-4"/> Futuro Provável (Inércia)</span>
                                                 <h4 className="text-lg font-bold text-slate-200 mb-2">Cerrado Incremental</h4>
-                                                <p className="text-sm text-slate-400">Ampliam-se editais pontuais. O estado cresce financeiramente, mas a matriz tecnológica continua frágil.</p>
+                                                <p className="text-sm text-slate-400">Mantém-se a política de editais pontuais. O PIB agropecuário avança em volume, mas a base tecnológica segue fragilizada e dependente.</p>
                                             </div>
                                         </FadeIn>
                                         <FadeIn delay={500} className="col-start-2 row-start-2">
                                             <div className="bg-rose-900/40 border border-rose-500/50 p-6 rounded-2xl h-full flex flex-col justify-center">
-                                                <span className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-1 block">Futuro Indesejado</span>
+                                                <span className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-1 block flex items-center gap-2"><IconAlertTriangle className="w-4 h-4"/> Futuro Indesejado</span>
                                                 <h4 className="text-lg font-bold text-rose-200 mb-2">Cerrado Estagnado</h4>
-                                                <p className="text-sm text-rose-300/80">Fuga maciça de cérebros. Indústrias estagnam e a janela demográfica se fecha para inovação de valor.</p>
+                                                <p className="text-sm text-rose-300/80">Fuga maciça de cérebros criativos. As indústrias estagnam em processos de montagem, fechando a janela demográfica para inovar com alto valor.</p>
                                             </div>
                                         </FadeIn>
 
+                                        {/* Cone Drawing Base */}
                                         <svg className="absolute left-0 top-0 w-full h-full pointer-events-none -z-10" preserveAspectRatio="none">
                                             <path d="M 0,50% L 100%,0 L 100%,100% Z" fill="transparent" stroke="#334155" strokeWidth="2" strokeDasharray="6,6"/>
                                         </svg>
@@ -849,22 +960,22 @@
                                 <p className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4 text-center">Os Primeiros Passos</p>
                                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-10 text-center text-slate-900">A Agenda Estratégica.</h2>
                                 <p className="text-lg text-slate-600 text-center max-w-3xl mx-auto mb-16">
-                                    Para evitar a inércia e alcançar o futuro preferível, o estado não precisa de novas leis; precisa redirecionar o fluxo das instituições que já existem.
+                                    Para evitar a inércia e alcançar o futuro preferível desenhado no Cone, não precisamos de novas leis miraculosas. Precisamos integrar radicalmente as instituições que já existem.
                                 </p>
                             </FadeIn>
 
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                                 {[
-                                    { id: "01", title: "Missões, não Editais Soltos", text: "Parar de pulverizar recursos. Alinhar FAPEG, Universidades e Indústria em missões centrais (ex: IA Agrícola)." },
-                                    { id: "02", title: "Trilha de Maturidade (TRL)", text: "Financiar todas as fases da pesquisa. Do protótipo de laboratório até o piloto industrial validado nas plantas do SENAI." },
-                                    { id: "03", title: "Meta Estadual de PI", text: "Patente que morre no currículo não serve. A meta do estado deve focar em gerar PI com viés comercial, pronta para licenciamento." },
-                                    { id: "04", title: "Compras Públicas Inovadoras", text: "O Governo tem bilhões em compras. Em vez de comprar soluções de fora, deve abrir desafios para startups locais resolverem." },
-                                    { id: "05", title: "Talentos no Chão de Fábrica", text: "Inserir mestres e engenheiros na indústria para resolver gargalos tecnológicos via programas robustos como o Inova Talentos." },
-                                    { id: "06", title: "Captação Alavancada", text: "Usar fundos locais de fomento estritamente como 'contrapartida' inteligente para captar fatias dominantes do FNDCT e BNDES." },
+                                    { id: "01", title: "Missões, não Editais Soltos", text: "Parar de pulverizar o fundo estadual em microprojetos. Alinhar FAPEG, UFG e Indústria em desafios centrais inegociáveis (ex: IA Agrícola para rastreabilidade)." },
+                                    { id: "02", title: "Trilha TRL (Maturidade)", text: "Financiar todas as fases de risco da pesquisa até a adoção. Do protótipo de bancada na universidade até o piloto industrial que pode ser testado dentro do SENAI." },
+                                    { id: "03", title: "Meta de Licenciamento (PI)", text: "Patente que morre parada no currículo acadêmico ou na gaveta é prejuízo. A nova métrica do estado deve focar na geração de PI transferível e licenciável globalmente." },
+                                    { id: "04", title: "Compras Governamentais", text: "O Estado tem orçamentos multibilionários. Em vez de encomendar sistemas prontos de São Paulo ou Europa, deve abrir compras públicas para startups locais tentarem resolver." },
+                                    { id: "05", title: "Talentos no Chão de Fábrica", text: "Incentivar programas (como o Inova Talentos) para colocar mestres e doutores pesquisando diretamente nos parques fabris locais para resolver gargalos tecnológicos operacionais." },
+                                    { id: "06", title: "Captação Alavancada (FNDCT)", text: "Goiás deve usar seus fundos locais estritamente como 'garantia de contrapartida' para roubar fatias massivas dos orçamentos nacionais do FNDCT, EMBRAPII e BNDES." },
                                 ].map((item, i) => (
                                     <FadeIn key={i} delay={i * 100}>
-                                        <div className="border-t-2 border-slate-200 pt-6 group hover:border-emerald-500 transition-colors duration-300">
-                                            <div className="text-3xl font-black text-slate-300 group-hover:text-emerald-500 transition-colors mb-4">{item.id}</div>
+                                        <div className="border-t-4 border-slate-200 pt-6 group hover:border-emerald-500 transition-colors duration-300">
+                                            <div className="text-4xl font-black text-slate-300 group-hover:text-emerald-500 transition-colors mb-4">{item.id}</div>
                                             <h3 className="text-xl font-bold mb-3 text-slate-800">{item.title}</h3>
                                             <p className="text-slate-600 text-sm leading-relaxed">{item.text}</p>
                                         </div>
@@ -879,81 +990,85 @@
                         <div className="max-w-7xl mx-auto">
                             <FadeIn>
                                 <div className="text-center mb-10">
-                                    <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 flex justify-center items-center gap-4">
+                                    <span className="bg-yellow-400/20 text-yellow-400 border border-yellow-500/30 px-4 py-1 rounded-full text-sm font-bold tracking-wide">Integração Prática</span>
+                                    <h2 className="text-4xl md:text-5xl font-black tracking-tight mt-6 mb-4 flex justify-center items-center gap-4">
                                         <IconZap className="w-10 h-10 text-yellow-400" /> Simulador: A Quádrupla Hélice
                                     </h2>
-                                    <p className="text-xl text-slate-400 max-w-3xl mx-auto">O design de futuros posto à prova: combine as escolhas dos atores estratégicos abaixo e projete os cenários em 5, 10 e 20 anos.</p>
+                                    <p className="text-xl text-slate-400 max-w-4xl mx-auto">
+                                        O <em>Design de Futuros</em> posto à prova: no painel abaixo, altere interativamente as atitudes dos principais atores do estado. Projete como a conexão entre eles cria cenários dinâmicos de 5 a 20 anos.
+                                    </p>
                                 </div>
                                 <NotaDidatica 
-                                    titulo="O Conceito da Hélice Quádrupla" 
-                                    texto="Em ambientes de alta performance, Governo, Academia e Setor Privado não trabalham sozinhos. Eles contam com um quarto pilar — Institutos de Tecnologia e Hubs (como o SENAI) — que servem como a 'engrenagem' que pega a ideia teórica da universidade e a transforma em um processo escalável e lucrativo para a empresa."
+                                    titulo="O que é a Hélice Quádrupla?" 
+                                    texto="Ecossistemas avançados (como Israel ou Coreia do Sul) operam não apenas com Governo, Academia e Empresas Privadas, mas contam com um quarto pilar crítico: Institutos de Escalonamento e Hubs Tecnológicos (no Brasil, representados de forma primorosa pela rede de Inovação do SENAI e institutos EMBRAPII). O Instituto atua traduzindo a tese complexa da Universidade para a viabilidade financeira que a Indústria exige."
+                                    icon={IconCog}
                                 />
                             </FadeIn>
 
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 mt-12">
-                                <FadeIn delay={100} className="bg-slate-900 border border-slate-700 p-5 rounded-2xl flex flex-col justify-between hover:border-blue-500/50 transition">
+                                <FadeIn delay={100} className="bg-slate-900 border border-slate-700 p-5 rounded-3xl flex flex-col justify-between hover:border-blue-500/50 transition shadow-lg">
                                     <div>
-                                        <div className="flex items-center gap-3 mb-6"><div className="bg-blue-500/20 p-3 rounded-lg"><IconBuilding className="w-6 h-6 text-blue-400"/></div><h3 className="text-lg font-bold">Governo</h3></div>
+                                        <div className="flex items-center gap-3 mb-6"><div className="bg-blue-500/20 p-3 rounded-xl"><IconBuilding className="w-6 h-6 text-blue-400"/></div><h3 className="text-lg font-bold">Governo</h3></div>
                                         <div className="space-y-4">
-                                            <button onClick={() => setSimGov(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simGov === 0 ? 'bg-blue-600/20 border-blue-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Inércia</span><span className="text-xs text-slate-400">Pulveriza editais sem missão.</span></button>
-                                            <button onClick={() => setSimGov(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simGov === 1 ? 'bg-blue-600/20 border-blue-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Estado Empreendedor</span><span className="text-xs text-slate-400">Compras públicas e foco temático.</span></button>
+                                            <button onClick={() => setSimGov(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simGov === 0 ? 'bg-blue-600/30 border-blue-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Ação: Inércia de Fomento</span><span className="text-xs text-slate-400">Repassa verbas diluídas em centenas de editais microscópicos.</span></button>
+                                            <button onClick={() => setSimGov(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simGov === 1 ? 'bg-blue-600/30 border-blue-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Ação: Estado Comprador</span><span className="text-xs text-slate-400">Atua via encomendas tecnológicas pesadas e foco temático.</span></button>
                                         </div>
                                     </div>
                                 </FadeIn>
 
-                                <FadeIn delay={200} className="bg-slate-900 border border-slate-700 p-5 rounded-2xl flex flex-col justify-between hover:border-rose-500/50 transition">
+                                <FadeIn delay={200} className="bg-slate-900 border border-slate-700 p-5 rounded-3xl flex flex-col justify-between hover:border-rose-500/50 transition shadow-lg">
                                     <div>
-                                        <div className="flex items-center gap-3 mb-6"><div className="bg-rose-500/20 p-3 rounded-lg"><IconGraduationCap className="w-6 h-6 text-rose-400"/></div><h3 className="text-lg font-bold">Academia (ICTs)</h3></div>
+                                        <div className="flex items-center gap-3 mb-6"><div className="bg-rose-500/20 p-3 rounded-xl"><IconGraduationCap className="w-6 h-6 text-rose-400"/></div><h3 className="text-lg font-bold">Academia (ICTs)</h3></div>
                                         <div className="space-y-4">
-                                            <button onClick={() => setSimAca(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simAca === 0 ? 'bg-rose-600/20 border-rose-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Isolamento Teórico</span><span className="text-xs text-slate-400">Aversão ao mercado, foco em papers.</span></button>
-                                            <button onClick={() => setSimAca(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simAca === 1 ? 'bg-rose-600/20 border-rose-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">P&D Translacional</span><span className="text-xs text-slate-400">Gera spin-offs e foca em patentes.</span></button>
+                                            <button onClick={() => setSimAca(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simAca === 0 ? 'bg-rose-600/30 border-rose-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Ação: Teoria Pura</span><span className="text-xs text-slate-400">Foca exclusivamente em citações acadêmicas e aversão ao mercado.</span></button>
+                                            <button onClick={() => setSimAca(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simAca === 1 ? 'bg-rose-600/30 border-rose-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Ação: P&D Translacional</span><span className="text-xs text-slate-400">Professor orienta para PI, estimulando startups acadêmicas.</span></button>
                                         </div>
                                     </div>
                                 </FadeIn>
 
-                                <FadeIn delay={300} className="bg-slate-900 border border-slate-700 p-5 rounded-2xl flex flex-col justify-between hover:border-emerald-500/50 transition">
+                                <FadeIn delay={300} className="bg-slate-900 border border-slate-700 p-5 rounded-3xl flex flex-col justify-between hover:border-emerald-500/50 transition shadow-lg">
                                     <div>
-                                        <div className="flex items-center gap-3 mb-6"><div className="bg-emerald-500/20 p-3 rounded-lg"><IconBriefcase className="w-6 h-6 text-emerald-400"/></div><h3 className="text-lg font-bold">Setor Privado</h3></div>
+                                        <div className="flex items-center gap-3 mb-6"><div className="bg-emerald-500/20 p-3 rounded-xl"><IconBriefcase className="w-6 h-6 text-emerald-400"/></div><h3 className="text-lg font-bold">Setor Privado</h3></div>
                                         <div className="space-y-4">
-                                            <button onClick={() => setSimPriv(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simPriv === 0 ? 'bg-emerald-600/20 border-emerald-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Apenas Incremental</span><span className="text-xs text-slate-400">Só moderniza a rotina da fábrica.</span></button>
-                                            <button onClick={() => setSimPriv(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simPriv === 1 ? 'bg-emerald-600/20 border-emerald-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Deep Tech / CVC</span><span className="text-xs text-slate-400">Apetite a risco e apoio a startups.</span></button>
+                                            <button onClick={() => setSimPriv(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simPriv === 0 ? 'bg-emerald-600/30 border-emerald-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Ação: Custo Certo</span><span className="text-xs text-slate-400">Abate imposto apenas consertando sistemas internos antigos.</span></button>
+                                            <button onClick={() => setSimPriv(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simPriv === 1 ? 'bg-emerald-600/30 border-emerald-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Ação: Capital Paciente</span><span className="text-xs text-slate-400">Reserva 10% do caixa para bancar inovações disruptivas abertas.</span></button>
                                         </div>
                                     </div>
                                 </FadeIn>
 
-                                <FadeIn delay={400} className="bg-slate-900 border border-slate-700 p-5 rounded-2xl flex flex-col justify-between hover:border-purple-500/50 transition">
+                                <FadeIn delay={400} className="bg-slate-900 border border-slate-700 p-5 rounded-3xl flex flex-col justify-between hover:border-purple-500/50 transition shadow-lg">
                                     <div>
-                                        <div className="flex items-center gap-3 mb-6"><div className="bg-purple-500/20 p-3 rounded-lg"><IconCog className="w-6 h-6 text-purple-400"/></div><h3 className="text-lg font-bold">Institutos/SENAI</h3></div>
+                                        <div className="flex items-center gap-3 mb-6"><div className="bg-purple-500/20 p-3 rounded-xl"><IconCog className="w-6 h-6 text-purple-400"/></div><h3 className="text-lg font-bold">Institutos / SENAI</h3></div>
                                         <div className="space-y-4">
-                                            <button onClick={() => setSimInst(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simInst === 0 ? 'bg-purple-600/20 border-purple-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Serviço Básico</span><span className="text-xs text-slate-400">Apenas laudos e ensino técnico.</span></button>
-                                            <button onClick={() => setSimInst(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simInst === 1 ? 'bg-purple-600/20 border-purple-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Centros de Escala</span><span className="text-xs text-slate-400">Plantas-piloto para escalonar projeto.</span></button>
+                                            <button onClick={() => setSimInst(0)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simInst === 0 ? 'bg-purple-600/30 border-purple-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Ação: Serviço Básico</span><span className="text-xs text-slate-400">Atua fornecendo ensino de manutenção técnica e laudos pontuais.</span></button>
+                                            <button onClick={() => setSimInst(1)} className={`w-full text-left p-4 rounded-xl border-2 transition-all ${simInst === 1 ? 'bg-purple-600/30 border-purple-500' : 'border-slate-700 hover:border-slate-500'}`}><span className="block text-sm font-bold mb-1 text-white">Ação: Catalisador (TRL)</span><span className="text-xs text-slate-400">Usa os parques fabris do instituto para escalonar projetos da UFG.</span></button>
                                         </div>
                                     </div>
                                 </FadeIn>
                             </div>
 
-                            <FadeIn delay={500} className="bg-slate-950 p-8 rounded-3xl border border-slate-800 shadow-2xl relative">
-                                <div className="border-b border-slate-800 pb-6 mb-8 text-center">
-                                    <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-4">Projeção Dinâmica Calculada</p>
-                                    <h3 className={`text-2xl md:text-3xl font-black ${proj.color} transition-colors duration-500`}>{proj.title}</h3>
-                                    <div className="w-full max-w-2xl mx-auto h-2 bg-slate-800 rounded-full mt-6 overflow-hidden">
+                            <FadeIn delay={500} className="bg-slate-950 p-8 rounded-3xl border border-slate-800 shadow-[0_0_50px_rgba(0,0,0,1)] relative overflow-hidden">
+                                <div className="border-b border-slate-800 pb-6 mb-8 text-center relative z-10">
+                                    <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-4">Projeção Dinâmica Calculada via Algoritmo</p>
+                                    <h3 className={`text-3xl md:text-4xl font-black ${proj.color} transition-colors duration-500`}>{proj.title}</h3>
+                                    <div className="w-full max-w-2xl mx-auto h-2 bg-slate-800 rounded-full mt-8 overflow-hidden">
                                         <div className="h-full bg-gradient-to-r from-slate-600 via-blue-500 to-emerald-400 transition-all duration-1000 ease-in-out" style={{ width: proj.width }}></div>
                                     </div>
                                 </div>
 
-                                <div className="grid md:grid-cols-3 gap-6 relative">
-                                    <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800/50 hover:border-slate-600 transition">
-                                        <div className="flex items-center gap-2 mb-4"><IconClock className="w-5 h-5 text-slate-400" /><span className="text-xs font-bold uppercase tracking-widest text-slate-400">Curto Prazo</span><span className="ml-auto bg-slate-800 text-slate-300 px-3 py-1 rounded text-xs font-bold">+ 5 Anos</span></div>
-                                        <p className="text-sm text-slate-300 leading-relaxed">{proj.y5}</p>
+                                <div className="grid md:grid-cols-3 gap-6 relative z-10">
+                                    <div className="bg-slate-900 p-8 rounded-2xl border border-slate-800/50 hover:border-slate-600 transition duration-300">
+                                        <div className="flex items-center gap-2 mb-4"><IconClock className="w-6 h-6 text-slate-400" /><span className="text-xs font-bold uppercase tracking-widest text-slate-400">Curto Prazo</span><span className="ml-auto bg-slate-800 text-slate-300 px-3 py-1 rounded text-xs font-bold shadow-sm">+ 5 Anos</span></div>
+                                        <p className="text-sm text-slate-300 leading-relaxed font-medium">{proj.y5}</p>
                                     </div>
-                                    <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800/50 hover:border-slate-600 transition">
-                                        <div className="flex items-center gap-2 mb-4"><IconClock className="w-5 h-5 text-blue-400" /><span className="text-xs font-bold uppercase tracking-widest text-blue-400">Médio Prazo</span><span className="ml-auto bg-blue-900/30 text-blue-300 px-3 py-1 rounded text-xs font-bold">+ 10 Anos</span></div>
-                                        <p className="text-sm text-slate-300 leading-relaxed">{proj.y10}</p>
+                                    <div className="bg-slate-900 p-8 rounded-2xl border border-slate-800/50 hover:border-blue-600 transition duration-300">
+                                        <div className="flex items-center gap-2 mb-4"><IconClock className="w-6 h-6 text-blue-400" /><span className="text-xs font-bold uppercase tracking-widest text-blue-400">Médio Prazo</span><span className="ml-auto bg-blue-900/40 border border-blue-800/50 text-blue-300 px-3 py-1 rounded text-xs font-bold shadow-sm">+ 10 Anos</span></div>
+                                        <p className="text-sm text-slate-300 leading-relaxed font-medium">{proj.y10}</p>
                                     </div>
-                                    <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800/50 hover:border-emerald-600 transition relative overflow-hidden">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-emerald-900/10 pointer-events-none"></div>
-                                        <div className="flex items-center gap-2 mb-4 relative z-10"><IconClock className="w-5 h-5 text-emerald-400" /><span className="text-xs font-bold uppercase tracking-widest text-emerald-400">Longo Prazo</span><span className="ml-auto bg-emerald-900/30 text-emerald-300 px-3 py-1 rounded text-xs font-bold">+ 20 Anos</span></div>
-                                        <p className="text-sm text-slate-300 leading-relaxed relative z-10">{proj.y20}</p>
+                                    <div className="bg-slate-900 p-8 rounded-2xl border border-slate-800/50 hover:border-emerald-600 transition duration-300 relative overflow-hidden group">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-emerald-900/10 pointer-events-none group-hover:to-emerald-900/30 transition-all duration-500"></div>
+                                        <div className="flex items-center gap-2 mb-4 relative z-10"><IconClock className="w-6 h-6 text-emerald-400" /><span className="text-xs font-bold uppercase tracking-widest text-emerald-400">Longo Prazo</span><span className="ml-auto bg-emerald-900/40 border border-emerald-800/50 text-emerald-300 px-3 py-1 rounded text-xs font-bold shadow-sm">+ 20 Anos</span></div>
+                                        <p className="text-sm text-slate-300 leading-relaxed relative z-10 font-medium">{proj.y20}</p>
                                     </div>
                                 </div>
                             </FadeIn>
@@ -963,13 +1078,14 @@
                     {/* CLOSING & FOOTER */}
                     <footer className="bg-white border-t border-slate-200">
                         <div className="py-24 px-6 text-center max-w-5xl mx-auto border-b border-slate-100">
+                            <IconTarget className="w-16 h-16 text-emerald-500 mx-auto mb-8"/>
                             <h2 className="text-3xl md:text-5xl font-light text-slate-800 leading-snug">
-                                "O futuro não será vencido por quem lançar mais editais, mas por quem transformar conhecimento em patente, patente em negócio, e <strong className="text-slate-900 font-black">negócio em soberania</strong>."
+                                "O futuro não será vencido por quem lançar a maior quantidade de editais orçamentários soltos. Ele será guiado por quem transformar <strong className="font-bold">conhecimento em patente, patente em negócio, e negócio em soberania.</strong>"
                             </h2>
                         </div>
                         
                         <div className="bg-slate-50 py-16 px-6">
-                            <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-start justify-between">
+                            <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-start justify-between">
                                 {/* Créditos Autorais */}
                                 <div className="md:w-1/2 text-left space-y-4">
                                     <div>
@@ -978,26 +1094,27 @@
                                         <p className="text-sm text-slate-500 mt-1">Especialista em Foresight Estratégico e Design de Futuros</p>
                                     </div>
                                     <div className="pt-4 border-t border-slate-200">
-                                        <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Fontes Analisadas</p>
-                                        <p className="text-xs text-slate-500 leading-relaxed">
-                                            Índice Global de Inovação (2015-2025) &bull;
-                                            INPI & IBID (2025) &bull;
-                                            ENCTI / FNDCT / Finep / EMBRAPII &bull;
-                                            FAPEG / IEL-GO / INEP-MEC / IBGE
+                                        <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Bases e Fontes Oficiais Analisadas</p>
+                                        <p className="text-xs text-slate-500 leading-relaxed font-mono">
+                                            Índice Global de Inovação (2015-2025) / WIPO<br/>
+                                            Instituto Nacional da Propriedade Ind. (INPI 2024)<br/>
+                                            Índice Brasil de Inovação e Desenv. (IBID 2025)<br/>
+                                            Estratégia Nacional CT&I / FNDCT / Finep / EMBRAPII<br/>
+                                            FAPEG / IEL-GO / Censo INEP-MEC / IBGE
                                         </p>
                                     </div>
                                 </div>
 
                                 {/* Nota Didática de Foresight */}
-                                <div className="md:w-1/2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-left relative overflow-hidden">
-                                    <div className="absolute -right-4 -bottom-4 opacity-5"><IconTelescope className="w-40 h-40" /></div>
-                                    <div className="flex items-center gap-2 mb-3 relative z-10">
+                                <div className="md:w-1/2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-left relative overflow-hidden group hover:shadow-md transition duration-300">
+                                    <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition duration-300"><IconTelescope className="w-40 h-40" /></div>
+                                    <div className="flex items-center gap-2 mb-3 relative z-10 border-b border-slate-100 pb-2">
                                         <IconTelescope className="w-5 h-5 text-blue-500" />
-                                        <h5 className="font-bold text-sm text-slate-800 uppercase tracking-wide">Nota de Foresight</h5>
+                                        <h5 className="font-bold text-sm text-slate-800 uppercase tracking-wide">Nota de Concepção e Teoria</h5>
                                     </div>
-                                    <p className="text-sm text-slate-600 leading-relaxed relative z-10">
-                                        O <strong>Foresight Estratégico</strong> não "prevê" o futuro de forma determinística, como se ele fosse um destino imutável. Trata-se de uma disciplina de mapeamento que subsidia a construção de cenários <em>(possíveis, plausíveis e preferíveis)</em>. <br/><br/>
-                                        Seu propósito é instigar tomadores de decisão a agir com intencionalidade hoje. Afinal, <strong>o futuro não está dado; ele é construído.</strong>
+                                    <p className="text-sm text-slate-600 leading-relaxed relative z-10 text-justify">
+                                        O <strong>Foresight Estratégico</strong> abordado neste estudo não busca adivinhar o futuro de forma determinística, como se os dados traçassem um destino imutável para Goiás ou para o Brasil. A técnica trata-se de uma disciplina de mapeamento proativo.<br/><br/>
+                                        O objetivo de projetar tendências é antecipar ruínas (o declínio) para que os tomadores de decisão (Governo, Academia, SENAI, Setor Privado) ganhem o poder de desviar a rota no presente. Em suma, prevermos os cenários plausíveis nos devolve o volante para alcançarmos os cenários preferíveis. <strong>Porque o futuro não está pré-dado; ele é inteiramente construído nas reuniões que acontecem hoje.</strong>
                                     </p>
                                 </div>
                             </div>
